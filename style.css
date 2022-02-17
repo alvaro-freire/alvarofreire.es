@@ -21,3 +21,9 @@
     color:  #b2b1b1;
     cursor: pointer;
 }
+
+.logo img{
+    width: 30px;
+    margin-top: -7px;
+    margin-right: 48px;
+}
