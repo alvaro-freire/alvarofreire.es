@@ -69,12 +69,12 @@
 }
 .app-picture{
     position: relative;
-    width: 50%;
+    width: 10%;
     float: right;
 }
 .app-picture img{
-    margin-top: -300px;
-    margin-left: -400px;
+    margin-top: -10px;
+    margin-left: -750px;
     width: 100%;
 }
 .play-btn{
