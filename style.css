@@ -68,9 +68,25 @@
     color: #919191;
 }
 .app-picture{
+    position: relative;
     width: 50%;
     float: right;
 }
 .app-picture img{
+    margin-top: -300px;
+    margin-left: -400px;
     width: 100%;
+}
+.play-btn{
+    margin-left: 40px;
+    display: inline-flex;
+}
+.play-btn-inner{
+    height: 50px;
+    width: 50px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(#42455a, #42455a), radial-gradient(circle at top left, #fd00da, #19d7f8);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
 }
