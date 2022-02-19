@@ -6,7 +6,7 @@
 .container{
     width: 100%;
     height: 100%;
-    background: #42455a;
+    background: #515a97;
 }
 .menu ul{
     display: inline-flex;
@@ -34,7 +34,7 @@
     color: #fff;
     border: 2px solid transparent;
     border-radius: 20px;
-    background-image: linear-gradient(#42455a, #42455a), radial-gradient(circle at top left, #fd00da, #19d7f8);
+    background-image: linear-gradient(#515a97, #515a97), radial-gradient(circle at top left, #fd00da, #19d7f8);
     background-origin: border-box;
     background-clip: content-box, border-box;
 }
@@ -86,7 +86,7 @@
     width: 50px;
     border: 2px solid transparent;
     border-radius: 50%;
-    background-image: linear-gradient(#42455a, #42455a), radial-gradient(circle at top left, #fd00da, #19d7f8);
+    background-image: linear-gradient(#515a97, #515a97), radial-gradient(circle at top left, #fd00da, #19d7f8);
     background-origin: border-box;
     background-clip: content-box, border-box;
     text-align: center;
