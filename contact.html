@@ -7,34 +7,41 @@
     <link rel="icon" href="images/logo.png">
 </head>
 <body>
-    <div class="container">
+    <div class="contact-container">
         <div class="menu">
             <ul>
                 <li class="logo"><img src="images/logo.png"></li>
                 <li><a style="text-decoration:none" href="index.html">Home</a></li>
                 <li class="active">Contact</li>
-                <li><a href="#" class="signup-btn"><span>Sign Up</span></a></li>
+                <li><a href="#" class="signup-btn-contact"><span>Sign Up</span></a></li>
             </ul>
         </div>
-        <div class="banner">
-            <div class="app-text">
-                <h1>Hi! My name is Álvaro. <br>I'm a CS
-                    student at <br>University of A Coruña.</h1>
-                <p>I'm a big fan of everything related to computers and always <br>trying to learn new things!
-                </p>
-                <div class="play-btn">
-                    <div class="play-btn-inner">
-                        <i class="fa fa-play"></i>
-                    </div>
-                    <small><b>LEARN MORE</b></small>
-                </div>
-            </div>
-            <!-- 
-            <div class="app-picture">
-                <img src="images/greet2.png">
-            </div> 
-            -->
+        <div class="title" style="text-align:center; color:white">
+            <h2>Contact Me</h2>
+            <p>For all enquiries, please email me using the form below:</p>
         </div>
+        <div class="row">
+            <div class="column">
+                <!--- <img src="" style="width:100%"> --->
+            </div>
+            <div class="column">
+                <form action="/action_page.php">
+                <label for="fname" style="color:white">First Name</label>
+                <input type="text" id="fname" name="firstname" placeholder="Your name..">
+                <label for="lname" style="color:white">Last Name</label>
+                <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+                <label for="country" style="color:white">Country</label>
+                <select id="country" name="country">
+                    <option value="francia">France</option>
+                    <option value="alemania">Germany</option>
+                    <option value="españa">Spain</option>
+
+                </select>
+                <label for="subject" style="color:white">Subject</label>
+                <textarea id="subject" name="subject" placeholder="Write something.." style="height:170px"></textarea>
+                <input type="submit" value="Submit">
+                </form>
+            </div>
         <div class="social-icons">
             <ul>
                 <li><a href="https://twitter.com/alvvarofreire" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
