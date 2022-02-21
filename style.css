@@ -155,20 +155,12 @@ input[type=submit]:hover {
     display: block;
     padding: 8px 22px;
 }
-  
-.title h1{
-    font-size: 1003px;
-    width: 640px;
-    position: relative;
-    margin-left: 40px;
-}
 
   /* Create two columns that float next to eachother */
 .column {
-    float: left;
-    width: 50%;
-    margin-top: 6px;
-    padding: 20px;
+    margin: auto;
+    width: 40%;
+    padding: 9px;
 }
 
 /* Clear floats after the columns */
