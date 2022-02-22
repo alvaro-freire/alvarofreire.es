@@ -56,13 +56,13 @@
     float: left;
 }
 .app-text h1{
-    font-size: 30px;
-    width: 640px;
+    font-size: 25px;
+    width: 600px;
     position: relative;
     margin-left: 40px;
 }
 .app-text p{
-    font-size: 15px;
+    font-size: 14px;
     width: 650px;
     margin: 30px 0 30px 40px;
     line-height: 25px;
