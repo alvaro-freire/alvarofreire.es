@@ -7,7 +7,7 @@
 .container{
     width: 100%;
     height: 100%;
-    background: #515a97;
+    background: #4e3fa7;
 }
 .menu ul{
     display: inline-flex;
@@ -35,7 +35,7 @@
     color: #fff;
     border: 2px solid transparent;
     border-radius: 20px;
-    background-image: linear-gradient(#515a97, #515a97), radial-gradient(circle at top left, #fd00da, #19d7f8);
+    background-image: linear-gradient(#4e3fa7, #4e3fa7), radial-gradient(circle at top left, #ffffff, #ffcd44);
     background-origin: border-box;
     background-clip: content-box, border-box;
 }
@@ -66,7 +66,7 @@
     width: 650px;
     margin: 30px 0 30px 40px;
     line-height: 25px;
-    color: #e0dddd;
+    color: #ffffff;
 }
 .play-btn{
     margin-left: 40px;
@@ -77,7 +77,7 @@
     width: 50px;
     border: 2px solid transparent;
     border-radius: 50%;
-    background-image: linear-gradient(#515a97, #515a97), radial-gradient(circle at top left, #fd00da, #19d7f8);
+    background-image: linear-gradient(#4e3fa7, #4e3fa7), radial-gradient(circle at top left, #ffffff, #ffcd44);
     background-origin: border-box;
     background-clip: content-box, border-box;
     text-align: center;
@@ -91,7 +91,7 @@ small{
     margin: auto 20px;
     cursor: pointer;
     font-size: 12px;
-    color: #19dafa;
+    color: #ffcd44;
     letter-spacing: 3px;
 }
 .social-icons{
