@@ -95,8 +95,8 @@ small{
     letter-spacing: 3px;
 }
 .social-icons{
-    right: 72px;
-    bottom: 35px;
+    right: 10px;
+    top: -20px;
     position: absolute;
 }
 .social-icons ul li{
