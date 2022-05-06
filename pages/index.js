@@ -1,7 +1,10 @@
+import Seo from "../components/seo"
+
+
 function Home() {
   return (
     <>
-      <title>alvarofreire.es</title>
+      <Seo/>
       <div className='bg-[#0D5C63] h-screen flex flex-col justify-center'>
         <div className='p-4 border rounded mx-auto w-[350px] bg-[#44A1A0]'>
           <div className='p-4 bg-[#78CDD7]'>
