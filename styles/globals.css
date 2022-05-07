@@ -1,11 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.white-svg {
-  filter: invert(48%) sepia(67%) saturate(320%) hue-rotate(131deg) brightness(101%) contrast(92%);
-}
-
-.cyan-svg {
-  fill: #fff !important
-}
