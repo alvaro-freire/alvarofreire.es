@@ -14,7 +14,7 @@ function Home() {
           <div className='grow text-center px-10 flex flex-col justify-center'>
             <div>
               <p className='text text-3xl'>
-                Hi! My name is <span className='text-[#ad957a]'>Álvaro</span>.
+                Hi! My name&apos;s <span className='text-[#ad957a]'>Álvaro</span>.
               </p>
               <p className='text-md mt-10 mx-4'>
                 I&apos;m a passionate developer currently
