@@ -17,13 +17,12 @@ function Home() {
                 Hi! My name&apos;s <span className='text-[#ad957a]'>Álvaro</span>.
               </p>
               <p className='text-md mt-10 mx-4'>
-                I&apos;m a passionate developer currently working @ <Link href='https://innogando.com'>
-                  <a target='_blank' className='underline transition-colors hover:text-[#CFB495]'>Innogando</a>
-                  </Link>
-                , based in <Link href='https://www.google.com/maps/place/La+Coru%C3%B1a/@43.3618688,-8.4477032,13z/data=!3m1!4b1!4m5!3m4!1s0xd2e7cfcf174574d:0x6a47350d095cdfee!8m2!3d43.3623436!4d-8.4115401'>
-                  <a target='_blank' className='underline transition-colors hover:text-[#CFB495]'>A Coruña</a>
-                </Link>. I&apos;m really into JavaScript,
-                React and Python and building cool products with them - I like writing <Link href='https://github.com/alvaro-freire'>
+                I&apos;m a passionate developer based in <Link href='https://www.google.com/maps/place/La+Coru%C3%B1a/@43.3618688,-8.4477032,13z/data=!3m1!4b1!4m5!3m4!1s0xd2e7cfcf174574d:0x6a47350d095cdfee!8m2!3d43.3623436!4d-8.4115401'>
+                  <a target='_blank' className='transition-colors hover:text-[#CFB495]'>A Coruña</a>
+                </Link>, currently @ <Link href='https://innogando.com'>
+                  <a target='_blank' className='transition-colors hover:text-[#CFB495]'>Innogando</a>
+                  </Link>. I&apos;m really into JavaScript,
+                React and Python and building cool products with them. Here's some of my <Link href='https://github.com/alvaro-freire'>
                   <a target='_blank' className='underline transition-colors hover:text-[#CFB495]' >code</a>
                 </Link> :)
               </p>
