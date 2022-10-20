@@ -9,7 +9,7 @@ function Home() {
       <div className='bg-[#F5CDAA] h-screen text-[#5D5B6A] font-mono'>
         <div className='flex flex-col sm:w-[640px] h-full mx-auto'>
           <div className='h-[100px]'>
-
+            
           </div>
           <div className='grow text-center px-10 flex flex-col justify-center'>
             <div>
