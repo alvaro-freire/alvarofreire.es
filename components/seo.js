@@ -1,5 +1,7 @@
 import Head from "next/head"
 
+fontUrl = 'https://fonts.googleapis.com/css2?family=Secular+One&display=swap'
+
 function Seo() {
   return (
     <Head>
@@ -11,7 +13,7 @@ function Seo() {
       <link rel="manifest" href="/site.webmanifest" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <style>
-        @import url("https://fonts.googleapis.com/css2?family=Secular+One&display=swap");
+        @import url(fontUrl);
       </style>
     </Head>
   )
