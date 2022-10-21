@@ -11,11 +11,11 @@ function Dev() {
           <div className='h-[100px]'></div>
           <div className='ml-[60px] bg-[#151F8A]'>
             <div>
-              <p class="text-3xl">Á L V A R O</p>
+              <p className="text-3xl">Á L V A R O</p>
             </div>
             <div className='h-3'></div>
             <div>
-              <p class="text-3xl">F R E I R E</p>
+              <p className="text-3xl">F R E I R E</p>
             </div>
           </div>
         </div>
