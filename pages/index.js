@@ -6,10 +6,10 @@ function Home() {
   return (
     <>
       <Seo />
-      <div className='bg-[#F5CDAA] h-screen text-[#5D5B6A] font-mono'>
+      <div className='bg-[#F5CDBB] h-screen text-[#5D5B6A] font-mono'>
         <div className='flex flex-col sm:w-[640px] h-full mx-auto'>
           <div className='h-[100px]'>
-            
+
           </div>
           <div className='grow text-center px-10 flex flex-col justify-center'>
             <div>
@@ -21,7 +21,7 @@ function Home() {
                   <a target='_blank' className='transition-colors hover:text-[#CFB495]'>A Coruña</a>
                 </Link>, currently @ <Link href='https://innogando.com'>
                   <a target='_blank' className='transition-colors hover:text-[#CFB495]'>Innogando</a>
-                  </Link>. I&apos;m really into JavaScript,
+                </Link>. I&apos;m really into JavaScript,
                 React and Python and building cool products with them. Here&apos;s some of my <Link href='https://github.com/alvaro-freire'>
                   <a target='_blank' className='underline transition-colors hover:text-[#CFB495]' >code</a>
                 </Link> :)
