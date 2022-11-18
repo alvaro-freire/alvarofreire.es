@@ -37,8 +37,8 @@ function Dev() {
                   <a target='_blank' className='transition-colors hover:text-[#CFB495]'>A Coruña</a>
                 </Link>, currently @ <Link href='https://innogando.com'>
                   <a target='_blank' className='transition-colors hover:text-[#CFB495]'>Innogando</a>
-                </Link>. I&apos;m really into JavaScript,
-                React and Python and building cool products with them. Here&apos;s some of my <Link href='https://github.com/alvaro-freire'>
+                </Link>. I&apos;m really into Flutter,
+                React and JavaScript and building cool products with them. Here&apos;s some of my <Link href='https://github.com/alvaro-freire'>
                   <a target='_blank' className='underline transition-colors hover:text-[#CFB495]' >code</a>
                 </Link>.
               </p>
