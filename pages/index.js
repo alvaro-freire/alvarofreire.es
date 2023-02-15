@@ -14,7 +14,7 @@ function Home() {
                 Hey, hey, hey! Look who we have here! You made it to my page and I couldn&apos;t be more excited 😁
               </p>
               <p className='text-center text-lg py-10 mx-4'>
-                Here are some interesting things I can tell  you about me:
+                Here are some interesting things I can tell you about me:
               </p>
               <p className='text-md mx-4'>
                 - My name&apos;s <span className='text-[#d17b56]'>Álvaro</span> &#40;🇪🇸 Team&#41; <br/><br/>
@@ -24,7 +24,7 @@ function Home() {
                 - I have participated in <span className='text-[#d17b56]'>3 Erasmus+ YE</span> 🇪🇺 so far and co-wrote one of them! <br/><br/>
                 - I co-founded a youth club 👦👧 in my hometown. <br/><br/>
                 - I&apos;m very enthusiastic for <span className='text-[#d17b56]'>meeting new people</span>, you never know who can inspire 💭 your or make an impact 💡 in your life! <br/><br/>
-                - I&apos;m a big fan of practicing every kind of sport. I have practiced  <span className='text-[#d17b56]'>9 different sports</span> ⚽🏀🎾🥋 - at least that I remember, hehe.
+                - I&apos;m a big fan of practicing every kind of sport. I have practiced <span className='text-[#d17b56]'>9 different sports</span> ⚽🏀🎾🥋 - at least that I remember, hehe.
               </p>
             </div>
           </div>
