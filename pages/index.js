@@ -19,6 +19,7 @@ function Home() {
               <p className='text-md mx-4'>
                 - My name&apos;s <span className='text-[#d17b56]'>Álvaro</span> &#40;🇪🇸 Team&#41; <br/><br/>
                 - I&apos;m currently <span className='text-[#d17b56]'>21 years old</span> and finishing my studies in <span className='text-[#d17b56]'>Computer Engineering</span> 💻. <br/><br/>
+                - I work as a 💻 Software Developer @ <Link href='https://innogando.com'><a target='_blank' className='text-[#d17b56] transition-colors hover:text-[#CFB495] hover:underline'>Innogando</a></Link>, creating <span className='text-[#d17b56]'>animal welfare</span> 🐄. <br/><br/>
                 - I consider myself as a person who loves getting out of his <span className='text-[#d17b56]'>comfort zone</span>, setting <span className='text-[#d17b56]'>challenges</span> 🏁 to himself and learning new things about any topic. <br/><br/>
                 - I&apos;m a big fan of traveling <span className='text-[#d17b56]'>all around the world</span> 🌍 - I&apos;ve been fortunate enough to visit <span className='text-[#d17b56]'>10 countries</span> so far! <br/> <br/>
                 - I have participated in <span className='text-[#d17b56]'>3 Erasmus+ YE</span> 🇪🇺 and co-wrote 📝 one of them! <br/><br/>
