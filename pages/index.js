@@ -22,7 +22,7 @@ function Home() {
                 - I work as a 💻 Software Developer @ <Link href='https://innogando.com'><a target='_blank' className='text-[#d17b56] transition-colors hover:text-[#CFB495] hover:underline'>Innogando</a></Link>, creating <span className='text-[#d17b56]'>animal welfare</span> 🐄. <br/><br/>
                 - I consider myself as a person who loves getting out of his <span className='text-[#d17b56]'>comfort zone</span>, setting <span className='text-[#d17b56]'>challenges</span> 🏁 to himself and learning new things about any topic. <br/><br/>
                 - I&apos;m a big fan of traveling <span className='text-[#d17b56]'>all around the world</span> 🌍 - I&apos;ve been fortunate enough to visit <span className='text-[#d17b56]'>10 countries</span> so far! <br/> <br/>
-                - I have participated in <span className='text-[#d17b56]'>3 Erasmus+ YE</span> 🇪🇺 and co-wrote 📝 one of them! <br/><br/>
+                - I have participated in <span className='text-[#d17b56]'>1 Erasmus+ TC and 3 YE</span> 🇪🇺 and co-wrote 📝 one of them! <br/><br/>
                 - I co-founded a youth club 👦👧 in my hometown 🏡. <br/><br/>
                 - I&apos;m always enthusiastic about <span className='text-[#d17b56]'>meeting new people</span>. You never know who can inspire you 💭 or make an impact 💡 in your life! <br/><br/>
                 - I&apos;m also a big fan of practicing all kinds of sports. I&apos;ve tried my hand at <span className='text-[#d17b56]'>9 different sports</span>! ⚽🏀🎾🥋 &#40;That&apos;s as many as I can remember 🤪&#41;
