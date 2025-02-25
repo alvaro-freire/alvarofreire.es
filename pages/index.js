@@ -17,7 +17,7 @@ export default function Home() {
           </Link>
         </div>
       </nav>
-      
+
       <div className="bg-gray-50 min-h-screen flex justify-center items-center p-8">
 
         <div className="bg-white shadow-xl rounded-xl max-w-4xl w-full p-12">
@@ -40,8 +40,8 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-gray-800">About Me</h2>
             <p className="text-gray-600 mt-3 leading-relaxed">
               I am a Software Engineer with experience in software development and project management at
-              <a href="https://innogando.com" target="_blank" className="text-blue-600 hover:underline"> Innogando</a>. My mission is to identify inefficiencies and implement solutions that improve team productivity. 
-              I am an active participant in hackathons and tech events, including <a href="https://fosdem.org" target="_blank" className="text-blue-600 hover:underline">FOSDEM</a> and <a href="https://hackupc.com" target="_blank" className="text-blue-600 hover:underline">HackUPC</a>, and I organize <a href="https://hackudc.gpul.org" target="_blank" className="text-blue-600 hover:underline">HackUDC</a>, one of Spain's largest student hackathons.
+              <a href="https://innogando.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline"> Innogando</a>. My mission is to identify inefficiencies and implement solutions that improve team productivity. 
+              I am an active participant in hackathons and tech events, including <a href="https://fosdem.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">FOSDEM</a> and <a href="https://hackupc.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">HackUPC</a>, and I organize <a href="https://hackudc.gpul.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">HackUDC</a>, one of Spain&apos;s largest student hackathons.
             </p>
             <p className="text-gray-600 mt-3 leading-relaxed">
               Outside of my professional work, I have been deeply involved in Erasmus+ projects, where I had the opportunity to participate, organize, and facilitate exchanges that fostered cultural understanding and personal growth. These experiences have greatly enhanced my initiative, communication, and relationship management skills, all of which have played a crucial role in both my personal and professional development.
