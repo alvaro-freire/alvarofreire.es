@@ -7,10 +7,21 @@ export default function Home() {
   return (
     <>
       <Seo title="Álvaro Freire - Online CV" />
+
+      {/* Barra de navegación */}
+      <nav className="bg-gray-900 text-white py-4 px-6 flex justify-between items-center shadow-lg">
+        <h1 className="text-xl font-semibold">Álvaro Freire</h1>
+        <div className="space-x-6">
+          <Link href="/travel_map">
+            <a className="text-gray-300 hover:text-white transition duration-200">Travel Map</a>
+          </Link>
+        </div>
+      </nav>
+      
       <div className="bg-gray-50 min-h-screen flex justify-center items-center p-8">
 
         <div className="bg-white shadow-xl rounded-xl max-w-4xl w-full p-12">
-          
+
           {/* Header Section */}
           <div className="text-center">
             <Image 
