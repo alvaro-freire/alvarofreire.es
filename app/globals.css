@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Spacing scale based on 8px unit */
+    --space-xs: 0.5rem;    /* 8px */
+    --space-sm: 1rem;      /* 16px */
+    --space-md: 1.5rem;    /* 24px */
+    --space-lg: 2rem;      /* 32px */
+    --space-xl: 3rem;      /* 48px */
+    --space-2xl: 4rem;     /* 64px */
+    --space-3xl: 6rem;     /* 96px */
+    --space-4xl: 8rem;     /* 128px */
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-primary;
+  }
+
+  p {
+    @apply text-body text-secondary;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .container-custom {
+    @apply w-full max-w-content mx-auto px-6 md:px-8;
+  }
+
+  .container-wide {
+    @apply w-full max-w-content-wide mx-auto px-6 md:px-8;
+  }
+
+  .section-spacing {
+    @apply py-16 md:py-24;
+  }
+
+  /* Typography */
+  .heading-display {
+    @apply text-display font-bold text-primary tracking-tight;
+  }
+
+  .heading-1 {
+    @apply text-h1 font-bold text-primary;
+  }
+
+  .heading-2 {
+    @apply text-h2 font-semibold text-primary;
+  }
+
+  .heading-3 {
+    @apply text-h3 font-semibold text-primary;
+  }
+
+  .text-body-primary {
+    @apply text-body text-primary;
+  }
+
+  .text-body-secondary {
+    @apply text-body text-secondary;
+  }
+
+  /* Links */
+  .link-primary {
+    @apply text-accent hover:text-accent-hover underline decoration-accent/30 hover:decoration-accent underline-offset-4;
+  }
+
+  .link-subtle {
+    @apply text-secondary hover:text-primary;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-border;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-surface border border-border rounded-xl p-6 shadow-card transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-0.5;
+  }
+
+  /* Tags / Pills */
+  .tag {
+    @apply inline-block px-3 py-1 bg-background border border-border rounded-full text-caption text-secondary font-medium;
+  }
+
+  .tag-accent {
+    @apply inline-block px-3 py-1 bg-accent-subtle text-accent rounded-full text-caption font-medium;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-accent text-white font-medium rounded-lg
+           hover:bg-accent-hover transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 border border-border text-primary font-medium rounded-lg
+           hover:bg-background hover:border-secondary transition-all duration-200;
+  }
+}
+
+/* Custom selection styling */
+::selection {
+  @apply bg-accent text-white;
+}
+
+/* Focus styles for accessibility */
+@layer utilities {
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
+  }
+}
