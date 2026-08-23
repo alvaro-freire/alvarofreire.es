@@ -39,7 +39,7 @@ export default function Navigation() {
   }, [mobileOpen])
 
   const linkClasses = (href) =>
-    `font-mono text-annotation uppercase transition-colors ${
+    `font-mono text-annotation uppercase transition-colors inline-block py-2 ${
       pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
         ? 'text-accent underline decoration-signal decoration-2 underline-offset-8'
         : 'text-secondary hover:text-primary'

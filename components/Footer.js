@@ -16,7 +16,8 @@ const nav = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border">
+    <footer>
+      <div className="tick-strip border-border" aria-hidden="true" />
       <div className="container-wide py-12 md:py-16">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
           {/* Left — wordmark + line */}
@@ -47,7 +48,7 @@ export default function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors"
+                  className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors inline-block py-1"
                 >
                   {s.label}&nbsp;↗
                 </a>
@@ -66,7 +67,7 @@ export default function Footer() {
               <Link
                 key={n.href}
                 href={n.href}
-                className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors"
+                className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors inline-block py-1"
               >
                 {n.label}
               </Link>

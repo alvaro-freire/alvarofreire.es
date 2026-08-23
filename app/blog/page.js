@@ -38,7 +38,9 @@ export default function Blog() {
               {posts.map((post, i) => (
                 <article key={post.slug} className={`py-7 ${i > 0 ? 'border-t border-border' : ''}`}>
                   <div className="grid md:grid-cols-12 gap-x-8 gap-y-2">
-                    <p className="mono-label md:col-span-3 pt-1.5">{formatDate(post.date)}</p>
+                    <p className="mono-label md:col-span-3 pt-1.5">
+                      {formatDate(post.date)} · {post.readingMinutes} min
+                    </p>
                     <div className="md:col-span-9 max-w-[62ch]">
                       <h2 className="heading-3">
                         <Link href={`/blog/${post.slug}`} className="hover:text-accent transition-colors">

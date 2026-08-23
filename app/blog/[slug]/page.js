@@ -54,6 +54,8 @@ export default async function Post({ params }) {
           </Link>
           <span className="mx-3">·</span>
           {formatDate(post.date)}
+          <span className="mx-3">·</span>
+          {post.readingMinutes} min
         </p>
         <h1 className="heading-1 mb-10">{post.title}</h1>
         <div className="prose-post">

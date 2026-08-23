@@ -78,27 +78,31 @@ export default function Home() {
             </a>
           </p>
 
-          {/* The trace — signature element. The line is a graphic; the annotations are facts. */}
+          {/* The trace — signature element. The line is a graphic; the annotations are facts.
+              Time axis: x=0 is Jan 2022, 160 viewBox units per year. The line ends at "now". */}
           <div className="mt-14 md:mt-20" aria-hidden="true">
-            <svg viewBox="0 0 800 132" className="w-full h-auto" fill="none">
-              <path
-                className="trace-path"
-                d="M 8 120 C 30 122, 50 116, 70 112 C 110 104, 130 116, 170 110 C 220 102, 240 88, 290 92 C 340 96, 360 76, 410 80 C 460 84, 500 64, 545 68 C 570 70, 590 62, 610 58 C 640 52, 670 50, 700 44 C 730 38, 760 32, 785 26"
-                stroke="#E8B931"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <circle className="trace-dot" cx="70" cy="112" r="4" fill="#171B18" />
-              <circle className="trace-dot" cx="610" cy="58" r="4" fill="#171B18" />
-              <circle className="trace-dot" cx="700" cy="44" r="4" fill="#171B18" />
-              <circle className="trace-dot" cx="785" cy="26" r="4" fill="#171B18" />
-            </svg>
-            <div className="border-t border-primary/60 mt-2 pt-2 flex justify-between font-mono text-annotation text-secondary">
-              <span>2022</span>
-              <span>2023</span>
-              <span>2024</span>
-              <span>2025</span>
-              <span>2026</span>
+            <div className="dot-grid pt-4 pb-2">
+              <svg viewBox="0 0 800 132" className="w-full h-auto" fill="none">
+                <path
+                  className="trace-path"
+                  d="M 0 118 C 28 120, 55 116, 80 112 C 122 106, 146 114, 186 108 C 234 100, 252 90, 298 94 C 342 97, 362 80, 410 84 C 456 87, 494 66, 538 70 C 570 72, 600 63, 624 58 C 640 55, 650 52, 664 48 C 688 43, 714 37, 736 30"
+                  stroke="#E8B931"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+                <circle className="trace-dot" cx="80" cy="112" r="4" fill="#171B18" />
+                <circle className="trace-dot" cx="624" cy="58" r="4" fill="#171B18" />
+                <circle className="trace-dot" cx="664" cy="48" r="4" fill="#171B18" />
+                <circle className="trace-dot" cx="736" cy="30" r="4" fill="#171B18" />
+              </svg>
+            </div>
+            <div className="tick-strip border-primary/60 mt-1" />
+            <div className="mt-1.5 grid grid-cols-5 font-mono text-annotation text-secondary">
+              {['2022', '2023', '2024', '2025', '2026'].map((y) => (
+                <span key={y} className="border-l border-border pl-1.5">
+                  {y}
+                </span>
+              ))}
             </div>
           </div>
           <dl className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
@@ -113,7 +117,7 @@ export default function Home() {
       </section>
 
       {/* 01 / In production */}
-      <section id="in-production" className="section-spacing pt-10 md:pt-14">
+      <section id="in-production" className="section-spacing pt-10 md:pt-14 scroll-mt-24">
         <div className="container-wide">
           <SectionAxis n="01" label="In production" />
           <div className="flex flex-col">
@@ -144,12 +148,12 @@ export default function Home() {
       </section>
 
       {/* 02 / Selected work */}
-      <section id="work" className="section-spacing pt-0">
+      <section id="work" className="section-spacing pt-0 scroll-mt-24">
         <div className="container-wide">
           <SectionAxis n="02" label="Selected work" />
           <div className="grid md:grid-cols-5 gap-10 md:gap-12">
             {/* Trazea — the proof of end-to-end */}
-            <article className="md:col-span-3 border border-border p-7 md:p-9 bg-surface">
+            <article className="reg-marks md:col-span-3 border border-border p-7 md:p-9 bg-surface">
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="heading-2">Trazea</h3>
                 <span className="mono-label">2026 — Present</span>
@@ -186,7 +190,7 @@ export default function Home() {
             </article>
 
             {/* CoWtrol */}
-            <article className="md:col-span-2 border border-border p-7 md:p-9">
+            <article className="reg-marks md:col-span-2 border border-border p-7 md:p-9">
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="heading-2">CoWtrol</h3>
                 <span className="mono-label">Innogando</span>
@@ -209,7 +213,7 @@ export default function Home() {
       </section>
 
       {/* 03 / Writing */}
-      <section id="writing" className="section-spacing pt-0">
+      <section id="writing" className="section-spacing pt-0 scroll-mt-24">
         <div className="container-wide">
           <SectionAxis n="03" label="Writing" />
           {posts.length > 0 ? (
@@ -221,7 +225,7 @@ export default function Home() {
                       {post.title}
                     </Link>
                   </h3>
-                  <p className="mono-label mt-2">{formatDate(post.date)}</p>
+                  <p className="mono-label mt-2">{formatDate(post.date)} · {post.readingMinutes} min</p>
                 </article>
               ))}
             </div>
@@ -247,7 +251,7 @@ export default function Home() {
       </section>
 
       {/* 04 / Now */}
-      <section id="now" className="section-spacing pt-0">
+      <section id="now" className="section-spacing pt-0 scroll-mt-24">
         <div className="container-wide">
           <SectionAxis n="04" label="Now" />
           <div className="max-w-content">

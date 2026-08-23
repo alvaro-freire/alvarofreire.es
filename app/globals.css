@@ -14,11 +14,11 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display text-primary;
+    @apply font-display text-primary text-balance;
   }
 
   p {
-    @apply text-body text-secondary;
+    @apply text-body text-secondary text-pretty;
   }
 
   a {
@@ -109,15 +109,54 @@
   .section-axis::after {
     content: '';
     @apply block flex-1 h-2 border-t border-border;
-    background-image: repeating-linear-gradient(
-      to right,
-      theme('colors.border') 0,
-      theme('colors.border') 1px,
-      transparent 1px,
-      transparent 3rem
-    );
-    background-size: 100% 8px;
-    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(to right, theme('colors.border') 1px, transparent 1px),
+      linear-gradient(to right, theme('colors.border') 1px, transparent 1px);
+    background-size: 64px 8px, 16px 4px;
+    background-repeat: repeat-x;
+  }
+
+  /* Standalone tick strip — hero baseline, footer rule */
+  .tick-strip {
+    @apply h-2 border-t;
+    background-image:
+      linear-gradient(to right, theme('colors.border') 1px, transparent 1px),
+      linear-gradient(to right, theme('colors.border') 1px, transparent 1px);
+    background-size: 64px 8px, 16px 4px;
+    background-repeat: repeat-x;
+  }
+
+  /* Graph-paper dot grid, fading at top and bottom — hero trace backdrop */
+  .dot-grid {
+    background-image: radial-gradient(circle, theme('colors.border') 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+  }
+
+  /* Registration marks — ink corner ticks on featured panels */
+  .reg-marks {
+    @apply relative;
+  }
+
+  .reg-marks::before,
+  .reg-marks::after {
+    content: '';
+    @apply absolute w-3.5 h-3.5 pointer-events-none;
+  }
+
+  .reg-marks::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid theme('colors.primary / 45%');
+    border-left: 1px solid theme('colors.primary / 45%');
+  }
+
+  .reg-marks::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid theme('colors.primary / 45%');
+    border-right: 1px solid theme('colors.primary / 45%');
   }
 
   /* Data point mark — small signal-yellow tick before a metric */

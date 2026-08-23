@@ -80,6 +80,7 @@ public/
 - `draft: true` posts are excluded everywhere (listing, home, sitemap, RSS, static params). `hello-world.mdx` is a permanent draft used to smoke-test the pipeline — leave it as `draft: true`.
 - Posts are read with `fs` only at build time (`lib/posts.js`). Never read them at request time — `output: 'standalone'` does not copy `content/` into the runtime bundle. After adding a post, verify with `npm run build && npm run start`.
 - Post body styling comes from `.prose-post` in `globals.css` (there is no typography plugin).
+- `lib/posts.js` computes `readingMinutes` (words / 220) — shown as instrument meta next to the date on the home list, blog listing and post header.
 
 ## Changing the current role
 
@@ -187,6 +188,9 @@ Type scale is fluid (`clamp()`), defined in `tailwind.config.js` `fontSize`: `di
 | `numeral`                 | Big condensed metric numeral (ear-tag voice)                |
 | `mono-label`              | Mono uppercase annotation label                             |
 | `section-axis`            | Tick-marked section baseline (used via `<SectionAxis />`)   |
+| `tick-strip`              | Standalone tick baseline (hero time axis, footer rule) — pass a border color class |
+| `dot-grid`                | Graph-paper dot backdrop with vertical fade (hero trace)    |
+| `reg-marks`               | Ink registration marks on opposite corners of a featured panel |
 | `data-mark`               | Signal-yellow tick before a metric/fact                     |
 | `link-primary`            | Green underlined link                                       |
 | `link-subtle`             | Muted link, primary on hover                                |
