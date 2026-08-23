@@ -1,73 +1,76 @@
 import Link from 'next/link'
-import Image from 'next/image'
+
+const social = [
+  { label: 'GitHub', href: 'https://github.com/alvaro-freire' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/alvvarofreire' },
+  { label: 'X', href: 'https://x.com/alvvarofreire' },
+  { label: 'Instagram', href: 'https://instagram.com/alvvarofreire' },
+]
+
+const nav = [
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+]
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="container-custom py-12 md:py-16">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-          {/* Left — branding */}
+    <footer className="border-t border-border">
+      <div className="container-wide py-12 md:py-16">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+          {/* Left — wordmark + line */}
           <div>
-            <Link href="/" className="text-lg font-semibold text-primary hover:text-accent transition-colors">
+            <Link
+              href="/"
+              className="font-display text-[0.9375rem] font-extrabold uppercase tracking-[0.04em] text-primary hover:text-accent transition-colors"
+              style={{ fontStretch: '116%' }}
+            >
               Álvaro Freire
             </Link>
-            <p className="text-body-sm text-secondary mt-2 max-w-[320px]">
-              Building products, automating operations, and scaling infrastructure from Galicia, Spain.
+            <p className="text-body-sm text-secondary mt-3 max-w-[340px]">
+              Building AI systems that reach production — and measuring them —
+              from Galicia, Spain.
             </p>
           </div>
 
-          {/* Right — social icons */}
-          <div className="flex items-center gap-5">
-            <a
-              href="https://github.com/alvaro-freire"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-secondary hover:text-primary transition-colors"
-              aria-label="GitHub"
-            >
-              <Image src="/github-svgrepo-com.svg" alt="GitHub" width={22} height={22} className="opacity-60 hover:opacity-100 transition-opacity" />
+          {/* Right — contact */}
+          <div className="flex flex-col gap-3">
+            <span className="mono-label">Contact</span>
+            <a href="mailto:hello@alvarofreire.es" className="link-primary text-body-sm w-fit">
+              hello@alvarofreire.es
             </a>
-            <a
-              href="https://linkedin.com/in/alvvarofreire"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-secondary hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Image src="/linkedin-svgrepo-com.svg" alt="LinkedIn" width={22} height={22} className="opacity-60 hover:opacity-100 transition-opacity" />
-            </a>
-            <a
-              href="https://instagram.com/alvvarofreire"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-secondary hover:text-primary transition-colors"
-              aria-label="Instagram"
-            >
-              <Image src="/instagram-svgrepo-com.svg" alt="Instagram" width={22} height={22} className="opacity-60 hover:opacity-100 transition-opacity" />
-            </a>
-            <a
-              href="https://x.com/alvvarofreire"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-secondary hover:text-primary transition-colors"
-              aria-label="Twitter / X"
-            >
-              <Image src="/twitter-svgrepo-com.svg" alt="Twitter" width={22} height={22} className="opacity-60 hover:opacity-100 transition-opacity" />
-            </a>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-1">
+              {social.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors"
+                >
+                  {s.label}&nbsp;↗
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-border flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <p className="text-caption text-secondary">
-            &copy; {new Date().getFullYear()} Álvaro Freire. All rights reserved.
+          <p className="font-mono text-annotation text-secondary">
+            © {new Date().getFullYear()} Álvaro Freire
           </p>
-          <div className="flex items-center gap-6 text-caption">
-            <Link href="/work" className="text-secondary hover:text-primary transition-colors">Work</Link>
-            <Link href="/about" className="text-secondary hover:text-primary transition-colors">About</Link>
-            <Link href="/blog" className="text-secondary hover:text-primary transition-colors">Blog</Link>
-            <Link href="/services" className="text-secondary hover:text-primary transition-colors">Services</Link>
-            <Link href="/contact" className="text-secondary hover:text-primary transition-colors">Contact</Link>
+          <div className="flex items-center gap-6">
+            {nav.map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors"
+              >
+                {n.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

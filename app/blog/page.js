@@ -1,43 +1,78 @@
-import Navigation from '@/components/Navigation'
 import Link from 'next/link'
-import FadeIn from '@/components/FadeIn'
+import SectionAxis from '@/components/SectionAxis'
+import { getAllPosts, formatDate } from '@/lib/posts'
 
 export const metadata = {
-  title: 'Blog — Álvaro Freire',
-  description: 'Thoughts on building products, automation, infrastructure, and lessons from the startup world.',
+  title: 'Blog',
+  description:
+    'Notes from running AI systems in production — agent evals, context engineering, and what survives contact with real users.',
 }
 
+const topics = [
+  { label: 'Agent evals', body: 'How to know whether an agent actually works — task-level evaluation, not vibes.' },
+  { label: 'Context engineering', body: 'Shaping what a model sees: context files, skills, and the tooling around them.' },
+  { label: 'AI in production', body: 'What survives contact with real users, and what quietly breaks.' },
+]
+
 export default function Blog() {
+  const posts = getAllPosts()
+
   return (
     <>
-      <Navigation />
+      <section className="pt-16 md:pt-24 pb-12 md:pb-16">
+        <div className="container-wide">
+          <p className="mono-label mb-6">Field notes · published irregularly, measured always</p>
+          <h1 className="heading-1">Writing</h1>
+          <p className="text-body text-primary mt-5 max-w-[58ch]">
+            Notes from running AI systems in production: agent evals, context
+            engineering, and what actually survives contact with real users.
+          </p>
+        </div>
+      </section>
 
-      <main className="pt-16">
-        <section className="section-spacing">
-          <div className="container-custom">
-            <div className="max-w-[800px]">
-              <FadeIn>
-                <h1 className="heading-1 mb-4">Blog</h1>
-                <p className="text-body text-secondary max-w-[600px] mb-12">
-                  Thoughts on building products, automation, infrastructure, and lessons from the startup world.
-                </p>
-              </FadeIn>
-
-              <FadeIn delay={0.1}>
-                <div className="card text-center py-16">
-                  <p className="text-h3 font-semibold text-primary mb-3">Coming soon</p>
-                  <p className="text-body-sm text-secondary max-w-[420px] mx-auto mb-8">
-                    I'm working on my first posts about Kubernetes migrations, startup automation, and building products end-to-end. In the meantime, check out my work.
-                  </p>
-                  <Link href="/work" className="btn-primary">
-                    View my work
-                  </Link>
-                </div>
-              </FadeIn>
+      <section className="section-spacing pt-6 md:pt-8">
+        <div className="container-wide">
+          <SectionAxis n="01" label="Posts" />
+          {posts.length > 0 ? (
+            <div className="flex flex-col">
+              {posts.map((post, i) => (
+                <article key={post.slug} className={`py-7 ${i > 0 ? 'border-t border-border' : ''}`}>
+                  <div className="grid md:grid-cols-12 gap-x-8 gap-y-2">
+                    <p className="mono-label md:col-span-3 pt-1.5">{formatDate(post.date)}</p>
+                    <div className="md:col-span-9 max-w-[62ch]">
+                      <h2 className="heading-3">
+                        <Link href={`/blog/${post.slug}`} className="hover:text-accent transition-colors">
+                          {post.title}
+                        </Link>
+                      </h2>
+                      {post.description && (
+                        <p className="text-body-sm text-secondary mt-2">{post.description}</p>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
-        </section>
-      </main>
+          ) : (
+            <div className="max-w-content">
+              <p className="text-body text-primary">
+                First posts are in the works. This is what they will be about:
+              </p>
+              <div className="mt-8 grid md:grid-cols-3 gap-8">
+                {topics.map((t) => (
+                  <div key={t.label} className="data-mark">
+                    <h2 className="mono-label !text-primary">{t.label}</h2>
+                    <p className="text-caption text-secondary mt-2">{t.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="font-mono text-caption text-secondary mt-10">
+                RSS will be live at <a href="/rss.xml" className="link-primary">/rss.xml</a> from the first post.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
     </>
   )
 }

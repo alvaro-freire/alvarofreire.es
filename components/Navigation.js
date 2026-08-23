@@ -2,44 +2,58 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
 
 const links = [
   { href: '/work', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/blog', label: 'Blog' },
-  { href: '/services', label: 'Services' },
   { href: '/contact', label: 'Contact' },
 ]
 
 export default function Navigation() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const buttonRef = useRef(null)
 
   /* Close mobile menu on route change */
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
 
-  /* Prevent body scroll when menu is open */
+  /* Prevent body scroll when menu is open; close on Escape */
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    if (!mobileOpen) return
+    document.body.style.overflow = 'hidden'
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false)
+        buttonRef.current?.focus()
+      }
     }
-    return () => { document.body.style.overflow = '' }
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKeyDown)
+    }
   }, [mobileOpen])
 
+  const linkClasses = (href) =>
+    `font-mono text-annotation uppercase transition-colors ${
+      pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
+        ? 'text-accent underline decoration-signal decoration-2 underline-offset-8'
+        : 'text-secondary hover:text-primary'
+    }`
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container-custom">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-md border-b border-border">
+      <nav aria-label="Main" className="container-wide">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Wordmark */}
           <Link
             href="/"
-            className="text-lg font-bold text-primary hover:text-accent transition-colors"
+            className="font-display text-[0.9375rem] font-extrabold uppercase tracking-[0.04em] text-primary hover:text-accent transition-colors"
+            style={{ fontStretch: '116%' }}
           >
             Álvaro Freire
           </Link>
@@ -47,15 +61,7 @@ export default function Navigation() {
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
             {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  pathname === link.href
-                    ? 'text-accent'
-                    : 'text-secondary hover:text-primary'
-                }`}
-              >
+              <Link key={link.href} href={link.href} className={linkClasses(link.href)}>
                 {link.label}
               </Link>
             ))}
@@ -63,57 +69,47 @@ export default function Navigation() {
 
           {/* Mobile hamburger */}
           <button
+            ref={buttonRef}
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
-            <motion.span
-              animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-              className="block w-5 h-0.5 bg-primary origin-center"
-              transition={{ duration: 0.2 }}
+            <span
+              className={`block w-5 h-0.5 bg-primary origin-center transition-transform duration-200 ${
+                mobileOpen ? 'translate-y-2 rotate-45' : ''
+              }`}
             />
-            <motion.span
-              animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="block w-5 h-0.5 bg-primary"
-              transition={{ duration: 0.15 }}
+            <span
+              className={`block w-5 h-0.5 bg-primary transition-opacity duration-150 ${
+                mobileOpen ? 'opacity-0' : 'opacity-100'
+              }`}
             />
-            <motion.span
-              animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-              className="block w-5 h-0.5 bg-primary origin-center"
-              transition={{ duration: 0.2 }}
+            <span
+              className={`block w-5 h-0.5 bg-primary origin-center transition-transform duration-200 ${
+                mobileOpen ? '-translate-y-2 -rotate-45' : ''
+              }`}
             />
           </button>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile menu overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden absolute top-16 left-0 right-0 bg-background border-b border-border shadow-card-hover"
-          >
-            <div className="container-custom py-6 flex flex-col gap-4">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-lg font-medium transition-colors py-2 ${
-                    pathname === link.href
-                      ? 'text-accent'
-                      : 'text-secondary hover:text-primary'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+      {mobileOpen && (
+        <div
+          id="mobile-menu"
+          className="md:hidden absolute top-16 left-0 right-0 bg-background border-b border-border"
+        >
+          <div className="container-wide py-6 flex flex-col gap-2">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} className={`${linkClasses(link.href)} py-3 text-sm`}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
   )
 }

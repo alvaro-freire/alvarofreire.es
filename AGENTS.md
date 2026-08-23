@@ -2,7 +2,7 @@
 
 ## Overview
 
-Personal portfolio website for Alvaro Freire at `alvarofreire.es`. Fully static site — no backend, no API routes, no dynamic data fetching. All pages are server-rendered at build time.
+Personal website for Álvaro Freire at `alvarofreire.es`. Positioning: engineer who puts AI systems into production and measures them — Head of Software Engineering at Innogando, creator of Trazea. Fully static site — no backend, no dynamic data fetching. All pages (including blog posts) are rendered at build time. Not a client-acquisition site: there is no services page and no lead-capture CTAs — do not reintroduce them.
 
 ## Setup & Development Commands
 
@@ -31,37 +31,53 @@ npm run lint
 |--------------|------------------------------------------------------------------|
 | Framework    | Next.js 15, App Router                                          |
 | Language     | JavaScript — no TypeScript                                      |
-| UI           | React 18, Server Components by default                          |
+| UI           | React 19, Server Components by default                          |
+| Blog         | MDX files in `content/posts/`, compiled with `next-mdx-remote/rsc` + `gray-matter` |
 | Styling      | Tailwind CSS 3, custom design system in `app/globals.css`       |
-| Animations   | Framer Motion via `@/components/FadeIn`                         |
-| Fonts        | Inter via `next/font/google`                                    |
+| Animations   | CSS only (hero trace draw-in); no animation library             |
+| Fonts        | Archivo (display, variable width), Instrument Sans (text), Spline Sans Mono (annotations) via `next/font/google` |
 | Linting      | ESLint 9 (flat config) with `next/core-web-vitals`              |
 | Build output | Standalone (`next.config.js` -> `output: 'standalone'`)         |
 | Path alias   | `@/*` maps to project root (`jsconfig.json`)                    |
 
-Dependencies are intentionally minimal: `next`, `react`, `react-dom`, `framer-motion` — nothing else.
+Dependencies are intentionally minimal: `next`, `react`, `react-dom`, `next-mdx-remote`, `gray-matter` — nothing else. If token-level syntax highlighting is ever wanted for code blocks, the approved path is `rehype-pretty-code` + `shiki` plugged into `MDXRemote`'s `options.mdxOptions.rehypePlugins`; until then code blocks are styled with CSS only.
 
 ## File Structure
 
 ```
 app/
-  layout.js           Root layout: Inter font, global metadata, Footer
-  globals.css          Design system: custom properties, base styles, component classes
-  page.js              Home (/)
+  layout.js            Root layout: fonts, metadata (title template, OG), JSON-LD Person,
+                       skip link, <Navigation />, <main id="main">, <Footer />
+  globals.css          Design system: base styles, component classes, prose styles, motion rules
+  page.js              Home (/) — hero + trace, In production, Selected work, Writing, Now
   not-found.js         404 page
-  about/page.js        /about — story, experience timeline, skills, education
-  work/page.js         /work — case studies, side projects
-  services/page.js     /services — service offerings, working principles
-  contact/page.js      /contact
+  about/page.js        /about — bio, experience, how I work, community, education
+  work/page.js         /work — case studies (Trazea, CoWtrol), AI at Innogando, infra, side projects
+  blog/page.js         /blog — post listing (topics shown while there are no posts)
+  blog/[slug]/page.js  Blog post: generateStaticParams + MDXRemote + JSON-LD BlogPosting
+  contact/page.js      /contact — email + social channels (no form)
+  sitemap.js           Sitemap incl. published posts
+  robots.js            robots.txt
+  rss.xml/route.js     Static RSS feed built from published posts
+  opengraph-image.js   OG image (1200×630) generated with next/og
 components/
-  Navigation.js        Fixed top nav with mobile hamburger menu ('use client')
-  Footer.js            Site footer with social links (Server Component)
-  FadeIn.js            Framer Motion scroll animation wrapper ('use client')
-  ProjectCard.js       Card for featured work (Server Component)
-  ServiceCard.js       Card for service offerings (Server Component)
+  Navigation.js        Fixed top nav with mobile hamburger ('use client'; rendered from layout only)
+  Footer.js            Site footer: contact email + social text links (Server Component)
+  SectionAxis.js       Tick-marked section separator with mono label ("01 / Name")
+content/
+  posts/               Blog posts (*.mdx) — frontmatter: title, date, description, draft
+lib/
+  posts.js             getAllPosts / getPostBySlug / formatDate (fs + gray-matter, build-time only)
 public/
-  Static assets: photo, social SVGs, favicons, webmanifest
+  Static assets: photo, favicons, webmanifest
 ```
+
+## Blog
+
+- Posts live in `content/posts/*.mdx`. Frontmatter: `title`, `date` (`YYYY-MM-DD`), `description`, optional `draft: true`.
+- `draft: true` posts are excluded everywhere (listing, home, sitemap, RSS, static params). `hello-world.mdx` is a permanent draft used to smoke-test the pipeline — leave it as `draft: true`.
+- Posts are read with `fs` only at build time (`lib/posts.js`). Never read them at request time — `output: 'standalone'` does not copy `content/` into the runtime bundle. After adding a post, verify with `npm run build && npm run start`.
+- Post body styling comes from `.prose-post` in `globals.css` (there is no typography plugin).
 
 ## Coding Conventions
 
@@ -73,34 +89,35 @@ public/
 - **External links** always include `target="_blank" rel="noopener noreferrer"`.
 - **`react/no-unescaped-entities`** is disabled — apostrophes and quotes are used directly in JSX.
 - **All custom styles** go in `app/globals.css` — never create additional CSS files.
-- **Animations** use `FadeIn`, `FadeInStagger`, `FadeInStaggerItem` from `@/components/FadeIn`.
+- **No decorative animation.** The only animation is the hero trace drawing itself once (CSS, gated behind `prefers-reduced-motion: no-preference`). Everything else is hover/focus transitions.
 
 ## Page Conventions
 
-Every page follows the same skeleton:
+`<Navigation />`, the skip link, `<main id="main" className="... pt-16">` and `<Footer />` all live in `app/layout.js`. Pages return **sections only**:
 
 ```jsx
-import Navigation from '@/components/Navigation'
-import FadeIn from '@/components/FadeIn'
+import SectionAxis from '@/components/SectionAxis'
 
 export const metadata = {
-  title: 'Page Name — Alvaro Freire',
+  title: 'Page Name', // layout template appends "— Álvaro Freire"
   description: '...',
 }
 
 export default function PageName() {
   return (
     <>
-      <Navigation />
-      <main className="pt-16">
-        <section className="section-spacing">
-          <div className="container-custom">
-            <div className="max-w-[800px]">
-              <FadeIn>{/* Content */}</FadeIn>
-            </div>
-          </div>
-        </section>
-      </main>
+      <section className="pt-16 md:pt-24 pb-12 md:pb-16">
+        <div className="container-wide">
+          <p className="mono-label mb-6">Kicker annotation</p>
+          <h1 className="heading-1">Page Name</h1>
+        </div>
+      </section>
+      <section className="section-spacing pt-0">
+        <div className="container-wide">
+          <SectionAxis n="01" label="Section name" />
+          {/* content */}
+        </div>
+      </section>
     </>
   )
 }
@@ -108,80 +125,87 @@ export default function PageName() {
 
 Key rules:
 
-- `<Navigation />` is always the first child of the fragment.
-- `<main>` has `className="pt-16"` to clear the fixed nav.
-- Content sections use `section-spacing` -> `container-custom` or `container-wide` -> content wrapper.
-- Additional sections are separated with `border-t border-border`.
-- Footer lives in `layout.js` and renders on every page automatically — do not add it in pages.
-- Pages export a `metadata` object. Title format: `"Page Name — Alvaro Freire"`.
-- Pages are Server Components. Only add `'use client'` for components that need browser APIs or Framer Motion.
+- **Never import `<Navigation />` or render `<main>`/`<Footer />` in a page** — they come from the layout.
+- Sections are separated by `<SectionAxis n="NN" label="Name" />` (tick-marked axis), not bare rules.
+- Page `metadata.title` is the short name only; the layout's `title.template` adds the suffix.
+- Pages are Server Components. Only add `'use client'` to leaf components that need browser APIs.
 
 ## Linting
 
 ESLint 9 with flat config (`eslint.config.mjs`). Extends `next/core-web-vitals`.
 
-```bash
-# Run linter
-npm run lint
-```
-
 Always run `npm run lint` before considering a change complete. Fix any errors you introduce.
 
-## Design System
+## Design System — "Field telemetry"
+
+The site reads like a measuring instrument: axes with ticks, mono annotations, one data trace. Personality sources: systems that get measured (evals, time series) and the real context (Galicia, GPS collars, ear tags) — as origin of decisions, never literal illustration.
 
 ### Colors (`tailwind.config.js`)
 
-| Token          | Value     | Usage                            |
-|----------------|-----------|----------------------------------|
-| `background`   | `#FAFAF9` | Page background (warm off-white) |
-| `primary`      | `#18181B` | Headings, emphasis text          |
-| `secondary`    | `#71717A` | Body text, muted elements        |
-| `accent`       | `#4F46E5` | Buttons, links, interactive      |
-| `accent-hover` | `#4338CA` | Hover state for accent elements  |
-| `accent-subtle`| `#EEF2FF` | Card backgrounds, highlights     |
-| `border`       | `#E4E4E7` | Dividers, borders                |
-| `surface`      | `#FFFFFF` | Card backgrounds                 |
+| Token        | Value     | Usage                                                  |
+|--------------|-----------|--------------------------------------------------------|
+| `background` | `#F2F3EF` | Page background — fog, cool grey-green (NOT cream)     |
+| `primary`    | `#171B18` | Ink — headings, body emphasis                          |
+| `secondary`  | `#5B6159` | Moss — secondary text                                  |
+| `accent`     | `#2E4B3C` | Pasture green — links, active nav, structural accents  |
+| `signal`     | `#E8B931` | **Ear-tag yellow. Data marks ONLY**: trace, ticks, metric underlines, active-nav underline, selection. Never body text, never large fills, never buttons. |
+| `border`     | `#DCDFD6` | Grid — axes, ticks, borders                            |
+| `surface`    | `#FFFFFF` | Featured panels (e.g. Trazea card)                     |
 
-### Typography (`tailwind.config.js`)
+No dark mode — one deliberate appearance.
 
-| Token          | Size     | Usage              |
-|----------------|----------|--------------------|
-| `text-display` | 3.5rem   | Hero headline      |
-| `text-h1`      | 3rem     | Page titles        |
-| `text-h2`      | 2rem     | Section headings   |
-| `text-h3`      | 1.5rem   | Subsection headings|
-| `text-body`    | 1.125rem | Paragraph text     |
-| `text-body-sm` | 1rem     | Descriptions       |
-| `text-caption` | 0.875rem | Tags, metadata     |
+### Typography (`tailwind.config.js` + `next/font` in `layout.js`)
+
+| Family            | CSS var          | Role                                                        |
+|-------------------|------------------|-------------------------------------------------------------|
+| Archivo (variable, wdth axis) | `--font-display` | Display: headings at `font-stretch: 116%` (expanded), big metric numerals at `68%` (condensed, `.numeral`) |
+| Instrument Sans   | `--font-sans`    | Reading text (body default)                                 |
+| Spline Sans Mono  | `--font-mono`    | Annotations: axis labels, dates, tags, kickers, blog meta   |
+
+Type scale is fluid (`clamp()`), defined in `tailwind.config.js` `fontSize`: `display`, `h1`, `h2`, `h3`, `numeral`, `body`, `body-sm`, `caption`, `annotation`.
 
 ### Component Classes (`app/globals.css`)
 
-| Class                     | Purpose                                         |
-|---------------------------|--------------------------------------------------|
-| `container-custom`        | Max-width 720px, horizontal padding              |
-| `container-wide`          | Max-width 1080px, horizontal padding             |
-| `section-spacing`         | Vertical rhythm: `py-16 md:py-24`               |
-| `heading-display/1/2/3`   | Heading styles at each scale                     |
-| `text-body-primary`       | Body text in primary color                       |
-| `text-body-secondary`     | Body text in secondary color                     |
-| `link-primary`            | Accent-colored underlined link                   |
-| `link-subtle`             | Muted link, primary on hover                     |
-| `card`                    | White card with border, rounded corners, shadow  |
-| `card-hover`              | Adds lift + shadow on hover                      |
-| `tag` / `tag-accent`      | Pill badges for skills and metadata              |
-| `btn-primary`             | Indigo button                                    |
-| `btn-secondary`           | Outlined button                                  |
+| Class                     | Purpose                                                    |
+|---------------------------|-------------------------------------------------------------|
+| `container-custom`        | Max-width 720px (reading column)                            |
+| `container-wide`          | Max-width 1080px (page container)                           |
+| `section-spacing`         | Vertical rhythm: `py-16 md:py-24`                           |
+| `heading-display/1/2/3`   | Display headings (Archivo, expanded)                        |
+| `numeral`                 | Big condensed metric numeral (ear-tag voice)                |
+| `mono-label`              | Mono uppercase annotation label                             |
+| `section-axis`            | Tick-marked section baseline (used via `<SectionAxis />`)   |
+| `data-mark`               | Signal-yellow tick before a metric/fact                     |
+| `link-primary`            | Green underlined link                                       |
+| `link-subtle`             | Muted link, primary on hover                                |
+| `tag`                     | Mono uppercase bordered tag (tech labels)                   |
+| `card`                    | Flat bordered box (transitional, avoid for new work)        |
+| `btn-primary/secondary`   | Transitional buttons — the design prefers text links        |
+| `skip-link`               | Visually hidden until focused                               |
+| `prose-post`              | Blog post body styles (headings, lists, code, tables)       |
+| `trace-path` / `trace-dot`| Hero trace draw-in animation classes                        |
 
-### Spacing
+### Signature element
 
-8px base unit. Custom scale via CSS custom properties (`--space-xs` through `--space-4xl`) and Tailwind defaults.
+The hero **trace**: one SVG path in signal yellow crossing the hero, with annotated milestone dots over a real timeline. The line is a graphic; the annotations are verified facts. Its echo: every section separator is an axis with ticks, every metric is typeset as a data point (condensed numeral + mono unit + yellow tick).
+
+## Accessibility & quality floor
+
+- `:focus-visible` outline is global; skip link in layout; mobile menu has `aria-expanded`, `aria-controls`, Escape-to-close.
+- `prefers-reduced-motion: reduce` kills all animation and smooth scroll globally; the trace's default (no-animation) state is fully drawn.
+- Fluid type — verify at 375px before shipping layout changes.
+- `next/image` for raster images.
+- Content rules: only publish verified numbers. No Trazea pilot figures. Tone: facts and numbers over adjectives.
 
 ## Common Pitfalls
 
-- **Do not add `'use client'`** to page files. Pages are Server Components; only leaf components that need browser APIs or Framer Motion should be client components.
-- **Do not add a `<Footer />`** inside pages — it is rendered globally from `layout.js`.
+- **Do not add `'use client'`** to page files.
+- **Do not import `<Navigation />` or add `<main>`/`<Footer />` in pages** — layout owns them (double-nav bug otherwise).
 - **Do not create new CSS files.** All styles live in `app/globals.css` or as Tailwind utilities.
 - **Do not add new dependencies** without explicit approval. The dependency footprint is intentionally minimal.
 - **Do not add TypeScript.** The project uses plain JavaScript.
 - **Do not use semicolons.** Match the existing code style.
-- **Always verify** the build passes (`npm run build`) after structural changes to pages or layouts.
+- **Do not use `signal` yellow outside data marks** — if it shows up on buttons or backgrounds, the system is broken.
+- **The global `p` rule** sets `text-body text-secondary` — add `text-primary` explicitly where body text should be ink.
+- **`/services` is gone** — a permanent redirect to `/` lives in `next.config.js`. Do not recreate the page or client-acquisition CTAs ("Have a project in mind?", "Let's talk", consulting language).
+- **Always verify** the build passes (`npm run build`) after structural changes to pages, layouts, or `content/`.

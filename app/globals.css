@@ -3,18 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Spacing scale based on 8px unit */
-    --space-xs: 0.5rem;    /* 8px */
-    --space-sm: 1rem;      /* 16px */
-    --space-md: 1.5rem;    /* 24px */
-    --space-lg: 2rem;      /* 32px */
-    --space-xl: 3rem;      /* 48px */
-    --space-2xl: 4rem;     /* 64px */
-    --space-3xl: 6rem;     /* 96px */
-    --space-4xl: 8rem;     /* 128px */
-  }
-
   html {
     @apply scroll-smooth;
   }
@@ -26,7 +14,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight text-primary;
+    @apply font-display text-primary;
   }
 
   p {
@@ -35,6 +23,13 @@
 
   a {
     @apply transition-colors duration-200;
+  }
+
+  /* Visible keyboard focus everywhere, without hover-focus noise */
+  :focus-visible {
+    outline: 2px solid theme('colors.accent');
+    outline-offset: 3px;
+    border-radius: 1px;
   }
 }
 
@@ -52,21 +47,35 @@
     @apply py-16 md:py-24;
   }
 
-  /* Typography */
+  /* Typography — display roles (Archivo variable width) */
   .heading-display {
-    @apply text-display font-bold text-primary tracking-tight;
+    @apply font-display text-display text-primary;
+    font-stretch: 116%;
   }
 
   .heading-1 {
-    @apply text-h1 font-bold text-primary;
+    @apply font-display text-h1 text-primary;
+    font-stretch: 116%;
   }
 
   .heading-2 {
-    @apply text-h2 font-semibold text-primary;
+    @apply font-display text-h2 text-primary;
+    font-stretch: 110%;
   }
 
   .heading-3 {
-    @apply text-h3 font-semibold text-primary;
+    @apply font-display text-h3 text-primary;
+  }
+
+  /* Condensed instrument numerals — the ear-tag voice */
+  .numeral {
+    @apply font-display text-numeral text-primary tabular-nums;
+    font-stretch: 68%;
+  }
+
+  /* Mono annotation label — axis captions, tags, meta */
+  .mono-label {
+    @apply font-mono text-annotation uppercase text-secondary;
   }
 
   .text-body-primary {
@@ -79,56 +88,193 @@
 
   /* Links */
   .link-primary {
-    @apply text-accent hover:text-accent-hover underline decoration-accent/30 hover:decoration-accent underline-offset-4;
+    @apply text-accent underline decoration-accent/30 hover:decoration-accent underline-offset-4;
   }
 
   .link-subtle {
     @apply text-secondary hover:text-primary;
   }
 
-  /* Divider */
-  .divider {
-    @apply border-t border-border;
+  /* Section axis — tick-marked baseline with a mono label.
+     Never a bare rule: the ticks + label are what make it an axis. */
+  .section-axis {
+    @apply relative flex items-center gap-3 text-left;
   }
 
-  /* Cards */
-  .card {
-    @apply bg-surface border border-border rounded-xl p-6 shadow-card transition-all duration-300;
+  .section-axis::before {
+    content: '';
+    @apply block h-2 w-px bg-primary;
   }
 
-  .card-hover {
-    @apply hover:shadow-card-hover hover:-translate-y-0.5;
+  .section-axis::after {
+    content: '';
+    @apply block flex-1 h-2 border-t border-border;
+    background-image: repeating-linear-gradient(
+      to right,
+      theme('colors.border') 0,
+      theme('colors.border') 1px,
+      transparent 1px,
+      transparent 3rem
+    );
+    background-size: 100% 8px;
+    background-repeat: no-repeat;
   }
 
-  /* Tags / Pills */
+  /* Data point mark — small signal-yellow tick before a metric */
+  .data-mark {
+    @apply relative pl-4;
+  }
+
+  .data-mark::before {
+    content: '';
+    @apply absolute left-0 top-[0.4em] block h-[0.55em] w-1.5 bg-signal;
+  }
+
+  /* Tags / pills — mono annotations, not rounded pills */
   .tag {
-    @apply inline-block px-3 py-1 bg-background border border-border rounded-full text-caption text-secondary font-medium;
+    @apply inline-block font-mono text-annotation uppercase text-secondary border border-border px-2 py-0.5;
   }
 
-  .tag-accent {
-    @apply inline-block px-3 py-1 bg-accent-subtle text-accent rounded-full text-caption font-medium;
+  /* Minimal box (kept for transitional pages; flat, no shadow) */
+  .card {
+    @apply bg-surface border border-border p-6;
   }
 
-  /* Buttons */
+  /* Buttons → quiet text links with an arrow live in markup;
+     these remain for transitional pages only */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-accent text-white font-medium rounded-lg
-           hover:bg-accent-hover transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+    @apply inline-flex items-center justify-center px-5 py-2.5 bg-primary text-background font-medium
+           hover:bg-accent transition-colors duration-200;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 border border-border text-primary font-medium rounded-lg
-           hover:bg-background hover:border-secondary transition-all duration-200;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-primary text-primary font-medium
+           hover:bg-primary hover:text-background transition-colors duration-200;
+  }
+
+  /* Skip link — first element in body, visible only on focus */
+  .skip-link {
+    @apply absolute left-4 top-4 z-[100] -translate-y-24 bg-primary text-background px-4 py-2 font-mono text-annotation uppercase
+           focus:translate-y-0 transition-transform;
+  }
+
+  /* Article prose — blog posts (no typography plugin) */
+  .prose-post {
+    @apply text-body text-primary;
+  }
+
+  .prose-post p {
+    @apply text-body text-primary mb-6;
+  }
+
+  .prose-post h2 {
+    @apply heading-2 mt-12 mb-4;
+  }
+
+  .prose-post h3 {
+    @apply heading-3 mt-10 mb-3;
+  }
+
+  .prose-post ul, .prose-post ol {
+    @apply mb-6 pl-5 space-y-2;
+  }
+
+  .prose-post ul {
+    @apply list-disc;
+  }
+
+  .prose-post ol {
+    @apply list-decimal;
+  }
+
+  .prose-post li::marker {
+    @apply text-secondary;
+  }
+
+  .prose-post a {
+    @apply link-primary;
+  }
+
+  .prose-post blockquote {
+    @apply border-l-2 border-signal pl-4 my-6 text-secondary;
+  }
+
+  .prose-post hr {
+    @apply border-border my-10;
+  }
+
+  .prose-post code {
+    @apply font-mono text-[0.9em] bg-primary/[0.06] px-1.5 py-0.5;
+  }
+
+  .prose-post pre {
+    @apply bg-primary text-background font-mono text-[0.875rem] leading-relaxed p-5 my-6 overflow-x-auto;
+  }
+
+  .prose-post pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .prose-post img {
+    @apply my-6 max-w-full h-auto;
+  }
+
+  .prose-post table {
+    @apply w-full text-body-sm my-6 border-collapse;
+  }
+
+  .prose-post th {
+    @apply font-mono text-annotation uppercase text-secondary text-left border-b border-primary py-2 pr-4;
+  }
+
+  .prose-post td {
+    @apply border-b border-border py-2 pr-4 align-top;
   }
 }
 
-/* Custom selection styling */
+/* Selection — the one place the signal yellow touches text */
 ::selection {
-  @apply bg-accent text-white;
+  background: #E8B931;
+  color: #171B18;
 }
 
-/* Focus styles for accessibility */
-@layer utilities {
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
+/* Hero trace: drawn once on load. Default state is the finished trace;
+   the animation only exists when motion is allowed. */
+@media (prefers-reduced-motion: no-preference) {
+  .trace-path {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: draw-trace 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+  }
+
+  .trace-dot {
+    opacity: 0;
+    animation: fade-dot 0.4s ease-out forwards;
+  }
+
+  .trace-dot:nth-of-type(1) { animation-delay: 0.5s }
+  .trace-dot:nth-of-type(2) { animation-delay: 0.8s }
+  .trace-dot:nth-of-type(3) { animation-delay: 1.1s }
+  .trace-dot:nth-of-type(4) { animation-delay: 1.4s }
+
+  @keyframes draw-trace {
+    to { stroke-dashoffset: 0 }
+  }
+
+  @keyframes fade-dot {
+    to { opacity: 1 }
+  }
+}
+
+/* Kill all motion for users who ask for it (covers scroll-smooth too) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
