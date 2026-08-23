@@ -1,8 +1,14 @@
 import './globals.css'
 import { Archivo, Instrument_Sans, Spline_Sans_Mono } from 'next/font/google'
+import Script from 'next/script'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { profile, metaDescription } from '@/lib/profile'
+
+// Applies a stored explicit theme override before first paint, so there's
+// no flash. System-default readers need no JS: the CSS media query in
+// globals.css handles that case natively, before any script can run.
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()`
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -57,7 +63,10 @@ export const metadata = {
 }
 
 export const viewport = {
-  themeColor: '#F2F3EF',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F2F3EF' },
+    { media: '(prefers-color-scheme: dark)', color: '#10130F' },
+  ],
 }
 
 const jsonLd = {
@@ -86,6 +95,9 @@ export default function RootLayout({ children }) {
       className={`${archivo.variable} ${instrumentSans.variable} ${splineSansMono.variable} antialiased`}
     >
       <body className="font-sans bg-background text-primary min-h-screen flex flex-col">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <a href="#main" className="skip-link">
           Skip to content
         </a>

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const links = [
   { href: '/work', label: 'Work' },
@@ -58,40 +59,44 @@ export default function Navigation() {
             Álvaro Freire
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
-            {links.map((link) => (
-              <Link key={link.href} href={link.href} className={linkClasses(link.href)}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          <div className="flex items-center gap-2 md:gap-6">
+            {/* Desktop links */}
+            <div className="hidden md:flex items-center gap-8">
+              {links.map((link) => (
+                <Link key={link.href} href={link.href} className={linkClasses(link.href)}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
 
-          {/* Mobile hamburger */}
-          <button
-            ref={buttonRef}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-menu"
-          >
-            <span
-              className={`block w-5 h-0.5 bg-primary origin-center transition-transform duration-200 ${
-                mobileOpen ? 'translate-y-2 rotate-45' : ''
-              }`}
-            />
-            <span
-              className={`block w-5 h-0.5 bg-primary transition-opacity duration-150 ${
-                mobileOpen ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-            <span
-              className={`block w-5 h-0.5 bg-primary origin-center transition-transform duration-200 ${
-                mobileOpen ? '-translate-y-2 -rotate-45' : ''
-              }`}
-            />
-          </button>
+            <ThemeToggle />
+
+            {/* Mobile hamburger */}
+            <button
+              ref={buttonRef}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+            >
+              <span
+                className={`block w-5 h-0.5 bg-primary origin-center transition-transform duration-200 ${
+                  mobileOpen ? 'translate-y-2 rotate-45' : ''
+                }`}
+              />
+              <span
+                className={`block w-5 h-0.5 bg-primary transition-opacity duration-150 ${
+                  mobileOpen ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+              <span
+                className={`block w-5 h-0.5 bg-primary origin-center transition-transform duration-200 ${
+                  mobileOpen ? '-translate-y-2 -rotate-45' : ''
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </nav>
 

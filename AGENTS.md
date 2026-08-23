@@ -36,6 +36,7 @@ npm run lint
 | Styling      | Tailwind CSS 3, custom design system in `app/globals.css`       |
 | Animations   | CSS only (hero trace draw-in); no animation library             |
 | Fonts        | Archivo (display, variable width), Instrument Sans (text), Spline Sans Mono (annotations) via `next/font/google` |
+| Theming     | Light/dark via CSS variables — system preference by default, manual override persisted in `localStorage` |
 | Linting      | ESLint 9 (flat config) with `next/core-web-vitals`              |
 | Build output | Standalone (`next.config.js` -> `output: 'standalone'`)         |
 | Path alias   | `@/*` maps to project root (`jsconfig.json`)                    |
@@ -61,9 +62,10 @@ app/
   rss.xml/route.js     Static RSS feed built from published posts
   opengraph-image.js   OG image (1200×630) generated with next/og
 components/
-  Navigation.js        Fixed top nav with mobile hamburger ('use client'; rendered from layout only)
+  Navigation.js        Fixed top nav with mobile hamburger + <ThemeToggle /> ('use client'; rendered from layout only)
   Footer.js            Site footer: contact email + social text links (Server Component)
   SectionAxis.js       Tick-marked section separator with mono label ("01 / Name")
+  ThemeToggle.js       Light/dark toggle ('use client') — icon swap is pure CSS, no render state
 content/
   posts/               Blog posts (*.mdx) — frontmatter: title, date, description, draft
 lib/
@@ -156,19 +158,29 @@ Always run `npm run lint` before considering a change complete. Fix any errors y
 
 The site reads like a measuring instrument: axes with ticks, mono annotations, one data trace. Personality sources: systems that get measured (evals, time series) and the real context (Galicia, GPS collars, ear tags) — as origin of decisions, never literal illustration.
 
-### Colors (`tailwind.config.js`)
+### Colors (`tailwind.config.js` values, `app/globals.css` tokens)
 
-| Token        | Value     | Usage                                                  |
-|--------------|-----------|--------------------------------------------------------|
-| `background` | `#F2F3EF` | Page background — fog, cool grey-green (NOT cream)     |
-| `primary`    | `#171B18` | Ink — headings, body emphasis                          |
-| `secondary`  | `#5B6159` | Moss — secondary text                                  |
-| `accent`     | `#2E4B3C` | Pasture green — links, active nav, structural accents  |
-| `signal`     | `#E8B931` | **Ear-tag yellow. Data marks ONLY**: trace, ticks, metric underlines, active-nav underline, selection. Never body text, never large fills, never buttons. |
-| `border`     | `#DCDFD6` | Grid — axes, ticks, borders                            |
-| `surface`    | `#FFFFFF` | Featured panels (e.g. Trazea card)                     |
+Colors are CSS variables (`--color-*`, RGB triplets) referenced from Tailwind as `rgb(var(--color-x) / <alpha-value>)` — this is what keeps opacity modifiers working (`text-accent/30`, `theme('colors.primary / 45%')`) while the values swap per theme.
 
-No dark mode — one deliberate appearance.
+| Token        | Light     | Dark      | Usage                                                  |
+|--------------|-----------|-----------|----------------------------------------------------------|
+| `background` | `#F2F3EF` | `#10130F` | Page background — fog (light) / near-black ink (dark)  |
+| `primary`    | `#171B18` | `#EDEEE8` | Headings, body emphasis, trace dots (`currentColor`)   |
+| `secondary`  | `#5B6159` | `#969D91` | Secondary text                                          |
+| `accent`     | `#2E4B3C` | `#82BD9A` | Links, active nav, structural accents (brighter in dark for contrast) |
+| `signal`     | `#E8B931` | `#E8B931` | **Ear-tag yellow, constant across themes. Data marks ONLY**: trace, ticks, metric underlines, active-nav underline, selection. Never body text, never large fills, never buttons. |
+| `border`     | `#DCDFD6` | `#2A2F27` | Grid — axes, ticks, borders                            |
+| `surface`    | `#FFFFFF` | `#1A1E16` | Featured panels (e.g. Trazea card)                     |
+
+### Dark mode
+
+System preference by default (`@media (prefers-color-scheme: dark)`, gated `:not([data-theme="light"])`), manual override via the nav's `<ThemeToggle />` sets `html[data-theme="light"|"dark"]` and wins in both directions — the same token redefinitions live under `:root[data-theme="dark"]`. All tokens are defined in `app/globals.css`; **never add a raw hex color to a page or component** — add/adjust a `--color-*` token instead, or the color won't flip with the theme.
+
+- **No flash**: an inline `beforeInteractive` script (`app/layout.js`) applies a stored override before first paint. The system-default case needs no JS — the CSS media query resolves before any script runs.
+- **`ThemeToggle` has no render state.** Both icons always render; `.theme-icon-light`/`.theme-icon-dark` in `globals.css` show/hide via the same `[data-theme]`/media-query cascade as the color tokens. The click handler only flips the attribute and writes `localStorage`. Don't add `useState`/`useEffect` to it — that's how you get hydration mismatches.
+- **`.prose-post pre` (code blocks) is deliberately theme-invariant** — fixed `--color-code-bg`/`--color-code-text`, always a dark readout like a terminal, so it doesn't flip to a jarring white panel in dark mode. Don't switch it to `bg-primary`/`text-background`.
+- `viewport.themeColor` in `layout.js` is a two-entry array (light/dark media queries) for the browser chrome color — it follows system preference only, not the manual override (acceptable scope: the manual toggle is the rare path).
+- `app/opengraph-image.js` and `app/icon.svg` render with fixed light-theme hex values on purpose — they're generated once at build time with no access to a viewer's theme (OG previews and favicons don't adapt, same as any site).
 
 ### Typography (`tailwind.config.js` + `next/font` in `layout.js`)
 
@@ -195,6 +207,7 @@ Type scale is fluid (`clamp()`), defined in `tailwind.config.js` `fontSize`: `di
 | `dot-grid`                | Graph-paper dot backdrop with vertical fade (hero trace)    |
 | `reg-marks`               | Ink registration marks on opposite corners of a featured panel or portrait |
 | `arrow` / `arrow-ext` / `arrow-back` | Wrap a link's arrow glyph (→ / ↗ / ←) for a 2–3px hover nudge |
+| `theme-toggle`            | Wraps `<ThemeToggle />`'s icon pair; hover rotates the visible icon |
 | `data-mark`               | Signal-yellow tick before a metric/fact                     |
 | `link-primary`            | Green underlined link                                       |
 | `link-subtle`             | Muted link, primary on hover                                |
@@ -226,6 +239,7 @@ The hero **trace**: one SVG path in signal yellow crossing the hero, with annota
 - **Do not add TypeScript.** The project uses plain JavaScript.
 - **Do not use semicolons.** Match the existing code style.
 - **Do not use `signal` yellow outside data marks** — if it shows up on buttons or backgrounds, the system is broken.
+- **Do not hardcode a hex color** in a page/component for anything meant to adapt to the theme — add a `--color-*` token in `globals.css` instead (see "Dark mode" above). The hero trace dots learned this the hard way: they were `fill="#171B18"` and went invisible on a dark background before being switched to `fill="currentColor"` + `text-primary`.
 - **The global `p` rule** sets `text-body text-secondary` — add `text-primary` explicitly where body text should be ink.
 - **`/services` is gone** — a permanent redirect to `/` lives in `next.config.js`. Do not recreate the page or client-acquisition CTAs ("Have a project in mind?", "Let's talk", consulting language).
 - **Always verify** the build passes (`npm run build`) after structural changes to pages, layouts, or `content/`.

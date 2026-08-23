@@ -3,6 +3,43 @@
 @tailwind utilities;
 
 @layer base {
+  /* Light palette — the default. Dark redefines the same tokens, either
+     from system preference (unless an explicit choice says otherwise)
+     or from the toggle's [data-theme] override, which always wins. */
+  :root {
+    --color-background: 242 243 239;  /* fog */
+    --color-primary: 23 27 24;        /* ink */
+    --color-secondary: 91 97 89;      /* moss */
+    --color-accent: 46 75 60;         /* pasture */
+    --color-signal: 232 185 49;       /* ear-tag yellow — constant across themes */
+    --color-border: 220 223 214;      /* grid */
+    --color-surface: 255 255 255;
+
+    /* Code panel — always a dark instrument readout, independent of theme */
+    --color-code-bg: 20 23 15;
+    --color-code-text: 237 238 232;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --color-background: 16 19 15;    /* near-black, green cast */
+      --color-primary: 237 238 232;    /* off-white */
+      --color-secondary: 150 157 145;  /* light sage */
+      --color-accent: 130 189 154;     /* brighter pasture, for contrast */
+      --color-border: 42 47 39;
+      --color-surface: 26 30 22;
+    }
+  }
+
+  :root[data-theme='dark'] {
+    --color-background: 16 19 15;
+    --color-primary: 237 238 232;
+    --color-secondary: 150 157 145;
+    --color-accent: 130 189 154;
+    --color-border: 42 47 39;
+    --color-surface: 26 30 22;
+  }
+
   html {
     @apply scroll-smooth;
   }
@@ -104,6 +141,39 @@
 
   a:hover .arrow-back {
     transform: translateX(-3px);
+  }
+
+  /* Theme toggle — CSS-only icon swap, no JS state, no hydration risk.
+     Mirrors the token cascade above: light default, dark on system
+     preference (unless overridden), dark override always wins. */
+  .theme-toggle svg {
+    @apply transition-transform duration-300;
+  }
+
+  .theme-toggle:hover svg {
+    transform: rotate(14deg);
+  }
+
+  .theme-icon-dark {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .theme-icon-light {
+      display: none;
+    }
+
+    :root:not([data-theme='light']) .theme-icon-dark {
+      display: block;
+    }
+  }
+
+  :root[data-theme='dark'] .theme-icon-light {
+    display: none;
+  }
+
+  :root[data-theme='dark'] .theme-icon-dark {
+    display: block;
   }
 
   /* Links */
@@ -266,8 +336,12 @@
     @apply font-mono text-[0.9em] bg-primary/[0.06] px-1.5 py-0.5;
   }
 
+  /* Always a dark instrument readout — deliberately theme-invariant,
+     like a terminal, so it doesn't flip to a jarring white panel in dark mode */
   .prose-post pre {
-    @apply bg-primary text-background font-mono text-[0.875rem] leading-relaxed p-5 my-6 overflow-x-auto;
+    @apply font-mono text-[0.875rem] leading-relaxed p-5 my-6 overflow-x-auto;
+    background: rgb(var(--color-code-bg));
+    color: rgb(var(--color-code-text));
   }
 
   .prose-post pre code {

@@ -6,13 +6,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#F2F3EF',   // fog — cool grey-green
-        primary: '#171B18',      // ink — near-black, green cast
-        secondary: '#5B6159',    // moss — secondary text
-        accent: '#2E4B3C',       // pasture — structural accent
-        signal: '#E8B931',       // ear-tag yellow — data marks only
-        border: '#DCDFD6',       // grid — axes, ticks, borders
-        surface: '#FFFFFF',
+        // CSS-variable backed so opacity modifiers (text-accent/30, etc.)
+        // keep working, and light/dark palettes swap via app/globals.css.
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        accent: 'rgb(var(--color-accent) / <alpha-value>)',
+        signal: 'rgb(var(--color-signal) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
       },
       fontFamily: {
         display: ['var(--font-display)', 'system-ui', 'sans-serif'],

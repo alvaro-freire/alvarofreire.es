@@ -11,6 +11,7 @@ Personal website. Built with Next.js 15 and Tailwind CSS, blog in MDX.
 - **Styling**: Tailwind CSS 3 with a custom design system ("Field telemetry")
 - **Blog**: MDX files in `content/posts/`, compiled with `next-mdx-remote/rsc` + `gray-matter`
 - **Fonts**: Archivo (display), Instrument Sans (text), Spline Sans Mono (annotations) via `next/font/google`
+- **Theme**: Light/dark, system preference by default, manual toggle persisted in `localStorage`
 - **Build**: Standalone output, fully static (blog included)
 - **Node**: 22.x or higher
 
@@ -65,9 +66,10 @@ app/
   rss.xml/route.js     RSS feed
   opengraph-image.js   OG image via next/og
 components/
-  Navigation.js        Fixed nav with mobile menu
+  Navigation.js        Fixed nav with mobile menu + theme toggle
   Footer.js            Footer with contact + social links
   SectionAxis.js       Tick-marked section separator
+  ThemeToggle.js       Light/dark switch
 content/posts/         Blog posts (*.mdx)
 lib/posts.js           Post loading (build-time only)
 public/                Photo, favicons, webmanifest
@@ -76,10 +78,10 @@ public/                Photo, favicons, webmanifest
 ## Design System
 
 "Field telemetry": the site reads like a measuring instrument — tick-marked
-axes, mono annotations, one signal-yellow data trace in the hero. Palette:
-fog `#F2F3EF`, ink `#171B18`, moss `#5B6159`, pasture `#2E4B3C`, ear-tag
-signal `#E8B931` (data marks only), grid `#DCDFD6`. Fluid type scale with
-`clamp()`. Full token tables and rules in `AGENTS.md`.
+axes, mono annotations, one signal-yellow data trace in the hero. Colors are
+CSS variables with a light and a dark palette (ear-tag signal yellow stays
+constant across both); fluid type scale with `clamp()`. Full token tables
+and dark-mode rules in `AGENTS.md`.
 
 ## Deployment
 

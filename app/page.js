@@ -90,16 +90,16 @@ export default function Home() {
             <div className="dot-grid pt-4 pb-2">
               <svg viewBox="0 0 800 132" className="w-full h-auto" fill="none">
                 <path
-                  className="trace-path"
+                  className="trace-path text-signal"
                   d="M 0 118 C 28 120, 55 116, 80 112 C 122 106, 146 114, 186 108 C 234 100, 252 90, 298 94 C 342 97, 362 80, 410 84 C 456 87, 494 66, 538 70 C 570 72, 600 63, 624 58 C 640 55, 650 52, 664 48 C 688 43, 714 37, 736 30"
-                  stroke="#E8B931"
+                  stroke="currentColor"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                 />
-                <circle className="trace-dot" cx="80" cy="112" r="4" fill="#171B18" />
-                <circle className="trace-dot" cx="624" cy="58" r="4" fill="#171B18" />
-                <circle className="trace-dot" cx="664" cy="48" r="4" fill="#171B18" />
-                <circle className="trace-dot" cx="736" cy="30" r="4" fill="#171B18" />
+                <circle className="trace-dot text-primary" cx="80" cy="112" r="4" fill="currentColor" />
+                <circle className="trace-dot text-primary" cx="624" cy="58" r="4" fill="currentColor" />
+                <circle className="trace-dot text-primary" cx="664" cy="48" r="4" fill="currentColor" />
+                <circle className="trace-dot text-primary" cx="736" cy="30" r="4" fill="currentColor" />
               </svg>
             </div>
             <div className="tick-strip border-primary/60 mt-1" />
