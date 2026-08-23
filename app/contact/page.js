@@ -59,7 +59,7 @@ export default function Contact() {
                     : {})}
                   className="link-primary text-body-sm md:col-span-9 w-fit"
                 >
-                  {c.value} {c.href.startsWith('http') ? '↗' : ''}
+                  {c.value}{c.href.startsWith('http') ? <span className="arrow-ext"> ↗</span> : null}
                 </a>
               </div>
             ))}

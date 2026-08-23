@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import SectionAxis from '@/components/SectionAxis'
 import { getAllPosts, formatDate } from '@/lib/posts'
 import { profile } from '@/lib/profile'
@@ -67,16 +68,21 @@ export default function Home() {
             Agents answering real customers, evals scored against real photographs,
             and the tooling that got a nine-engineer team shipping this way.
           </p>
-          <p className="text-body-sm text-secondary mt-4">
-            {profile.role} at{' '}
-            <a href={profile.company.url} target="_blank" rel="noopener noreferrer" className="link-primary">
-              {profile.company.name}
-            </a>{' '}
-            · Creator of{' '}
-            <a href={profile.venture.url} target="_blank" rel="noopener noreferrer" className="link-primary">
-              {profile.venture.name}
-            </a>
-          </p>
+          <div className="mt-6 flex items-center gap-4">
+            <div className="reg-marks p-1 shrink-0">
+              <Image src="/alvaro.jpg" alt="Álvaro Freire" width={52} height={52} priority />
+            </div>
+            <p className="text-body-sm text-secondary">
+              {profile.role} at{' '}
+              <a href={profile.company.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+                {profile.company.name}
+              </a>{' '}
+              · Creator of{' '}
+              <a href={profile.venture.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+                {profile.venture.name}
+              </a>
+            </p>
+          </div>
 
           {/* The trace — signature element. The line is a graphic; the annotations are facts.
               Time axis: x=0 is Jan 2022, 160 viewBox units per year. The line ends at "now". */}
@@ -185,7 +191,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="link-primary inline-block mt-7 text-body-sm"
               >
-                trazea.es ↗
+                trazea.es <span className="arrow-ext">↗</span>
               </a>
             </article>
 
@@ -205,7 +211,7 @@ export default function Home() {
                 </li>
               </ul>
               <Link href="/work" className="link-primary inline-block mt-7 text-body-sm">
-                Read the case study →
+                Read the case study <span className="arrow">→</span>
               </Link>
             </article>
           </div>
@@ -245,7 +251,7 @@ export default function Home() {
             </>
           )}
           <Link href="/blog" className="link-primary inline-block mt-8 text-body-sm">
-            Go to the blog →
+            Go to the blog <span className="arrow">→</span>
           </Link>
         </div>
       </section>

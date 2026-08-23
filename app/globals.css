@@ -86,6 +86,26 @@
     @apply text-body text-secondary;
   }
 
+  /* Arrow micro-interactions — the only motion besides the hero trace,
+     and only as a hover state (killed globally under reduced motion) */
+  .arrow,
+  .arrow-ext,
+  .arrow-back {
+    @apply inline-block transition-transform duration-200;
+  }
+
+  a:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  a:hover .arrow-ext {
+    transform: translate(2px, -2px);
+  }
+
+  a:hover .arrow-back {
+    transform: translateX(-3px);
+  }
+
   /* Links */
   .link-primary {
     @apply text-accent underline decoration-accent/30 hover:decoration-accent underline-offset-4;

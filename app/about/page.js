@@ -68,14 +68,9 @@ export default function About() {
       <section className="pt-16 md:pt-24 pb-12 md:pb-16">
         <div className="container-wide">
           <div className="flex items-center gap-5 mb-8">
-            <Image
-              src="/alvaro.jpg"
-              alt="Álvaro Freire"
-              width={72}
-              height={72}
-              className="border border-border"
-              priority
-            />
+            <div className="reg-marks p-1">
+              <Image src="/alvaro.jpg" alt="Álvaro Freire" width={72} height={72} priority />
+            </div>
             <p className="mono-label">Galicia, Spain · CET/CEST</p>
           </div>
           <h1 className="heading-1">About</h1>

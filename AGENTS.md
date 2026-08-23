@@ -70,8 +70,11 @@ lib/
   posts.js             getAllPosts / getPostBySlug / formatDate (fs + gray-matter, build-time only)
   profile.js           Single source of truth for the CURRENT role/identity line
                        (consumed by layout metadata, JSON-LD, hero, home "Now", OG image, about)
+app/icon.svg           Brand icon (ink square, yellow trace) — the PNG app icons in
+                       public/ (android-chrome-*, apple-touch-icon, favicon.ico) are
+                       rendered from this file; regenerate them together if it changes
 public/
-  Static assets: photo, favicons, webmanifest
+  Static assets: photo, app icons, webmanifest
 ```
 
 ## Blog
@@ -190,7 +193,8 @@ Type scale is fluid (`clamp()`), defined in `tailwind.config.js` `fontSize`: `di
 | `section-axis`            | Tick-marked section baseline (used via `<SectionAxis />`)   |
 | `tick-strip`              | Standalone tick baseline (hero time axis, footer rule) — pass a border color class |
 | `dot-grid`                | Graph-paper dot backdrop with vertical fade (hero trace)    |
-| `reg-marks`               | Ink registration marks on opposite corners of a featured panel |
+| `reg-marks`               | Ink registration marks on opposite corners of a featured panel or portrait |
+| `arrow` / `arrow-ext` / `arrow-back` | Wrap a link's arrow glyph (→ / ↗ / ←) for a 2–3px hover nudge |
 | `data-mark`               | Signal-yellow tick before a metric/fact                     |
 | `link-primary`            | Green underlined link                                       |
 | `link-subtle`             | Muted link, primary on hover                                |

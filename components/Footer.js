@@ -33,6 +33,7 @@ export default function Footer() {
               Building AI systems that reach production — and measuring them —
               from Galicia, Spain.
             </p>
+            <p className="mono-label mt-4">43.36° N · 8.41° W</p>
           </div>
 
           {/* Right — contact */}
@@ -50,7 +51,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="font-mono text-annotation uppercase text-secondary hover:text-primary transition-colors inline-block py-1"
                 >
-                  {s.label}&nbsp;↗
+                  {s.label}&nbsp;<span className="arrow-ext">↗</span>
                 </a>
               ))}
             </div>

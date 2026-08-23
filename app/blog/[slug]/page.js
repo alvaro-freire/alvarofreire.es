@@ -50,14 +50,15 @@ export default async function Post({ params }) {
       <div className="container-custom">
         <p className="mono-label mb-6">
           <Link href="/blog" className="hover:text-primary transition-colors">
-            ← Writing
+            <span className="arrow-back">←</span> Writing
           </Link>
           <span className="mx-3">·</span>
           {formatDate(post.date)}
           <span className="mx-3">·</span>
           {post.readingMinutes} min
         </p>
-        <h1 className="heading-1 mb-10">{post.title}</h1>
+        <h1 className="heading-1 mb-8">{post.title}</h1>
+        <div className="tick-strip border-border mb-10" aria-hidden="true" />
         <div className="prose-post">
           <MDXRemote source={post.content} />
         </div>

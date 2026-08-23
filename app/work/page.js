@@ -19,7 +19,7 @@ function CaseStudy({ title, meta, context, built, measured, tech, link }) {
             rel="noopener noreferrer"
             className="link-primary inline-block mt-4 text-body-sm"
           >
-            {link.label} ↗
+            {link.label} <span className="arrow-ext">↗</span>
           </a>
         )}
       </div>
@@ -185,7 +185,7 @@ export default function Work() {
                   rel="noopener noreferrer"
                   className="link-primary text-body-sm"
                 >
-                  Live ↗
+                  Live <span className="arrow-ext">↗</span>
                 </a>
                 <a
                   href="https://github.com/alvaro-freire/devutil-toolkit"
@@ -193,7 +193,7 @@ export default function Work() {
                   rel="noopener noreferrer"
                   className="link-primary text-body-sm"
                 >
-                  GitHub ↗
+                  GitHub <span className="arrow-ext">↗</span>
                 </a>
               </div>
             </article>
@@ -210,7 +210,7 @@ export default function Work() {
                   rel="noopener noreferrer"
                   className="link-primary text-body-sm"
                 >
-                  Live ↗
+                  Live <span className="arrow-ext">↗</span>
                 </a>
                 <a
                   href="https://github.com/alvaro-freire/hackupc-2022"
@@ -218,7 +218,7 @@ export default function Work() {
                   rel="noopener noreferrer"
                   className="link-primary text-body-sm"
                 >
-                  GitHub ↗
+                  GitHub <span className="arrow-ext">↗</span>
                 </a>
               </div>
             </article>

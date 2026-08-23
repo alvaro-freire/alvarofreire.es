@@ -6,8 +6,10 @@
 export default function SectionAxis({ n, label, as: Tag = 'h2' }) {
   return (
     <div className="section-axis mb-10 md:mb-12">
-      <Tag className="mono-label !text-primary whitespace-nowrap">
-        {n} / {label}
+      <Tag className="mono-label whitespace-nowrap">
+        <span className="text-accent">{n}</span>
+        <span aria-hidden="true"> / </span>
+        <span className="text-primary">{label}</span>
       </Tag>
     </div>
   )
