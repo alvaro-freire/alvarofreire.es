@@ -2,6 +2,7 @@ import './globals.css'
 import { Archivo, Instrument_Sans, Spline_Sans_Mono } from 'next/font/google'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import { profile, metaDescription } from '@/lib/profile'
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -22,8 +23,7 @@ const splineSansMono = Spline_Sans_Mono({
   variable: '--font-mono',
 })
 
-const description =
-  'AI agents in production — built end to end and measured. Head of Software Engineering at Innogando, creator of Trazea.'
+const description = metaDescription
 
 export const metadata = {
   title: {
@@ -65,11 +65,11 @@ const jsonLd = {
   '@type': 'Person',
   name: 'Álvaro Freire',
   url: 'https://alvarofreire.es',
-  jobTitle: 'Head of Software Engineering',
+  jobTitle: profile.role,
   worksFor: {
     '@type': 'Organization',
-    name: 'Innogando',
-    url: 'https://innogando.com',
+    name: profile.company.name,
+    url: profile.company.url,
   },
   sameAs: [
     'https://github.com/alvaro-freire',

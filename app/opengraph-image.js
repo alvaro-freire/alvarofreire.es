@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { identityLine } from '@/lib/profile'
 
 export const alt = 'Álvaro Freire — AI agents in production, measured.'
 export const size = { width: 1200, height: 630 }
@@ -67,7 +68,7 @@ export default function Image() {
               marginTop: 16,
             }}
           >
-            <span>Head of Software Engineering, Innogando · Creator of Trazea</span>
+            <span>{identityLine}</span>
             <span>alvarofreire.es</span>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import SectionAxis from '@/components/SectionAxis'
+import { identityLine } from '@/lib/profile'
 
 export const metadata = {
   title: 'About',
-  description:
-    'Head of Software Engineering at Innogando, creator of Trazea. AI systems in production, measured.',
+  description: `${identityLine}. AI systems in production, measured.`,
 }
 
 const experience = [
@@ -81,11 +81,10 @@ export default function About() {
           <h1 className="heading-1">About</h1>
           <div className="mt-6 max-w-content space-y-5">
             <p className="text-body text-primary">
-              I run software engineering at Innogando and build Trazea on my own
-              time. The common thread: AI systems that reach production and stay
-              there — agents answering real customers, evals that say whether the
-              thing actually works, and tooling that makes a whole team more
-              effective, not just me.
+              I build AI systems that reach production and stay there — agents
+              answering real customers, evals that say whether the thing actually
+              works, and tooling that makes a whole team more effective, not just
+              me.
             </p>
             <p className="text-body text-primary">
               I got into this because I like problems you can point at: that used

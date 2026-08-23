@@ -68,6 +68,8 @@ content/
   posts/               Blog posts (*.mdx) — frontmatter: title, date, description, draft
 lib/
   posts.js             getAllPosts / getPostBySlug / formatDate (fs + gray-matter, build-time only)
+  profile.js           Single source of truth for the CURRENT role/identity line
+                       (consumed by layout metadata, JSON-LD, hero, home "Now", OG image, about)
 public/
   Static assets: photo, favicons, webmanifest
 ```
@@ -78,6 +80,16 @@ public/
 - `draft: true` posts are excluded everywhere (listing, home, sitemap, RSS, static params). `hello-world.mdx` is a permanent draft used to smoke-test the pipeline — leave it as `draft: true`.
 - Posts are read with `fs` only at build time (`lib/posts.js`). Never read them at request time — `output: 'standalone'` does not copy `content/` into the runtime bundle. After adding a post, verify with `npm run build && npm run start`.
 - Post body styling comes from `.prose-post` in `globals.css` (there is no typography plugin).
+
+## Changing the current role
+
+Everything that asserts the current job flows from `lib/profile.js`. When the role changes:
+
+1. **`lib/profile.js`** — update `role`, `company`, `nowMilestone`, `nowBody`, `nowFootnote`. This propagates to: layout metadata description, JSON-LD `jobTitle`/`worksFor`, hero identity line, the "Now" trace milestone, home "04 / Now", the OG image, and the about metadata.
+2. **`app/about/page.js`** — close the open-ended experience entry (change `Jul 2022 — Present` to an end date, switch its body to past tense) and add the new role on top. The bio prose is role-independent by design — verify it stays that way.
+3. **`app/work/page.js`** — close the CoWtrol period (`2022 — Present`) if applicable. Case studies are already written as historical facts.
+4. **Home "01 / In production"** — review tenses: the rows describe shipped systems and remain true as facts, but details like "engineers using it daily" may need a past-tense pass.
+5. Rebuild and regenerate: `npm run build` (the OG image is rebuilt automatically).
 
 ## Coding Conventions
 

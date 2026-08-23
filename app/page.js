@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import SectionAxis from '@/components/SectionAxis'
 import { getAllPosts, formatDate } from '@/lib/posts'
+import { profile } from '@/lib/profile'
 
 const milestones = [
   { year: '2022', fact: 'Joined Innogando — 10 people in the whole company' },
   { year: '2025', fact: 'Kubernetes on GKE, GitOps via ArgoCD' },
   { year: '2026', fact: 'Trazea live in both app stores' },
-  { year: 'Now', fact: 'Team of 9 · AI agents in production' },
+  { year: 'Now', fact: profile.nowMilestone },
 ]
 
 const production = [
@@ -64,16 +65,16 @@ export default function Home() {
           </h1>
           <p className="text-body text-primary mt-6 max-w-[58ch]">
             Agents answering real customers, evals scored against real photographs,
-            and the tooling that makes a nine-engineer team ship this way.
+            and the tooling that got a nine-engineer team shipping this way.
           </p>
           <p className="text-body-sm text-secondary mt-4">
-            Head of Software Engineering at{' '}
-            <a href="https://innogando.com" target="_blank" rel="noopener noreferrer" className="link-primary">
-              Innogando
+            {profile.role} at{' '}
+            <a href={profile.company.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+              {profile.company.name}
             </a>{' '}
             · Creator of{' '}
-            <a href="https://trazea.es" target="_blank" rel="noopener noreferrer" className="link-primary">
-              Trazea
+            <a href={profile.venture.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+              {profile.venture.name}
             </a>
           </p>
 
@@ -250,15 +251,8 @@ export default function Home() {
         <div className="container-wide">
           <SectionAxis n="04" label="Now" />
           <div className="max-w-content">
-            <p className="text-body text-primary">
-              Head of Software Engineering at Innogando — agrotech/IoT, maker of RUMI,
-              GPS collars used by thousands of farmers. I joined when the whole company
-              was ten people; today I lead a nine-person team across product, data and
-              infrastructure, and I still write code.
-            </p>
-            <p className="font-mono text-caption text-secondary mt-6">
-              Infra footnote: Kubernetes on GKE, GitOps via ArgoCD, CI/CD pipelines.
-            </p>
+            <p className="text-body text-primary">{profile.nowBody}</p>
+            <p className="font-mono text-caption text-secondary mt-6">{profile.nowFootnote}</p>
           </div>
         </div>
       </section>
