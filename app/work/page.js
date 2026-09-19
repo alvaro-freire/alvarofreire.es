@@ -1,15 +1,21 @@
 import SectionAxis from '@/components/SectionAxis'
+import Readout from '@/components/Readout'
+import Schematic from '@/components/Schematic'
+import { profile } from '@/lib/profile'
+import { aurasiaDemo, aurasiaComparison, trazeaScan } from '@/lib/evidence'
 
 export const metadata = {
   title: 'Work',
   description:
-    'AI agents, evals and products in production — Trazea, CoWtrol, and the systems behind them.',
+    'AI agents, evals and products in production — Aurasia, Trazea, CoWtrol, and the systems behind them.',
 }
 
-function CaseStudy({ title, meta, context, built, measured, tech, link }) {
+const [aurasia, trazea] = profile.ventures
+
+function CaseStudy({ title, meta, context, built, measured, measuredLabel = 'Measured', tech, link, children }) {
   return (
     <article className="grid md:grid-cols-12 gap-x-8 gap-y-6">
-      <div className="md:col-span-4">
+      <div className="md:col-span-4" data-reveal>
         <h3 className="heading-2">{title}</h3>
         <p className="mono-label mt-2">{meta}</p>
         {link && (
@@ -24,23 +30,24 @@ function CaseStudy({ title, meta, context, built, measured, tech, link }) {
         )}
       </div>
       <div className="md:col-span-8 space-y-6">
-        <div>
+        <div data-reveal>
           <h4 className="mono-label text-primary! mb-2">Context</h4>
           <p className="text-body text-primary">{context}</p>
         </div>
-        <div>
+        <div data-reveal style={{ '--i': 1 }}>
           <h4 className="mono-label text-primary! mb-2">Built</h4>
           <p className="text-body text-primary">{built}</p>
         </div>
-        <div>
-          <h4 className="mono-label text-primary! mb-2">Measured</h4>
+        <div data-reveal style={{ '--i': 2 }}>
+          <h4 className="mono-label text-primary! mb-2">{measuredLabel}</h4>
           <ul className="space-y-2.5">
             {measured.map((m) => (
               <li key={m} className="data-mark text-body-sm text-primary">{m}</li>
             ))}
           </ul>
         </div>
-        <div className="flex flex-wrap gap-2 pt-1">
+        {children}
+        <div className="flex flex-wrap gap-2 pt-1" data-reveal>
           {tech.map((t) => (
             <span key={t} className="tag">{t}</span>
           ))}
@@ -83,19 +90,46 @@ export default function Work() {
           <p className="text-body text-primary mt-5 max-w-[58ch]">
             Products and systems that made it to production. Each entry says what
             existed before, what was built, and what changed — with numbers where
-            the numbers are real.
+            the numbers are real, and status where they are not yet.
           </p>
         </div>
       </section>
 
-      {/* 01 / Trazea */}
-      <section className="section-spacing pt-6 md:pt-8">
+      {/* 01 / Aurasia */}
+      <section id="aurasia" className="section-spacing pt-6 md:pt-8 scroll-mt-24">
         <div className="container-wide">
-          <SectionAxis n="01" label="Trazea" />
+          <SectionAxis n="01" label="Aurasia" />
           <CaseStudy
-            title="Trazea"
-            meta="Founder · 2026 — Present"
-            link={{ href: 'https://trazea.es', label: 'trazea.es' }}
+            title={aurasia.name}
+            meta={`${aurasia.verb} · ${aurasia.since} — ${aurasia.status}`}
+            link={{ href: aurasia.url, label: 'aurasia.es' }}
+            context="Dental clinics lose the patients who write at 21:30 or on a Saturday: nobody answers until the clinic opens, and by then many have booked elsewhere. The receptionist is not the problem — the hours are."
+            built="An AI receptionist on WhatsApp for dental clinics in A Coruña and Ferrol. It answers outside business hours and when the phone is busy, proposes real slots from the clinic’s calendar, prepares the appointment request and hands it to the staff, who confirm it the next morning in the same chat. It introduces itself as an AI, escalates to a person with one tap, keeps every message on EU-only infrastructure and deletes texts after 30 days. The site publishes a sourced comparison against seven competitors — including what Aurasia does not do yet."
+            measuredLabel="Status"
+            measured={[
+              `Live product at aurasia.es — ${aurasia.status}`,
+              'Public, sourced comparison against 7 competitors with public prices',
+              'GDPR by design: EU-only data, 30-day message deletion, processor contract before the pilot',
+              'Limits published too: no audio messages, no appointment reminders yet',
+            ]}
+            tech={['WhatsApp Business API', 'LLM agent', 'Google Calendar', 'GDPR']}
+          >
+            <div className="grid gap-6" data-reveal style={{ '--i': 3 }}>
+              <Readout kind="chat" {...aurasiaDemo} />
+              <Readout kind="fields" {...aurasiaComparison} />
+            </div>
+          </CaseStudy>
+        </div>
+      </section>
+
+      {/* 02 / Trazea */}
+      <section id="trazea" className="section-spacing pt-0 scroll-mt-24">
+        <div className="container-wide">
+          <SectionAxis n="02" label="Trazea" />
+          <CaseStudy
+            title={trazea.name}
+            meta={`${trazea.role} · ${trazea.since} — Present`}
+            link={{ href: trazea.url, label: 'trazea.es' }}
             context="Spanish food safety regulation (APPCC) requires restaurants, bars and bakeries to keep traceability records. Most small businesses still do it on paper — slow, error-prone, and painful when an inspector asks for it."
             built="A complete product, end to end, with AI tooling in the loop at every step: a FastAPI + PostgreSQL backend, Expo/React Native apps for iOS and Android, authentication, an OCR pipeline that reads expiry dates and supplier lot numbers from label photos, an Astro marketing site, and billing."
             measured={[
@@ -105,14 +139,18 @@ export default function Work() {
               'OCR accuracy benchmarked against real photographs, not clean data',
             ]}
             tech={['Expo', 'React Native', 'FastAPI', 'PostgreSQL', 'OCR', 'Astro', 'Docker']}
-          />
+          >
+            <div data-reveal style={{ '--i': 3 }}>
+              <Readout kind="fields" {...trazeaScan} className="lg:max-w-[28rem]" />
+            </div>
+          </CaseStudy>
         </div>
       </section>
 
-      {/* 02 / CoWtrol */}
-      <section className="section-spacing pt-0">
+      {/* 03 / CoWtrol */}
+      <section id="cowtrol" className="section-spacing pt-0 scroll-mt-24">
         <div className="container-wide">
-          <SectionAxis n="02" label="CoWtrol" />
+          <SectionAxis n="03" label="CoWtrol" />
           <CaseStudy
             title="CoWtrol"
             meta="Innogando · 2022 — Present"
@@ -124,19 +162,29 @@ export default function Work() {
               'Automated inventory tracking ended manual stock counts',
             ]}
             tech={['Flutter', 'FastAPI', 'PostgreSQL', 'WhatsApp Business API', 'Telegram Bot API', 'Holded CRM']}
-          />
+          >
+            <Schematic
+              title="CoWtrol integrations: RUMI collars, Holded CRM, WhatsApp Business and Telegram feed one platform that runs stock, orders, assembly and support."
+              inputs={['RUMI collars', 'Holded CRM', 'WhatsApp Business', 'Telegram']}
+              hub="CoWtrol"
+              outputs={['Stock & valuation', 'Orders & delays', 'Assembly', 'Support & accounts']}
+              caption="Integrations — one internal platform across sales, assembly and support"
+            />
+          </CaseStudy>
         </div>
       </section>
 
-      {/* 03 / AI at Innogando */}
+      {/* 04 / AI at Innogando */}
       <section className="section-spacing pt-0">
         <div className="container-wide">
-          <SectionAxis n="03" label="AI at Innogando" />
+          <SectionAxis n="04" label="AI at Innogando" />
           <div className="flex flex-col">
             {aiWork.map((item, i) => (
               <article
                 key={item.label}
                 className={`grid md:grid-cols-12 gap-x-8 gap-y-3 py-7 ${i > 0 ? 'border-t border-border' : ''}`}
+                data-reveal
+                style={{ '--i': i % 3 }}
               >
                 <h3 className="mono-label text-primary! md:col-span-3 pt-1">{item.label}</h3>
                 <p className="text-body text-primary md:col-span-9 max-w-[62ch]">{item.body}</p>
@@ -146,11 +194,11 @@ export default function Work() {
         </div>
       </section>
 
-      {/* 04 / Infrastructure */}
+      {/* 05 / Infrastructure */}
       <section className="section-spacing pt-0">
         <div className="container-wide">
-          <SectionAxis n="04" label="Infrastructure" />
-          <div className="grid md:grid-cols-12 gap-x-8 gap-y-4">
+          <SectionAxis n="05" label="Infrastructure" />
+          <div className="grid md:grid-cols-12 gap-x-8 gap-y-4" data-reveal>
             <p className="mono-label md:col-span-3 pt-1">2022 — 2025</p>
             <div className="md:col-span-9 max-w-[62ch]">
               <p className="text-body text-primary">
@@ -167,12 +215,12 @@ export default function Work() {
         </div>
       </section>
 
-      {/* 05 / Side projects */}
+      {/* 06 / Side projects */}
       <section className="section-spacing pt-0">
         <div className="container-wide">
-          <SectionAxis n="05" label="Side projects" />
+          <SectionAxis n="06" label="Side projects" />
           <div className="grid md:grid-cols-2 gap-8">
-            <article>
+            <article data-reveal>
               <h3 className="heading-3">DevUtil Toolkit</h3>
               <p className="text-body-sm text-primary mt-2 max-w-[52ch]">
                 Developer utilities with a CLI and a web app — fuzzy search,
@@ -197,7 +245,7 @@ export default function Work() {
                 </a>
               </div>
             </article>
-            <article>
+            <article data-reveal style={{ '--i': 1 }}>
               <h3 className="heading-3">Wordle League</h3>
               <p className="text-body-sm text-primary mt-2 max-w-[52ch]">
                 Wordle leagues with friends, sharing daily results. Built in a

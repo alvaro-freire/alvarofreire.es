@@ -1,23 +1,37 @@
 import Image from 'next/image'
 import SectionAxis from '@/components/SectionAxis'
-import { identityLine } from '@/lib/profile'
+import { profile, identityLine } from '@/lib/profile'
 
 export const metadata = {
   title: 'About',
   description: `${identityLine}. AI systems in production, measured.`,
 }
 
+const [aurasia, trazea] = profile.ventures
+
 const experience = [
   {
-    role: 'Head of Software Engineering',
-    org: 'Innogando',
-    period: 'Jul 2022 — Present',
-    body: 'Agrotech/IoT — maker of RUMI, GPS collars used by thousands of farmers. Joined as an engineer while still at university, when the whole company was ten people. Today: a nine-person team across product, data and infrastructure, AI agents in production, and a shared AI tooling setup the whole team works with. Still writing code.',
+    role: profile.role,
+    org: profile.company.name,
+    period: `${profile.roleSince} — Present`,
+    body: 'Leading a nine-person team across product, data and infrastructure at Innogando — agrotech/IoT, maker of RUMI, GPS collars used by thousands of farmers. AI agents in production, a shared AI tooling setup the whole team works with, and still writing code.',
   },
   {
-    role: 'Founder',
-    org: 'Trazea',
-    period: '2026 — Present',
+    role: 'Engineer',
+    org: profile.company.name,
+    period: 'Jul 2022 — 2026',
+    body: 'Joined while still at university, when the whole company was ten people. Built CoWtrol, the internal platform behind the operation; took the infrastructure from SSH deploys to Kubernetes on GKE with GitOps; shipped the first agents and evals.',
+  },
+  {
+    role: null,
+    org: aurasia.name,
+    period: `${aurasia.since} — Present`,
+    body: `${aurasia.verb} an AI WhatsApp receptionist for dental clinics in A Coruña and Ferrol: it answers outside business hours, proposes real slots, and hands every appointment to the staff to confirm. Live at aurasia.es — ${aurasia.status}.`,
+  },
+  {
+    role: trazea.role,
+    org: trazea.name,
+    period: `${trazea.since} — Present`,
     body: 'Food traceability and APPCC compliance for hospitality. Built end to end: backend, mobile apps in both app stores, OCR pipeline, site and billing. Favorable technical report from the Food Safety Service of the Xunta de Galicia.',
   },
   {
@@ -71,7 +85,9 @@ export default function About() {
             <div className="reg-marks p-1">
               <Image src="/alvaro.jpg" alt="Álvaro Freire" width={72} height={72} priority />
             </div>
-            <p className="mono-label">Galicia, Spain · CET/CEST</p>
+            <p className="mono-label">
+              {profile.location.town}, {profile.location.region} · {profile.location.tz}
+            </p>
           </div>
           <h1 className="heading-1">About</h1>
           <div className="mt-6 max-w-content space-y-5">
@@ -84,6 +100,7 @@ export default function About() {
             <p className="text-body text-primary">
               I got into this because I like problems you can point at: that used
               to be broken, now it works — and here is the number that proves it.
+              I’m {profile.age}, based in {profile.location.town} on the Galician coast.
               I studied Computer Engineering at Universidade da Coruña, spent an
               Erasmus semester in Timișoara, and started at Innogando while still
               in school, when the company was ten people.
@@ -103,14 +120,14 @@ export default function About() {
           <div className="flex flex-col">
             {experience.map((e, i) => (
               <article
-                key={e.org}
+                key={`${e.org}-${e.period}`}
                 className={`grid md:grid-cols-12 gap-x-8 gap-y-2 py-7 ${i > 0 ? 'border-t border-border' : ''}`}
+                data-reveal
+                style={{ '--i': i }}
               >
                 <p className="mono-label md:col-span-3 pt-1">{e.period}</p>
                 <div className="md:col-span-9 max-w-[62ch]">
-                  <h3 className="heading-3">
-                    {e.role} · {e.org}
-                  </h3>
+                  <h3 className="heading-3">{e.role ? `${e.role} · ${e.org}` : e.org}</h3>
                   <p className="text-body-sm text-primary mt-2">{e.body}</p>
                 </div>
               </article>
@@ -124,8 +141,8 @@ export default function About() {
         <div className="container-wide">
           <SectionAxis n="02" label="How I work" />
           <div className="grid md:grid-cols-3 gap-8">
-            {practice.map((p) => (
-              <div key={p.label} className="data-mark">
+            {practice.map((p, i) => (
+              <div key={p.label} className="data-mark" data-reveal style={{ '--i': i }}>
                 <h3 className="mono-label text-primary!">{p.label}</h3>
                 <p className="text-body-sm text-primary mt-2">{p.body}</p>
               </div>
@@ -139,8 +156,8 @@ export default function About() {
         <div className="container-wide">
           <SectionAxis n="03" label="Community" />
           <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
-            {community.map((c) => (
-              <div key={c.label}>
+            {community.map((c, i) => (
+              <div key={c.label} data-reveal style={{ '--i': i }}>
                 <h3 className="mono-label text-primary!">{c.label}</h3>
                 <p className="text-body-sm text-primary mt-2 max-w-[52ch]">{c.body}</p>
               </div>
@@ -154,13 +171,13 @@ export default function About() {
         <div className="container-wide">
           <SectionAxis n="04" label="Education" />
           <div className="flex flex-col gap-6">
-            <div className="grid md:grid-cols-12 gap-x-8 gap-y-1">
+            <div className="grid md:grid-cols-12 gap-x-8 gap-y-1" data-reveal>
               <p className="mono-label md:col-span-3 pt-1">2020 — 2024</p>
               <p className="text-body-sm text-primary md:col-span-9">
                 Computer Engineering — Universidade da Coruña
               </p>
             </div>
-            <div className="grid md:grid-cols-12 gap-x-8 gap-y-1">
+            <div className="grid md:grid-cols-12 gap-x-8 gap-y-1" data-reveal style={{ '--i': 1 }}>
               <p className="mono-label md:col-span-3 pt-1">2024</p>
               <p className="text-body-sm text-primary md:col-span-9">
                 Erasmus+ — Universitatea de Vest din Timișoara, Romania

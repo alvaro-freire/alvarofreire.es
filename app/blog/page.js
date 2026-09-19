@@ -8,12 +8,6 @@ export const metadata = {
     'Notes from running AI systems in production — agent evals, context engineering, and what survives contact with real users.',
 }
 
-const topics = [
-  { label: 'Agent evals', body: 'How to know whether an agent actually works — task-level evaluation, not vibes.' },
-  { label: 'Context engineering', body: 'Shaping what a model sees: context files, skills, and the tooling around them.' },
-  { label: 'AI in production', body: 'What survives contact with real users, and what quietly breaks.' },
-]
-
 export default function Blog() {
   const posts = getAllPosts()
 
@@ -36,7 +30,12 @@ export default function Blog() {
           {posts.length > 0 ? (
             <div className="flex flex-col">
               {posts.map((post, i) => (
-                <article key={post.slug} className={`py-7 ${i > 0 ? 'border-t border-border' : ''}`}>
+                <article
+                  key={post.slug}
+                  className={`py-7 ${i > 0 ? 'border-t border-border' : ''}`}
+                  data-reveal
+                  style={{ '--i': i }}
+                >
                   <div className="grid md:grid-cols-12 gap-x-8 gap-y-2">
                     <p className="mono-label md:col-span-3 pt-1.5">
                       {formatDate(post.date)} · {post.readingMinutes} min
@@ -57,19 +56,9 @@ export default function Blog() {
             </div>
           ) : (
             <div className="max-w-content">
-              <p className="text-body text-primary">
-                First posts are in the works. This is what they will be about:
-              </p>
-              <div className="mt-8 grid md:grid-cols-3 gap-8">
-                {topics.map((t) => (
-                  <div key={t.label} className="data-mark">
-                    <h2 className="mono-label text-primary!">{t.label}</h2>
-                    <p className="text-caption text-secondary mt-2">{t.body}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="font-mono text-caption text-secondary mt-10">
-                RSS will be live at <a href="/rss.xml" className="link-primary">/rss.xml</a> from the first post.
+              <p className="text-body text-primary">No posts yet.</p>
+              <p className="font-mono text-caption text-secondary mt-4">
+                RSS at <a href="/rss.xml" className="link-primary">/rss.xml</a> from the first post.
               </p>
             </div>
           )}

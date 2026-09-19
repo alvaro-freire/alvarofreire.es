@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { identityLine } from '@/lib/profile'
+import { profile, identityLine } from '@/lib/profile'
 
 export const alt = 'Álvaro Freire — AI agents in production, measured.'
 export const size = { width: 1200, height: 630 }
@@ -41,7 +41,7 @@ export default function Image() {
               maxWidth: 980,
             }}
           >
-            I put AI agents into production — and measure whether they work.
+            {profile.headline}
           </div>
         </div>
 

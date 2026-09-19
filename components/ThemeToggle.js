@@ -6,16 +6,24 @@ function getEffectiveTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
+let switchTimer
+
 /**
  * Icon visibility is pure CSS (.theme-icon-light/.theme-icon-dark in
  * globals.css, keyed off [data-theme] / prefers-color-scheme) — no
  * client-side state, so there's nothing to get wrong on hydration.
- * The click handler only flips the attribute and persists the choice.
+ * The click handler flips the attribute, persists the choice, and adds a
+ * short-lived `theme-switching` class so the tokens crossfade (200ms)
+ * instead of snapping — only while switching, never on load.
  */
 export default function ThemeToggle() {
   function toggle() {
+    const root = document.documentElement
     const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark'
-    document.documentElement.setAttribute('data-theme', next)
+    root.classList.add('theme-switching')
+    root.setAttribute('data-theme', next)
+    clearTimeout(switchTimer)
+    switchTimer = setTimeout(() => root.classList.remove('theme-switching'), 260)
     try {
       localStorage.setItem('theme', next)
     } catch {
@@ -28,7 +36,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label="Toggle color theme"
-      className="theme-toggle shrink-0 w-8 h-8 flex items-center justify-center text-secondary hover:text-primary transition-colors"
+      className="theme-toggle shrink-0 w-11 h-11 flex items-center justify-center text-secondary hover:text-primary transition-colors cursor-pointer"
     >
       <svg
         className="theme-icon-light"

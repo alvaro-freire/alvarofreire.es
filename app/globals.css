@@ -468,11 +468,6 @@
     animation: fade-dot 0.4s ease-out forwards;
   }
 
-  .trace-dot:nth-of-type(1) { animation-delay: 0.5s }
-  .trace-dot:nth-of-type(2) { animation-delay: 0.8s }
-  .trace-dot:nth-of-type(3) { animation-delay: 1.1s }
-  .trace-dot:nth-of-type(4) { animation-delay: 1.4s }
-
   @keyframes draw-trace {
     to { stroke-dashoffset: 0 }
   }
@@ -480,6 +475,302 @@
   @keyframes fade-dot {
     to { opacity: 1 }
   }
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Evidence figures, readouts and schematics                             */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Readout — theme-invariant dark instrument panel (same voice as code blocks) */
+  .readout-panel {
+    @apply bg-code-bg text-code-text font-mono text-[0.8125rem] leading-relaxed p-5 border border-code-text/12;
+  }
+
+  .readout-panel .reg-marks::before,
+  .readout-panel .reg-marks::after {
+    border-color: --alpha(var(--color-code-text) / 35%);
+  }
+
+  .readout-chat {
+    @apply flex flex-col gap-3.5;
+  }
+
+  .readout-line {
+    @apply grid gap-x-4 gap-y-1;
+    grid-template-columns: 4.25rem 1fr;
+  }
+
+  .readout-meta {
+    @apply flex flex-col gap-0.5 pt-px;
+  }
+
+  .readout-time {
+    @apply text-code-text/55 tabular-nums;
+  }
+
+  .readout-who {
+    @apply text-annotation uppercase tracking-[0.08em] text-code-text/55;
+  }
+
+  .readout-agent .readout-who {
+    @apply text-signal;
+  }
+
+  .readout-text {
+    @apply font-mono text-[0.8125rem] leading-relaxed text-code-text m-0 max-w-[46ch];
+  }
+
+  .readout-agent .readout-text {
+    @apply border-l-2 border-signal pl-3;
+  }
+
+  .readout-system .readout-text {
+    @apply text-code-text/60 italic;
+  }
+
+  .readout-fields {
+    @apply grid gap-y-2.5;
+  }
+
+  .readout-field {
+    @apply grid gap-x-4 items-baseline;
+    grid-template-columns: 8.5rem 1fr;
+  }
+
+  .readout-key {
+    @apply text-annotation uppercase tracking-[0.08em] text-code-text/55;
+  }
+
+  .readout-value {
+    @apply text-code-text m-0;
+  }
+
+  .readout-ok .readout-value {
+    @apply relative pl-4;
+  }
+
+  .readout-ok .readout-value::before {
+    content: '';
+    @apply absolute left-0 top-[0.3em] block h-[0.55em] w-1.5 bg-signal;
+  }
+
+  .readout-note {
+    @apply block text-code-text/55 mt-0.5;
+  }
+
+  .readout-footer {
+    @apply font-mono text-annotation uppercase tracking-[0.08em] text-code-text/55 mt-5 pt-3 border-t border-code-text/15;
+  }
+
+  /* Schematic — integration diagram */
+  .schematic-box {
+    fill: var(--color-surface);
+    stroke: var(--color-border);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .schematic-box-hub {
+    stroke: var(--color-primary);
+  }
+
+  .schematic-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    fill: var(--color-secondary);
+  }
+
+  .schematic-label-hub {
+    fill: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .schematic-line {
+    fill: none;
+    stroke: var(--color-signal);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion — "power on and settle".                                       */
+/* Every rule below is gated twice: html.js (set by the inline script in  */
+/* app/layout.js, so no-JS readers and crawlers see everything) and       */
+/* prefers-reduced-motion: no-preference. Only opacity, transform and     */
+/* clip-path are animated. See MotionObserver.js for the trigger.         */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Reveal: settle in from 8px below, 320ms, staggered by --i (50ms, max 6) */
+  html.js [data-reveal] {
+    transition:
+      opacity 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(min(var(--i, 0), 6) * 50ms);
+  }
+
+  html.js [data-reveal]:not([data-revealed]) {
+    opacity: 0.001;
+    transform: translateY(8px);
+  }
+
+  html.js [data-revealed='instant'] {
+    transition: none;
+  }
+
+  /* Section axis: the tick line draws left → right once the axis is on screen */
+  html.js .section-axis[data-reveal]:not([data-revealed]) {
+    transform: none;
+    opacity: 1;
+  }
+
+  html.js .section-axis[data-reveal]::after {
+    transition: clip-path 520ms cubic-bezier(0.2, 0.7, 0.2, 1) 60ms;
+  }
+
+  html.js .section-axis[data-reveal]:not([data-revealed])::after {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  html.js .section-axis[data-revealed='instant']::after {
+    transition: none;
+  }
+
+  /* Schematic lines draw from the source once revealed */
+  html.js .schematic[data-reveal] .schematic-line {
+    stroke-dasharray: 100;
+    transition: stroke-dashoffset 640ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(120ms + var(--i, 0) * 70ms);
+  }
+
+  html.js .schematic[data-reveal]:not([data-revealed]) .schematic-line {
+    stroke-dashoffset: 100;
+  }
+
+  html.js .schematic[data-revealed='instant'] .schematic-line {
+    transition: none;
+  }
+
+  /* Readout lines settle one by one when their figure is revealed */
+  html.js [data-reveal] .readout-line,
+  html.js [data-reveal] .readout-field {
+    transition: opacity 260ms ease-out calc(160ms + var(--i, 0) * 90ms);
+  }
+
+  html.js [data-reveal]:not([data-revealed]) .readout-line,
+  html.js [data-reveal]:not([data-revealed]) .readout-field {
+    opacity: 0;
+  }
+
+  html.js [data-revealed='instant'] .readout-line,
+  html.js [data-revealed='instant'] .readout-field {
+    transition: none;
+  }
+
+  /* Hero milestone annotations appear as the trace reaches their dot */
+  html.js .trace-annotation {
+    opacity: 0;
+    animation: fade-dot 0.4s ease-out forwards;
+  }
+
+  /* Mobile menu: panel and links settle in (uses @starting-style, no JS) */
+  .mobile-menu {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  .mobile-menu-link {
+    opacity: 1;
+    transition: opacity 240ms ease-out calc(60ms + var(--i, 0) * 40ms);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  /* Theme switch: a short crossfade of the tokens, only while switching */
+  html.theme-switching,
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition:
+      background-color 200ms ease-out,
+      color 200ms ease-out,
+      border-color 200ms ease-out,
+      fill 200ms ease-out,
+      stroke 200ms ease-out;
+  }
+
+  /* Link underline: the decoration eases in rather than snapping */
+  .link-primary,
+  .prose-post a {
+    transition: color 200ms, text-decoration-color 200ms, text-underline-offset 200ms;
+  }
+
+  .link-primary:hover,
+  .prose-post a:hover {
+    text-underline-offset: 5px;
+  }
+
+  /* Tags and framed panels acknowledge hover with a border, never a shift */
+  .tag {
+    transition: border-color 200ms, color 200ms;
+  }
+
+  a:hover .tag,
+  .tag:hover {
+    border-color: var(--color-secondary);
+  }
+
+  .reg-marks::before,
+  .reg-marks::after {
+    transition: width 200ms ease-out, height 200ms ease-out;
+  }
+
+  .reg-marks:hover::before,
+  .reg-marks:hover::after {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  /* Page transitions (React <ViewTransition default="vt-page"> in layout).
+     The root doesn't animate — header and background stay put — while the
+     page content crossfades and settles 4px. */
+  ::view-transition-group(root) {
+    animation: none;
+  }
+
+  ::view-transition-old(.vt-page) {
+    animation: vt-out 140ms ease-in both;
+  }
+
+  ::view-transition-new(.vt-page) {
+    animation: vt-in 220ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @keyframes vt-out {
+    to { opacity: 0 }
+  }
+
+  @keyframes vt-in {
+    from { opacity: 0; transform: translateY(4px) }
+  }
+}
+
+/* Without JS the reveal state never applies; make sure the mobile menu
+   still has its resting state outside the motion query. */
+.mobile-menu,
+.mobile-menu-link {
+  opacity: 1;
 }
 
 /* Kill all motion for users who ask for it (covers scroll-smooth too) */
@@ -492,5 +783,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

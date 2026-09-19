@@ -1,14 +1,18 @@
 import './globals.css'
+import { ViewTransition } from 'react'
 import { Archivo, Instrument_Sans, Spline_Sans_Mono } from 'next/font/google'
 import Script from 'next/script'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { profile, metaDescription } from '@/lib/profile'
+import MotionObserver from '@/components/MotionObserver'
+import { getAllPosts } from '@/lib/posts'
+import { profile, metaDescription, sameAs } from '@/lib/profile'
 
-// Applies a stored explicit theme override before first paint, so there's
-// no flash. System-default readers need no JS: the CSS media query in
-// globals.css handles that case natively, before any script can run.
-const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()`
+// Runs before first paint: applies a stored explicit theme override (so
+// there's no flash) and marks the document as JS-capable, which is what
+// gates every reveal animation in globals.css. System-default readers need
+// no JS for the theme: the CSS media query resolves before any script runs.
+const initScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){d.setAttribute('data-theme',t)}}catch(e){}})()`
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -72,7 +76,7 @@ export const viewport = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Álvaro Freire',
+  name: profile.name,
   url: 'https://alvarofreire.es',
   jobTitle: profile.role,
   worksFor: {
@@ -80,15 +84,27 @@ const jsonLd = {
     name: profile.company.name,
     url: profile.company.url,
   },
-  sameAs: [
-    'https://github.com/alvaro-freire',
-    'https://linkedin.com/in/alvvarofreire',
-    'https://x.com/alvvarofreire',
-    'https://instagram.com/alvvarofreire',
-  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: profile.location.town,
+    addressRegion: profile.location.region,
+    addressCountry: 'ES',
+  },
+  sameAs,
 }
 
+const navLinks = [
+  { href: '/work', label: 'Work' },
+  { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' },
+]
+
 export default function RootLayout({ children }) {
+  // The blog only appears in the navigation once there is a published post.
+  const hasPosts = getAllPosts().length > 0
+  const links = navLinks.filter((l) => hasPosts || l.href !== '/blog')
+
   return (
     <html
       lang="en"
@@ -97,16 +113,19 @@ export default function RootLayout({ children }) {
     >
       <body className="font-sans bg-background text-primary min-h-screen flex flex-col">
         <Script id="theme-init" strategy="beforeInteractive">
-          {themeInitScript}
+          {initScript}
         </Script>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <Navigation />
+        <Navigation links={links} />
         <main id="main" className="relative flex-1 pt-16">
-          {children}
+          <ViewTransition default="vt-page">
+            <div>{children}</div>
+          </ViewTransition>
         </main>
-        <Footer />
+        <Footer links={links} />
+        <MotionObserver />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

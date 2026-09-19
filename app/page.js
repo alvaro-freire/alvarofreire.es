@@ -1,17 +1,30 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import SectionAxis from '@/components/SectionAxis'
+import Trace from '@/components/Trace'
+import Readout from '@/components/Readout'
 import { getAllPosts, formatDate } from '@/lib/posts'
 import { profile } from '@/lib/profile'
+import { aurasiaDemo, trazeaScan } from '@/lib/evidence'
 
+const [aurasia, trazea] = profile.ventures
+
+// Trace milestones: x = (year − 2022) × 160 viewBox units; y sits on the path.
 const milestones = [
-  { year: '2022', fact: 'Joined Innogando — 10 people in the whole company' },
-  { year: '2025', fact: 'Kubernetes on GKE, GitOps via ArgoCD' },
-  { year: '2026', fact: 'Trazea live in both app stores' },
-  { year: 'Now', fact: profile.nowMilestone },
+  { year: '2022', fact: 'Joined Innogando — 10 people in the whole company', x: 80, y: 112 },
+  { year: '2025', fact: 'Kubernetes on GKE, GitOps via ArgoCD', x: 600, y: 60 },
+  { year: '2026', fact: 'Head of Software · team of 9', x: 648, y: 52 },
+  { year: '2026', fact: 'Trazea live in both app stores', x: 672, y: 46 },
+  { year: 'Now', fact: profile.nowMilestone, x: 752, y: 28 },
 ]
 
 const production = [
+  {
+    label: 'Aurasia',
+    body: 'AI receptionist on WhatsApp for dental clinics: answers at 21:30 and on Saturdays, proposes real slots, and hands every appointment to the staff to confirm.',
+    result: 'live',
+    detail: aurasia.status,
+  },
   {
     label: 'Slack agent',
     body: 'Natural-language questions over internal databases, answered in Slack. Built with Hermes.',
@@ -46,12 +59,6 @@ const production = [
   },
 ]
 
-const writingTopics = [
-  { label: 'Agent evals', body: 'How to know whether an agent actually works — task-level evaluation, not vibes.' },
-  { label: 'Context engineering', body: 'Shaping what a model sees: context files, skills, and the tooling around them.' },
-  { label: 'AI in production', body: 'What survives contact with real users, and what quietly breaks.' },
-]
-
 export default function Home() {
   const posts = getAllPosts().slice(0, 3)
 
@@ -60,10 +67,10 @@ export default function Home() {
       {/* Hero */}
       <section className="pt-16 md:pt-24 pb-14 md:pb-20">
         <div className="container-wide">
-          <p className="mono-label mb-6">43.36° N · 8.41° W — Galicia, Spain</p>
-          <h1 className="heading-display max-w-[21ch]">
-            I put AI agents into production — and measure whether they work.
-          </h1>
+          <p className="mono-label mb-6">
+            {profile.location.coords} — {profile.location.town}, {profile.location.region}
+          </p>
+          <h1 className="heading-display max-w-[21ch]">{profile.headline}</h1>
           <p className="text-body text-primary mt-6 max-w-[58ch]">
             Agents answering real customers, evals scored against real photographs,
             and the tooling that got a nine-engineer team shipping this way.
@@ -76,44 +83,27 @@ export default function Home() {
               {profile.role} at{' '}
               <a href={profile.company.url} target="_blank" rel="noopener noreferrer" className="link-primary">
                 {profile.company.name}
-              </a>{' '}
-              · Creator of{' '}
-              <a href={profile.venture.url} target="_blank" rel="noopener noreferrer" className="link-primary">
-                {profile.venture.name}
               </a>
+              {profile.ventures.map((v) => (
+                <span key={v.name}>
+                  {' '}· {v.verb}{' '}
+                  <a href={v.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+                    {v.name}
+                  </a>
+                </span>
+              ))}
             </p>
           </div>
 
-          {/* The trace — signature element. The line is a graphic; the annotations are facts.
-              Time axis: x=0 is Jan 2022, 160 viewBox units per year. The line ends at "now". */}
-          <div className="mt-14 md:mt-20" aria-hidden="true">
-            <div className="dot-grid pt-4 pb-2">
-              <svg viewBox="0 0 800 132" className="w-full h-auto" fill="none">
-                <path
-                  className="trace-path text-signal"
-                  d="M 0 118 C 28 120, 55 116, 80 112 C 122 106, 146 114, 186 108 C 234 100, 252 90, 298 94 C 342 97, 362 80, 410 84 C 456 87, 494 66, 538 70 C 570 72, 600 63, 624 58 C 640 55, 650 52, 664 48 C 688 43, 714 37, 736 30"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <circle className="trace-dot text-primary" cx="80" cy="112" r="4" fill="currentColor" />
-                <circle className="trace-dot text-primary" cx="624" cy="58" r="4" fill="currentColor" />
-                <circle className="trace-dot text-primary" cx="664" cy="48" r="4" fill="currentColor" />
-                <circle className="trace-dot text-primary" cx="736" cy="30" r="4" fill="currentColor" />
-              </svg>
-            </div>
-            <div className="tick-strip border-primary/60 mt-1" />
-            <div className="mt-1.5 grid grid-cols-5 font-mono text-annotation text-secondary">
-              {['2022', '2023', '2024', '2025', '2026'].map((y) => (
-                <span key={y} className="border-l border-border pl-1.5">
-                  {y}
-                </span>
-              ))}
-            </div>
-          </div>
-          <dl className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
+          {/* The trace — signature element. The line is a graphic; the annotations are facts. */}
+          <Trace milestones={milestones} />
+          <dl className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-4">
             {milestones.map((m) => (
-              <div key={m.year} className="data-mark">
+              <div
+                key={`${m.year}-${m.fact}`}
+                className="data-mark trace-annotation"
+                style={{ animationDelay: `${(0.2 + 1.4 * (m.x / 800)).toFixed(2)}s` }}
+              >
                 <dt className="mono-label text-primary!">{m.year}</dt>
                 <dd className="text-caption text-secondary mt-1">{m.fact}</dd>
               </div>
@@ -131,13 +121,15 @@ export default function Home() {
               <article
                 key={item.label}
                 className={`grid md:grid-cols-12 gap-x-8 gap-y-3 py-7 ${i > 0 ? 'border-t border-border' : ''}`}
+                data-reveal
+                style={{ '--i': i % 3 }}
               >
                 <h3 className="mono-label text-primary! md:col-span-2 pt-1">{item.label}</h3>
                 <p className="text-body text-primary md:col-span-7 max-w-[58ch]">{item.body}</p>
                 <div className="md:col-span-3 md:text-right">
                   {item.numeral ? (
                     <p className="numeral text-primary! md:ml-auto">
-                      {item.result}
+                      <span data-count={item.result}>{item.result}</span>
                       <span className="mono-label block mt-1.5">{item.detail}</span>
                     </p>
                   ) : (
@@ -157,12 +149,48 @@ export default function Home() {
       <section id="work" className="section-spacing pt-0 scroll-mt-24">
         <div className="container-wide">
           <SectionAxis n="02" label="Selected work" />
-          <div className="grid md:grid-cols-5 gap-10 md:gap-12">
-            {/* Trazea — the proof of end-to-end */}
-            <article className="reg-marks md:col-span-3 border border-border p-7 md:p-9 bg-surface">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-10">
+            {/* Aurasia — the current bet, shown as what it does */}
+            <article className="reg-marks border border-border bg-surface p-7 md:p-9 flex flex-col" data-reveal>
               <div className="flex items-baseline justify-between gap-4">
-                <h3 className="heading-2">Trazea</h3>
-                <span className="mono-label">2026 — Present</span>
+                <h3 className="heading-2">{aurasia.name}</h3>
+                <span className="mono-label">{aurasia.since} — validating</span>
+              </div>
+              <p className="text-body text-primary mt-4">
+                An AI receptionist on WhatsApp for dental clinics in A Coruña and
+                Ferrol. It answers when the clinic can’t — 21:30, a Saturday —
+                proposes real slots and prepares the appointment; the staff confirm
+                it next morning. It introduces itself as an AI, and every message
+                lives on EU-only infrastructure and is deleted after 30 days.
+              </p>
+              <ul className="mt-6 space-y-3">
+                <li className="data-mark text-body-sm text-primary">Live product — {aurasia.status}</li>
+                <li className="data-mark text-body-sm text-primary">
+                  Public, sourced comparison against 7 competitors — limits included
+                </li>
+                <li className="data-mark text-body-sm text-primary">GDPR by design: EU-only data, 30-day deletion</li>
+              </ul>
+              <Readout kind="chat" className="mt-7" {...aurasiaDemo} />
+              <div className="mt-6 flex flex-wrap gap-2">
+                {['WhatsApp Business API', 'LLM agent', 'Google Calendar', 'GDPR'].map((t) => (
+                  <span key={t} className="tag">{t}</span>
+                ))}
+              </div>
+              <a
+                href={aurasia.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-primary inline-block mt-auto pt-7 text-body-sm w-fit"
+              >
+                aurasia.es <span className="arrow-ext">↗</span>
+              </a>
+            </article>
+
+            {/* Trazea — the proof of end-to-end */}
+            <article className="reg-marks border border-border bg-surface p-7 md:p-9 flex flex-col" data-reveal style={{ '--i': 1 }}>
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="heading-2">{trazea.name}</h3>
+                <span className="mono-label">{trazea.role} · {trazea.since} — Present</span>
               </div>
               <p className="text-body text-primary mt-4">
                 Food traceability and APPCC compliance for hospitality, built end to end
@@ -170,62 +198,62 @@ export default function Home() {
                 authentication, an OCR pipeline, an Astro site, and billing.
               </p>
               <ul className="mt-6 space-y-3">
-                <li className="data-mark text-body-sm text-primary">
-                  Published in both app stores
-                </li>
+                <li className="data-mark text-body-sm text-primary">Published in both app stores</li>
                 <li className="data-mark text-body-sm text-primary">
                   Favorable technical report from the Food Safety Service of the Xunta de Galicia
                 </li>
-                <li className="data-mark text-body-sm text-primary">
-                  Pilot running in real venues
-                </li>
+                <li className="data-mark text-body-sm text-primary">Pilot running in real venues</li>
               </ul>
+              <Readout kind="fields" className="mt-7" {...trazeaScan} />
               <div className="mt-6 flex flex-wrap gap-2">
                 {['FastAPI', 'PostgreSQL', 'Expo', 'OCR', 'Astro'].map((t) => (
                   <span key={t} className="tag">{t}</span>
                 ))}
               </div>
               <a
-                href="https://trazea.es"
+                href={trazea.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link-primary inline-block mt-7 text-body-sm"
+                className="link-primary inline-block mt-auto pt-7 text-body-sm w-fit"
               >
                 trazea.es <span className="arrow-ext">↗</span>
               </a>
             </article>
+          </div>
 
-            {/* CoWtrol */}
-            <article className="reg-marks md:col-span-2 border border-border p-7 md:p-9">
-              <div className="flex items-baseline justify-between gap-4">
-                <h3 className="heading-2">CoWtrol</h3>
-                <span className="mono-label">Innogando</span>
-              </div>
-              <p className="text-body text-primary mt-4">
-                Internal platform covering stock, orders, support and integrations —
-                one system across sales, assembly and support.
-              </p>
-              <ul className="mt-6 space-y-3">
-                <li className="data-mark text-body-sm text-primary">
-                  Replaced 5+ disconnected tools
-                </li>
-              </ul>
-              <Link href="/work" className="link-primary inline-block mt-7 text-body-sm">
+          {/* CoWtrol — internal platform, case study on /work */}
+          <article className="grid md:grid-cols-12 gap-x-8 gap-y-3 mt-10 pt-8 border-t border-border" data-reveal>
+            <div className="md:col-span-3">
+              <h3 className="heading-3">CoWtrol</h3>
+              <p className="mono-label mt-1">Innogando · 2022 — Present</p>
+            </div>
+            <p className="text-body text-primary md:col-span-6 max-w-[58ch]">
+              Internal platform covering stock, orders, support and integrations —
+              one system across sales, assembly and support.
+            </p>
+            <div className="md:col-span-3 md:text-right">
+              <p className="data-mark md:inline-block text-body-sm text-primary text-left">Replaced 5+ disconnected tools</p>
+              <Link href="/work#cowtrol" className="link-primary block mt-3 text-body-sm">
                 Read the case study <span className="arrow">→</span>
               </Link>
-            </article>
-          </div>
+            </div>
+          </article>
         </div>
       </section>
 
-      {/* 03 / Writing */}
-      <section id="writing" className="section-spacing pt-0 scroll-mt-24">
-        <div className="container-wide">
-          <SectionAxis n="03" label="Writing" />
-          {posts.length > 0 ? (
+      {/* 03 / Writing — only once there is a published post */}
+      {posts.length > 0 && (
+        <section id="writing" className="section-spacing pt-0 scroll-mt-24">
+          <div className="container-wide">
+            <SectionAxis n="03" label="Writing" />
             <div className="flex flex-col max-w-content">
               {posts.map((post, i) => (
-                <article key={post.slug} className={`py-5 ${i > 0 ? 'border-t border-border' : ''}`}>
+                <article
+                  key={post.slug}
+                  className={`py-5 ${i > 0 ? 'border-t border-border' : ''}`}
+                  data-reveal
+                  style={{ '--i': i }}
+                >
                   <h3 className="heading-3">
                     <Link href={`/blog/${post.slug}`} className="hover:text-accent transition-colors">
                       {post.title}
@@ -235,32 +263,18 @@ export default function Home() {
                 </article>
               ))}
             </div>
-          ) : (
-            <>
-              <p className="text-body text-primary max-w-[58ch]">
-                Notes from running AI systems in production — first posts are in the works.
-              </p>
-              <div className="mt-8 grid md:grid-cols-3 gap-8">
-                {writingTopics.map((t) => (
-                  <div key={t.label} className="data-mark">
-                    <h3 className="mono-label text-primary!">{t.label}</h3>
-                    <p className="text-caption text-secondary mt-2">{t.body}</p>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-          <Link href="/blog" className="link-primary inline-block mt-8 text-body-sm">
-            Go to the blog <span className="arrow">→</span>
-          </Link>
-        </div>
-      </section>
+            <Link href="/blog" className="link-primary inline-block mt-8 text-body-sm">
+              Go to the blog <span className="arrow">→</span>
+            </Link>
+          </div>
+        </section>
+      )}
 
-      {/* 04 / Now */}
+      {/* Now */}
       <section id="now" className="section-spacing pt-0 scroll-mt-24">
         <div className="container-wide">
-          <SectionAxis n="04" label="Now" />
-          <div className="max-w-content">
+          <SectionAxis n={posts.length > 0 ? '04' : '03'} label="Now" />
+          <div className="max-w-content" data-reveal>
             <p className="text-body text-primary">{profile.nowBody}</p>
             <p className="font-mono text-caption text-secondary mt-6">{profile.nowFootnote}</p>
           </div>
