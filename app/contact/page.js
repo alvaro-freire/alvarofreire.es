@@ -16,8 +16,8 @@ export default function Contact() {
           </p>
           <h1 className="heading-1">Contact</h1>
           <p className="text-body text-primary mt-5 max-w-[52ch]">
-            Questions about something I wrote, built, or shipped — happy to hear
-            them. Email is the reliable channel.
+            If you’re building something similar, or want to talk about anything
+            on this site, write to me. Email is the reliable channel.
           </p>
         </div>
       </section>

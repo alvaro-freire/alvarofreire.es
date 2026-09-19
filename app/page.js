@@ -72,8 +72,10 @@ export default function Home() {
           </p>
           <h1 className="heading-display max-w-[21ch]">{profile.headline}</h1>
           <p className="text-body text-primary mt-6 max-w-[58ch]">
-            Agents answering real customers, evals scored against real photographs,
-            and the tooling that got a nine-engineer team shipping this way.
+            At Innogando since July 2022, when the company was ten people. On the
+            side: Trazea, in production and not billing yet, and Aurasia, validating
+            in the market. This site keeps track of what’s live, what isn’t yet, and
+            what I learn along the way.
           </p>
           <div className="mt-6 flex items-center gap-4">
             <div className="reg-marks p-1 shrink-0">
@@ -168,7 +170,7 @@ export default function Home() {
                 <li className="data-mark text-body-sm text-primary">
                   Public, sourced comparison against 7 competitors — limits included
                 </li>
-                <li className="data-mark text-body-sm text-primary">GDPR by design: EU-only data, 30-day deletion</li>
+                <li className="data-mark text-body-sm text-primary">Data stays in the EU · messages deleted after 30 days</li>
               </ul>
               <Readout kind="chat" className="mt-7" {...aurasiaDemo} />
               <div className="mt-6 flex flex-wrap gap-2">
@@ -193,16 +195,16 @@ export default function Home() {
                 <span className="mono-label">{trazea.role} · {trazea.since} — Present</span>
               </div>
               <p className="text-body text-primary mt-4">
-                Food traceability and APPCC compliance for hospitality, built end to end
-                with AI tooling: FastAPI + PostgreSQL backend, Expo/React Native apps,
-                authentication, an OCR pipeline, an Astro site, and billing.
+                Food traceability and APPCC records for hospitality kitchens. The whole
+                stack, built with AI tooling: FastAPI + PostgreSQL backend, Expo/React Native
+                apps, authentication, an OCR pipeline, an Astro site, and billing.
               </p>
               <ul className="mt-6 space-y-3">
                 <li className="data-mark text-body-sm text-primary">Published in both app stores</li>
                 <li className="data-mark text-body-sm text-primary">
                   Favorable technical report from the Food Safety Service of the Xunta de Galicia
                 </li>
-                <li className="data-mark text-body-sm text-primary">Pilot running in real venues</li>
+                <li className="data-mark text-body-sm text-primary">Pilot running in real venues · no revenue yet</li>
               </ul>
               <Readout kind="fields" className="mt-7" {...trazeaScan} />
               <div className="mt-6 flex flex-wrap gap-2">
@@ -234,7 +236,7 @@ export default function Home() {
             <div className="md:col-span-3 md:text-right">
               <p className="data-mark md:inline-block text-body-sm text-primary text-left">Replaced 5+ disconnected tools</p>
               <Link href="/work#cowtrol" className="link-primary block mt-3 text-body-sm">
-                Read the case study <span className="arrow">→</span>
+                Read more <span className="arrow">→</span>
               </Link>
             </div>
           </article>

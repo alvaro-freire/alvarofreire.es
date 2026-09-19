@@ -33,7 +33,7 @@ export function GET() {
   <channel>
     <title>Álvaro Freire — Writing</title>
     <link>${BASE_URL}/blog</link>
-    <description>Notes from running AI systems in production — agent evals, context engineering, and what survives contact with real users.</description>
+    <description>Notes on what I’m building at Innogando, Trazea and Aurasia. What worked, what didn’t, and the numbers when I have them.</description>
     <language>en</language>
 ${items}
   </channel>

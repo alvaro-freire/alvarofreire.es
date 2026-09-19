@@ -19,8 +19,8 @@ export default function Footer({ links }) {
               {profile.name}
             </Link>
             <p className="text-body-sm text-secondary mt-3 max-w-[340px]">
-              Building AI systems that reach production — and measuring them —
-              from {profile.location.town}, {profile.location.region}.
+              Head of Software at Innogando. Trazea and Aurasia on the side.
+              From {profile.location.town}, {profile.location.region}.
             </p>
             <p className="mono-label mt-4">{profile.location.coords}</p>
           </div>

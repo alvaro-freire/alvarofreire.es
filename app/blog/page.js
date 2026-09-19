@@ -5,7 +5,7 @@ import { getAllPosts, formatDate } from '@/lib/posts'
 export const metadata = {
   title: 'Blog',
   description:
-    'Notes from running AI systems in production — agent evals, context engineering, and what survives contact with real users.',
+    'Notes on what I’m building at Innogando, Trazea and Aurasia. What worked, what didn’t, and the numbers when I have them.',
 }
 
 export default function Blog() {
@@ -15,11 +15,11 @@ export default function Blog() {
     <>
       <section className="pt-16 md:pt-24 pb-12 md:pb-16">
         <div className="container-wide">
-          <p className="mono-label mb-6">Field notes · published irregularly, measured always</p>
+          <p className="mono-label mb-6">Notes · published irregularly</p>
           <h1 className="heading-1">Writing</h1>
           <p className="text-body text-primary mt-5 max-w-[58ch]">
-            Notes from running AI systems in production: agent evals, context
-            engineering, and what actually survives contact with real users.
+            Notes on what I’m building at Innogando, Trazea and Aurasia. What
+            worked, what didn’t, and the numbers when I have them.
           </p>
         </div>
       </section>

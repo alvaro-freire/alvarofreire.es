@@ -2,7 +2,7 @@
 
 ## Overview
 
-Personal website for Álvaro Freire at `alvarofreire.es`. Positioning: engineer who puts AI systems into production and measures them — Head of Software at Innogando, building Aurasia, co-founder of Trazea. Fully static site — no backend, no dynamic data fetching. All pages (including blog posts) are rendered at build time. Not a client-acquisition site: there is no services page and no lead-capture CTAs — do not reintroduce them.
+Personal website for Álvaro Freire at `alvarofreire.es`. Tone: first person, sober, build-in-public — it shows who he is and what he builds (Head of Software at Innogando, co-founder of Trazea, building Aurasia), never a value proposition or a job-seeking pitch. Facts, names, dates and numbers over adjectives; no CV buzzwords. Fully static site — no backend, no dynamic data fetching. All pages (including blog posts) are rendered at build time. Not a client-acquisition site: there is no services page and no lead-capture CTAs — do not reintroduce them.
 
 ## Setup & Development Commands
 

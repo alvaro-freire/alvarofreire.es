@@ -4,7 +4,7 @@ import { profile, identityLine } from '@/lib/profile'
 
 export const metadata = {
   title: 'About',
-  description: `${identityLine}. AI systems in production, measured.`,
+  description: `Who I am and where I’ve worked. ${identityLine}.`,
 }
 
 const [aurasia, trazea] = profile.ventures
@@ -14,13 +14,13 @@ const experience = [
     role: profile.role,
     org: profile.company.name,
     period: `${profile.roleSince} — Present`,
-    body: 'Leading a nine-person team across product, data and infrastructure at Innogando — agrotech/IoT, maker of RUMI, GPS collars used by thousands of farmers. AI agents in production, a shared AI tooling setup the whole team works with, and still writing code.',
+    body: 'Innogando makes RUMI, GPS collars used by thousands of farmers, from Abadín, Lugo. I run the software team: nine people across product, data and infrastructure. The agents, the evals and the shared Claude Code setup on the Work page come from this period.',
   },
   {
     role: 'Engineer',
     org: profile.company.name,
     period: 'Jul 2022 — 2026',
-    body: 'Joined while still at university, when the whole company was ten people. Built CoWtrol, the internal platform behind the operation; took the infrastructure from SSH deploys to Kubernetes on GKE with GitOps; shipped the first agents and evals.',
+    body: 'Joined in July 2022 while still at university, when the whole company was ten people. Built CoWtrol, the internal platform behind the operation; took the infrastructure from SSH deploys to Kubernetes on GKE with GitOps; shipped the first agents and evals.',
   },
   {
     role: null,
@@ -32,7 +32,7 @@ const experience = [
     role: trazea.role,
     org: trazea.name,
     period: `${trazea.since} — Present`,
-    body: 'Food traceability and APPCC compliance for hospitality. Built end to end: backend, mobile apps in both app stores, OCR pipeline, site and billing. Favorable technical report from the Food Safety Service of the Xunta de Galicia.',
+    body: 'Food traceability and APPCC records for hospitality kitchens. Backend, mobile apps in both app stores, OCR pipeline, site and billing. Favorable technical report from the Food Safety Service of the Xunta de Galicia. In production, not billing yet.',
   },
   {
     role: 'Software Engineer Intern',
@@ -49,7 +49,7 @@ const practice = [
   },
   {
     label: 'Context engineering',
-    body: 'Most of the leverage with AI is in what the model sees: shared context files, skills, hooks and subagents shaped to the team’s actual repos and conventions — maintained like any other piece of infrastructure.',
+    body: 'Most of what an AI tool does well or badly depends on what the model sees: shared context files, skills, hooks and subagents shaped to the team’s actual repos and conventions, maintained like any other piece of infrastructure.',
   },
   {
     label: 'Boring foundations',
@@ -60,7 +60,7 @@ const practice = [
 const community = [
   {
     label: 'HackUDC · GPUL',
-    body: 'Organized three editions of one of Spain’s largest student hackathons — sponsors, logistics, 200+ participants.',
+    body: 'Organized three editions of HackUDC, the student hackathon in A Coruña: sponsors, logistics, 200+ participants.',
   },
   {
     label: 'Xuventude Mentoring Galicia',
@@ -92,17 +92,15 @@ export default function About() {
           <h1 className="heading-1">About</h1>
           <div className="mt-6 max-w-content space-y-5">
             <p className="text-body text-primary">
-              I build AI systems that reach production and stay there — agents
-              answering real customers, evals that say whether the thing actually
-              works, and tooling that makes a whole team more effective, not just
-              me.
+              I write software for a living and build products on the side. Since
+              July 2022 that has meant Innogando, an agrotech company in Abadín, Lugo:
+              I started as an engineer and have been Head of Software since 2026. On
+              the side, I co-founded Trazea and I’m building Aurasia.
             </p>
             <p className="text-body text-primary">
-              I got into this because I like problems you can point at: that used
-              to be broken, now it works — and here is the number that proves it.
               I’m {profile.age}, based in {profile.location.town} on the Galician coast.
               I studied Computer Engineering at Universidade da Coruña, spent an
-              Erasmus semester in Timișoara, and started at Innogando while still
+              Erasmus semester in Timișoara, and joined Innogando while still
               in school, when the company was ten people.
             </p>
             <p className="text-body text-primary">

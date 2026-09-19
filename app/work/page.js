@@ -7,7 +7,7 @@ import { aurasiaDemo, aurasiaComparison, trazeaScan } from '@/lib/evidence'
 export const metadata = {
   title: 'Work',
   description:
-    'AI agents, evals and products in production — Aurasia, Trazea, CoWtrol, and the systems behind them.',
+    'What I’ve built: Aurasia, Trazea, CoWtrol, and the agents and infrastructure at Innogando.',
 }
 
 const [aurasia, trazea] = profile.ventures
@@ -76,7 +76,7 @@ const aiWork = [
   },
   {
     label: 'n8n automation',
-    body: 'A lead-classification chatbot (Chatwoot + n8n) for an insurance brokerage, plus a nightly qualification pipeline running unattended — 400 qualified leads and counting.',
+    body: 'A lead-classification chatbot (Chatwoot + n8n) for an insurance brokerage, plus a nightly qualification pipeline running unattended — 400 qualified leads so far.',
   },
 ]
 
@@ -85,12 +85,12 @@ export default function Work() {
     <>
       <section className="pt-16 md:pt-24 pb-12 md:pb-16">
         <div className="container-wide">
-          <p className="mono-label mb-6">Case studies · measured where it matters</p>
+          <p className="mono-label mb-6">Projects · what’s live, what’s being validated</p>
           <h1 className="heading-1 max-w-[24ch]">Work</h1>
           <p className="text-body text-primary mt-5 max-w-[58ch]">
-            Products and systems that made it to production. Each entry says what
-            existed before, what was built, and what changed — with numbers where
-            the numbers are real, and status where they are not yet.
+            Things I’ve built that are in production. For each one: what was there
+            before, what I built, and what changed. Numbers where the numbers are
+            real, status where they aren’t yet.
           </p>
         </div>
       </section>
@@ -103,13 +103,13 @@ export default function Work() {
             title={aurasia.name}
             meta={`${aurasia.verb} · ${aurasia.since} — ${aurasia.status}`}
             link={{ href: aurasia.url, label: 'aurasia.es' }}
-            context="Dental clinics lose the patients who write at 21:30 or on a Saturday: nobody answers until the clinic opens, and by then many have booked elsewhere. The receptionist is not the problem — the hours are."
+            context="Dental clinics lose the patients who write at 21:30 or on a Saturday: nobody answers until the clinic opens, and by then many have booked elsewhere."
             built="An AI receptionist on WhatsApp for dental clinics in A Coruña and Ferrol. It answers outside business hours and when the phone is busy, proposes real slots from the clinic’s calendar, prepares the appointment request and hands it to the staff, who confirm it the next morning in the same chat. It introduces itself as an AI, escalates to a person with one tap, keeps every message on EU-only infrastructure and deletes texts after 30 days. The site publishes a sourced comparison against seven competitors — including what Aurasia does not do yet."
             measuredLabel="Status"
             measured={[
               `Live product at aurasia.es — ${aurasia.status}`,
               'Public, sourced comparison against 7 competitors with public prices',
-              'GDPR by design: EU-only data, 30-day message deletion, processor contract before the pilot',
+              'Data in the EU only, messages deleted after 30 days, processor contract signed before any pilot',
               'Limits published too: no audio messages, no appointment reminders yet',
             ]}
             tech={['WhatsApp Business API', 'LLM agent', 'Google Calendar', 'GDPR']}
@@ -131,11 +131,11 @@ export default function Work() {
             meta={`${trazea.role} · ${trazea.since} — Present`}
             link={{ href: trazea.url, label: 'trazea.es' }}
             context="Spanish food safety regulation (APPCC) requires restaurants, bars and bakeries to keep traceability records. Most small businesses still do it on paper — slow, error-prone, and painful when an inspector asks for it."
-            built="A complete product, end to end, with AI tooling in the loop at every step: a FastAPI + PostgreSQL backend, Expo/React Native apps for iOS and Android, authentication, an OCR pipeline that reads expiry dates and supplier lot numbers from label photos, an Astro marketing site, and billing."
+            built="The whole product, with AI tooling in the loop at every step: a FastAPI + PostgreSQL backend, Expo/React Native apps for iOS and Android, authentication, an OCR pipeline that reads expiry dates and supplier lot numbers from label photos, an Astro marketing site, and billing."
             measured={[
               'Published in both app stores',
               'Favorable technical report from the Food Safety Service of the Xunta de Galicia',
-              'Pilot running in real venues',
+              'Pilot running in real venues — no revenue yet',
               'OCR accuracy benchmarked against real photographs, not clean data',
             ]}
             tech={['Expo', 'React Native', 'FastAPI', 'PostgreSQL', 'OCR', 'Astro', 'Docker']}

@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { profile, identityLine } from '@/lib/profile'
 
-export const alt = 'Álvaro Freire — AI agents in production, measured.'
+export const alt = 'Álvaro Freire — Head of Software at Innogando · Building Aurasia · Co-founder of Trazea'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
