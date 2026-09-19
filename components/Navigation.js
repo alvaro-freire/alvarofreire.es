@@ -17,11 +17,6 @@ export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const buttonRef = useRef(null)
 
-  /* Close mobile menu on route change */
-  useEffect(() => {
-    setMobileOpen(false)
-  }, [pathname])
-
   /* Prevent body scroll when menu is open; close on Escape */
   useEffect(() => {
     if (!mobileOpen) return
@@ -108,7 +103,12 @@ export default function Navigation() {
         >
           <div className="container-wide py-6 flex flex-col gap-2">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className={`${linkClasses(link.href)} py-3 text-sm`}>
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`${linkClasses(link.href)} py-3 text-sm`}
+              >
                 {link.label}
               </Link>
             ))}

@@ -92,6 +92,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${archivo.variable} ${instrumentSans.variable} ${splineSansMono.variable} antialiased`}
     >
       <body className="font-sans bg-background text-primary min-h-screen flex flex-col">
