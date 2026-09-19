@@ -1,6 +1,7 @@
 import './globals.css'
 import { ViewTransition } from 'react'
-import { Archivo, Instrument_Sans, Spline_Sans_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
+import { Instrument_Sans, Spline_Sans_Mono } from 'next/font/google'
 import Script from 'next/script'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -14,21 +15,31 @@ import { profile, metaDescription, sameAs } from '@/lib/profile'
 // no JS for the theme: the CSS media query resolves before any script runs.
 const initScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){d.setAttribute('data-theme',t)}}catch(e){}})()`
 
-const archivo = Archivo({
-  subsets: ['latin'],
+// Archivo is self-hosted as a variable subset (weights 700–800, full width
+// axis, latin) — 60 kB instead of Google's 90 kB full-range file. The hero
+// <h1> is the LCP element and repaints when this font arrives, so its size
+// is the one that matters. Regenerate with fontTools' varLib.instancer
+// (see app/fonts/README.md).
+const archivo = localFont({
+  src: './fonts/archivo-wdth-700-800.woff2',
+  weight: '700 800',
+  style: 'normal',
   display: 'swap',
   variable: '--font-archivo',
-  axes: ['wdth'],
+  declarations: [{ prop: 'font-stretch', value: '62% 125%' }],
+  adjustFontFallback: 'Arial',
 })
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
+  weight: ['400'],
   display: 'swap',
   variable: '--font-instrument',
 })
 
 const splineSansMono = Spline_Sans_Mono({
   subsets: ['latin'],
+  weight: ['400', '500'],
   display: 'swap',
   variable: '--font-spline',
 })

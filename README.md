@@ -11,7 +11,7 @@ Personal website. Built with Next.js 16 and Tailwind CSS 4, blog in MDX.
 - **Styling**: Tailwind CSS 4 (CSS-first theme in `app/globals.css`) with a custom design system ("Field telemetry")
 - **Motion**: CSS + one small IntersectionObserver component; React `<ViewTransition>` for page changes. No animation library.
 - **Blog**: MDX files in `content/posts/`, compiled with `next-mdx-remote/rsc` + `gray-matter`
-- **Fonts**: Archivo (display), Instrument Sans (text), Spline Sans Mono (annotations) via `next/font/google`
+- **Fonts**: Archivo (display, self-hosted variable subset in `app/fonts/`), Instrument Sans (text), Spline Sans Mono (annotations) via `next/font/google`
 - **Theme**: Light/dark, system preference by default, manual toggle persisted in `localStorage`
 - **Build**: Standalone output, fully static (blog included)
 - **Node**: 22.x or higher
@@ -68,6 +68,7 @@ app/
   robots.js            robots.txt
   rss.xml/route.js     RSS feed
   opengraph-image.js   OG image via next/og
+  fonts/               Self-hosted Archivo subset (OFL) + regeneration notes
 components/
   Navigation.js        Fixed nav with mobile menu + theme toggle
   Footer.js            Footer with contact + social links

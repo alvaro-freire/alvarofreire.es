@@ -35,7 +35,7 @@ npm run lint
 | Blog         | MDX files in `content/posts/`, compiled with `next-mdx-remote/rsc` + `gray-matter` |
 | Styling      | Tailwind CSS 4 (CSS-first `@theme` in `app/globals.css`, `@tailwindcss/postcss`) |
 | Animations   | CSS + one IntersectionObserver component (`MotionObserver`); React `<ViewTransition>` for page changes. No animation library. |
-| Fonts        | Archivo (display, variable width), Instrument Sans (text), Spline Sans Mono (annotations) via `next/font/google` |
+| Fonts        | Archivo (display, variable width) self-hosted subset via `next/font/local` (`app/fonts/`); Instrument Sans (text, 400) and Spline Sans Mono (annotations, 400/500) via `next/font/google` |
 | Theming      | Light/dark via CSS variables — system preference by default, manual override persisted in `localStorage` |
 | Linting      | ESLint 9 (flat config) with `eslint-config-next/core-web-vitals` |
 | Build output | Standalone (`next.config.js` -> `output: 'standalone'`)         |
@@ -80,6 +80,7 @@ lib/
   profile.js           Single source of truth for role, ventures, location, age, contact channels,
                        hero headline and the "Now" copy (consumed by layout, JSON-LD, hero, OG, about, contact, footer)
   evidence.js          Verbatim content shown in Readouts — copied from the public product sites, never invented
+app/fonts/             Self-hosted Archivo subset (woff2) + OFL license + regeneration notes
 app/icon.svg           Brand icon (ink square, yellow trace) — the PNG app icons in
                        public/ (android-chrome-*, apple-touch-icon, favicon.ico) are
                        rendered from this file; regenerate them together if it changes
@@ -211,9 +212,11 @@ System preference by default (`@media (prefers-color-scheme: dark)`, gated `:not
 
 ### Typography (`@theme inline` in `globals.css` + `next/font` in `layout.js`)
 
+Archivo is **self-hosted** (`app/fonts/archivo-wdth-700-800.woff2`, OFL): a variable subset restricted to weights 700–800 with the full width axis, 60 kB instead of Google's 90 kB full-range file. The hero `<h1>` is the LCP element and repaints when Archivo arrives, so this file's size is the single biggest performance lever on mobile — never load Archivo from Google Fonts again or widen the range without re-measuring Lighthouse. Instrument Sans (400 only) and Spline Sans Mono (400, 500) come from `next/font/google` with explicit weights for the same reason. Regeneration steps in `app/fonts/README.md`.
+
 | Family            | next/font var      | Tailwind family | Role                                                        |
 |-------------------|--------------------|-----------------|-------------------------------------------------------------|
-| Archivo (variable, wdth axis) | `--font-archivo` | `font-display` | Display: headings at `font-stretch: 116%` (expanded), big metric numerals at `68%` (condensed, `.numeral`) |
+| Archivo (variable, wdth axis, self-hosted 700–800) | `--font-archivo` | `font-display` | Display: headings at `font-stretch: 116%` (expanded), big metric numerals at `68%` (condensed, `.numeral`) |
 | Instrument Sans   | `--font-instrument` | `font-sans`    | Reading text (body default)                                 |
 | Spline Sans Mono  | `--font-spline`    | `font-mono`     | Annotations: axis labels, dates, tags, kickers, blog meta, readouts |
 
@@ -307,6 +310,9 @@ Run before shipping anything visual (Playwright with the preinstalled Chromium i
 4. No horizontal scroll at 375px; mobile menu opens, closes on Escape and on tapping the panel.
 5. `/sitemap.xml`, `/robots.txt`, `/rss.xml`, `/opengraph-image` → 200; `/services` → 308.
 6. Reduced-motion and no-JS contexts: every `[data-reveal]` element computes `opacity: 1` without scrolling.
+7. Mobile Lighthouse varies ±2 between runs on the same build — run it three times and compare medians, never a single pass.
+
+Rejected performance ideas, so nobody retries them: `experimental.inlineCss` (inlines the unminified stylesheet into the HTML *and* the RSC payload: 12 kB → 210 kB documents); `font-display: optional` for Archivo (first-visit headings in Arial on slow networks is a worse trade than ~300 ms of LCP).
 
 ## Common Pitfalls
 
