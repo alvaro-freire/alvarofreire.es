@@ -30,3 +30,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# visual audits (before/after screenshots, lighthouse json)
+/audit-antes
+/audit-despues
