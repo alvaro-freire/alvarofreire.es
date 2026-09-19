@@ -114,7 +114,7 @@ export default function Home() {
           <dl className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
             {milestones.map((m) => (
               <div key={m.year} className="data-mark">
-                <dt className="mono-label !text-primary">{m.year}</dt>
+                <dt className="mono-label text-primary!">{m.year}</dt>
                 <dd className="text-caption text-secondary mt-1">{m.fact}</dd>
               </div>
             ))}
@@ -132,16 +132,16 @@ export default function Home() {
                 key={item.label}
                 className={`grid md:grid-cols-12 gap-x-8 gap-y-3 py-7 ${i > 0 ? 'border-t border-border' : ''}`}
               >
-                <h3 className="mono-label !text-primary md:col-span-2 pt-1">{item.label}</h3>
+                <h3 className="mono-label text-primary! md:col-span-2 pt-1">{item.label}</h3>
                 <p className="text-body text-primary md:col-span-7 max-w-[58ch]">{item.body}</p>
                 <div className="md:col-span-3 md:text-right">
                   {item.numeral ? (
-                    <p className="numeral !text-primary md:ml-auto">
+                    <p className="numeral text-primary! md:ml-auto">
                       {item.result}
                       <span className="mono-label block mt-1.5">{item.detail}</span>
                     </p>
                   ) : (
-                    <p className="font-mono text-caption !text-primary">
+                    <p className="font-mono text-caption text-primary!">
                       {item.result}
                       <span className="mono-label block mt-1.5">{item.detail}</span>
                     </p>
@@ -243,7 +243,7 @@ export default function Home() {
               <div className="mt-8 grid md:grid-cols-3 gap-8">
                 {writingTopics.map((t) => (
                   <div key={t.label} className="data-mark">
-                    <h3 className="mono-label !text-primary">{t.label}</h3>
+                    <h3 className="mono-label text-primary!">{t.label}</h3>
                     <p className="text-caption text-secondary mt-2">{t.body}</p>
                   </div>
                 ))}

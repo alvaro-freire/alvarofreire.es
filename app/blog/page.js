@@ -63,7 +63,7 @@ export default function Blog() {
               <div className="mt-8 grid md:grid-cols-3 gap-8">
                 {topics.map((t) => (
                   <div key={t.label} className="data-mark">
-                    <h2 className="mono-label !text-primary">{t.label}</h2>
+                    <h2 className="mono-label text-primary!">{t.label}</h2>
                     <p className="text-caption text-secondary mt-2">{t.body}</p>
                   </div>
                 ))}

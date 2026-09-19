@@ -13,20 +13,20 @@ const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(
 const archivo = Archivo({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-display',
+  variable: '--font-archivo',
   axes: ['wdth'],
 })
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-sans',
+  variable: '--font-instrument',
 })
 
 const splineSansMono = Spline_Sans_Mono({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-mono',
+  variable: '--font-spline',
 })
 
 const description = metaDescription

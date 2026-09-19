@@ -126,7 +126,7 @@ export default function About() {
           <div className="grid md:grid-cols-3 gap-8">
             {practice.map((p) => (
               <div key={p.label} className="data-mark">
-                <h3 className="mono-label !text-primary">{p.label}</h3>
+                <h3 className="mono-label text-primary!">{p.label}</h3>
                 <p className="text-body-sm text-primary mt-2">{p.body}</p>
               </div>
             ))}
@@ -141,7 +141,7 @@ export default function About() {
           <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
             {community.map((c) => (
               <div key={c.label}>
-                <h3 className="mono-label !text-primary">{c.label}</h3>
+                <h3 className="mono-label text-primary!">{c.label}</h3>
                 <p className="text-body-sm text-primary mt-2 max-w-[52ch]">{c.body}</p>
               </div>
             ))}

@@ -25,15 +25,15 @@ function CaseStudy({ title, meta, context, built, measured, tech, link }) {
       </div>
       <div className="md:col-span-8 space-y-6">
         <div>
-          <h4 className="mono-label !text-primary mb-2">Context</h4>
+          <h4 className="mono-label text-primary! mb-2">Context</h4>
           <p className="text-body text-primary">{context}</p>
         </div>
         <div>
-          <h4 className="mono-label !text-primary mb-2">Built</h4>
+          <h4 className="mono-label text-primary! mb-2">Built</h4>
           <p className="text-body text-primary">{built}</p>
         </div>
         <div>
-          <h4 className="mono-label !text-primary mb-2">Measured</h4>
+          <h4 className="mono-label text-primary! mb-2">Measured</h4>
           <ul className="space-y-2.5">
             {measured.map((m) => (
               <li key={m} className="data-mark text-body-sm text-primary">{m}</li>
@@ -138,7 +138,7 @@ export default function Work() {
                 key={item.label}
                 className={`grid md:grid-cols-12 gap-x-8 gap-y-3 py-7 ${i > 0 ? 'border-t border-border' : ''}`}
               >
-                <h3 className="mono-label !text-primary md:col-span-3 pt-1">{item.label}</h3>
+                <h3 className="mono-label text-primary! md:col-span-3 pt-1">{item.label}</h3>
                 <p className="text-body text-primary md:col-span-9 max-w-[62ch]">{item.body}</p>
               </article>
             ))}
