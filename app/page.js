@@ -11,48 +11,36 @@ const [aurasia, trazea] = profile.ventures
 
 // Trace milestones: x = (year − 2022) × 160 viewBox units; y sits on the path.
 const milestones = [
-  { year: '2022', fact: 'Joined Innogando — 10 people in the whole company', x: 80, y: 112 },
-  { year: '2025', fact: 'Kubernetes on GKE, GitOps via ArgoCD', x: 600, y: 60 },
-  { year: '2026', fact: 'Head of Software · team of 9', x: 648, y: 52 },
-  { year: '2026', fact: 'Trazea live in both app stores', x: 672, y: 46 },
+  { year: '2022', fact: 'Joined Innogando · 10 people in total', x: 80, y: 112 },
+  { year: '2025', fact: 'From SSH deploys to Kubernetes', x: 600, y: 60 },
+  { year: '2026', fact: 'Head of Software', x: 648, y: 52 },
+  { year: '2026', fact: 'Trazea in both app stores', x: 672, y: 46 },
   { year: 'Now', fact: profile.nowMilestone, x: 752, y: 28 },
 ]
 
 const production = [
   {
-    label: 'Aurasia',
-    body: 'AI receptionist on WhatsApp for dental clinics: answers at 21:30 and on Saturdays, proposes real slots, and hands every appointment to the staff to confirm.',
-    result: 'live',
-    detail: aurasia.status,
-  },
-  {
     label: 'Slack agent',
-    body: 'Natural-language questions over internal databases, answered in Slack. Built with Hermes.',
+    body: 'Plain-language questions over internal databases, answered in Slack.',
     result: 'hours → minutes',
     detail: 'per answered question',
   },
   {
     label: 'WhatsApp agent',
-    body: 'Customer support outside business hours, with escalation to a human when the agent is not sure.',
+    body: 'Customer support after hours. Hands over to a person when it isn’t sure.',
     result: 'real customers',
     detail: 'live in production',
   },
   {
-    label: 'OCR eval',
-    body: 'Accuracy benchmark for a pipeline that extracts expiry dates and supplier lot numbers — scored against real photographs, not clean data.',
-    result: 'measured',
-    detail: 'against real photos',
-  },
-  {
     label: 'Team tooling',
-    body: 'A shared Claude Code setup: context files (CLAUDE.md, AGENTS.md), skills, hooks, slash commands and subagents, tuned for how the team actually works.',
+    body: 'Shared Claude Code setup: context files, skills, hooks, subagents.',
     result: '9',
     detail: 'engineers using it daily',
     numeral: true,
   },
   {
     label: 'n8n ops',
-    body: 'Lead-classification chatbot (Chatwoot + n8n) and a nightly qualification pipeline running unattended.',
+    body: 'Lead-classifying chatbot (Chatwoot + n8n) plus a nightly qualification job.',
     result: '400',
     detail: 'qualified leads',
     numeral: true,
@@ -72,10 +60,9 @@ export default function Home() {
           </p>
           <h1 className="heading-display max-w-[21ch]">{profile.headline}</h1>
           <p className="text-body text-primary mt-6 max-w-[58ch]">
-            At Innogando since July 2022, when the company was ten people. On the
-            side: Trazea, in production and not billing yet, and Aurasia, validating
-            in the market. This site keeps track of what’s live, what isn’t yet, and
-            what I learn along the way.
+            Most of it at Innogando, an agrotech company in Galicia, since July 2022.
+            Alongside that: Trazea, food traceability for kitchens, not yet making
+            money, and Aurasia, an AI WhatsApp receptionist I’m testing with dental clinics.
           </p>
           <div className="mt-6 flex items-center gap-4">
             <div className="reg-marks p-1 shrink-0">
@@ -114,10 +101,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01 / In production */}
+      {/* 01 / Built and running */}
       <section id="in-production" className="section-spacing pt-10 md:pt-14 scroll-mt-24">
         <div className="container-wide">
-          <SectionAxis n="01" label="In production" />
+          <SectionAxis n="01" label="Built and running" />
           <div className="flex flex-col">
             {production.map((item, i) => (
               <article
@@ -156,21 +143,19 @@ export default function Home() {
             <article className="reg-marks border border-border bg-surface p-7 md:p-9 flex flex-col" data-reveal>
               <div className="flex items-baseline justify-between gap-4">
                 <h3 className="heading-2">{aurasia.name}</h3>
-                <span className="mono-label">{aurasia.since} — validating</span>
+                <span className="mono-label">{aurasia.since} — in testing</span>
               </div>
               <p className="text-body text-primary mt-4">
-                An AI receptionist on WhatsApp for dental clinics in A Coruña and
-                Ferrol. It answers when the clinic can’t — 21:30, a Saturday —
-                proposes real slots and prepares the appointment; the staff confirm
-                it next morning. It introduces itself as an AI, and every message
-                lives on EU-only infrastructure and is deleted after 30 days.
+                Answers a dental clinic’s WhatsApp when nobody there can, at 21:30 or
+                on a Saturday: it offers real slots and prepares the appointment, and
+                the staff confirm it in the morning. It says it’s an AI.
               </p>
               <ul className="mt-6 space-y-3">
-                <li className="data-mark text-body-sm text-primary">Live product — {aurasia.status}</li>
+                <li className="data-mark text-body-sm text-primary">Live in A Coruña and Ferrol</li>
                 <li className="data-mark text-body-sm text-primary">
-                  Public, sourced comparison against 7 competitors — limits included
+                  Public comparison against 7 competitors
                 </li>
-                <li className="data-mark text-body-sm text-primary">Data stays in the EU · messages deleted after 30 days</li>
+                <li className="data-mark text-body-sm text-primary">EU-only data, deleted after 30 days</li>
               </ul>
               <Readout kind="chat" className="mt-7" {...aurasiaDemo} />
               <div className="mt-6 flex flex-wrap gap-2">
@@ -195,16 +180,16 @@ export default function Home() {
                 <span className="mono-label">{trazea.role} · {trazea.since} — Present</span>
               </div>
               <p className="text-body text-primary mt-4">
-                Food traceability and APPCC records for hospitality kitchens. The whole
-                stack, built with AI tooling: FastAPI + PostgreSQL backend, Expo/React Native
-                apps, authentication, an OCR pipeline, an Astro site, and billing.
+                Food traceability records (APPCC) for restaurant kitchens: photograph
+                the supplier label and the record fills itself. Backend, iOS and Android
+                apps, site and billing.
               </p>
               <ul className="mt-6 space-y-3">
-                <li className="data-mark text-body-sm text-primary">Published in both app stores</li>
+                <li className="data-mark text-body-sm text-primary">OCR measured against real label photos</li>
                 <li className="data-mark text-body-sm text-primary">
                   Favorable technical report from the Food Safety Service of the Xunta de Galicia
                 </li>
-                <li className="data-mark text-body-sm text-primary">Pilot running in real venues · no revenue yet</li>
+                <li className="data-mark text-body-sm text-primary">Pilot running in real venues</li>
               </ul>
               <Readout kind="fields" className="mt-7" {...trazeaScan} />
               <div className="mt-6 flex flex-wrap gap-2">
@@ -230,8 +215,7 @@ export default function Home() {
               <p className="mono-label mt-1">Innogando · 2022 — Present</p>
             </div>
             <p className="text-body text-primary md:col-span-6 max-w-[58ch]">
-              Internal platform covering stock, orders, support and integrations —
-              one system across sales, assembly and support.
+              Internal platform for stock, orders, assembly and support at Innogando.
             </p>
             <div className="md:col-span-3 md:text-right">
               <p className="data-mark md:inline-block text-body-sm text-primary text-left">Replaced 5+ disconnected tools</p>

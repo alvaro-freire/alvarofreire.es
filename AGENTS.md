@@ -53,7 +53,7 @@ app/
                        init script (theme + html.js), skip link, <Navigation />,
                        <main id="main"> wrapped in <ViewTransition>, <Footer />, <MotionObserver />
   globals.css          Design system: tokens (@theme), base, utilities, components, motion rules
-  page.js              Home (/) — hero + trace, In production, Selected work, [Writing], Now
+  page.js              Home (/) — hero + trace, Built and running, Selected work, [Writing], Now
   not-found.js         404 page
   about/page.js        /about — bio, experience, how I work, community, education
   work/page.js         /work — case studies (Aurasia, Trazea, CoWtrol), AI at Innogando, infra, side projects
@@ -118,7 +118,7 @@ When the role changes:
 1. **`lib/profile.js`** — update `role`, `roleSince`, `company`, `ventures`, `nowMilestone`, `nowBody`.
 2. **`app/about/page.js`** — the experience list is built from `profile` for the current role and ventures; close the previous role entry with an end date and past tense, add the new one on top. The bio prose is role-independent by design — verify it stays that way.
 3. **`app/page.js`** — the `milestones` array (year, fact, x/y on the trace) is hand-placed: x = (year − 2022) × 160, y sits on the path. Add or move dots deliberately; the last entry is "Now".
-4. **`app/work/page.js`** — close the CoWtrol period (`2022 — Present`) if applicable. Case studies are already written as historical facts; the Aurasia entry is a *status* (validating), not a result.
+4. **`app/work/page.js`** — close the CoWtrol period (`2022 — Present`) if applicable. Case studies are already written as historical facts; the Aurasia entry is a *status* (in testing), not a result.
 5. Rebuild and regenerate: `npm run build` (the OG image is rebuilt automatically).
 
 ## Coding Conventions
@@ -272,7 +272,7 @@ An instrument doesn't fade in decoratively: it powers on, acquires signal and se
 | Trace draw-in + dots + annotations (`.trace-annotation`) appear as the line reaches each dot | Hero | 1.4s, `cubic-bezier(.4,0,.2,1)`; dots/annotations 400ms at `0.2 + 1.4·x/800` s |
 | Reveal: opacity 0.001 → 1, `translateY(8px)` → 0, staggered by `--i` (50ms, capped at 6) | Any `[data-reveal]` element below the fold | 320ms, `cubic-bezier(.2,.7,.2,1)` |
 | Section axis tick line draws left → right (`clip-path`) | `<SectionAxis />` | 520ms |
-| Numerals count up to the SSR value (`[data-count]`) | Home "In production" | 600ms, ease-out, `tabular-nums` |
+| Numerals count up to the SSR value (`[data-count]`) | Home "Built and running" | 600ms, ease-out, `tabular-nums` |
 | Readout lines / fields settle one by one; schematic lines draw (`stroke-dashoffset`) | Inside a revealed figure | 260ms / 640ms, staggered |
 | Page transition: content crossfades and settles 4px, root (header, background) does not animate | `<ViewTransition default="vt-page">` in layout | 140ms out / 220ms in |
 | Theme switch crossfade (`html.theme-switching`) | Toggle click only | 200ms |
@@ -297,7 +297,7 @@ Hard rules:
 - `prefers-reduced-motion: reduce` kills all animation and smooth scroll globally; the trace's default (no-animation) state is fully drawn.
 - Fluid type — verify at 375px before shipping layout changes.
 - `next/image` for raster images.
-- Content rules: only publish verified numbers. No Trazea pilot figures. Aurasia is framed as a bet being validated in the market ("validating in the market"), never as a success story; its tags are limited to what its public site states. Readout content is verbatim from public sources (see Evidence). Tone: facts and numbers over adjectives.
+- Content rules: only publish verified numbers. No Trazea pilot figures. Aurasia is framed as a product being tested with dental clinics ("being tested with dental clinics"), never as a success story; its tags are limited to what its public site states. Readout content is verbatim from public sources (see Evidence). Tone: facts and numbers over adjectives.
 - Location is Ares (`43.43° N · 8.24° W`), not A Coruña city.
 
 ## Verification checklist

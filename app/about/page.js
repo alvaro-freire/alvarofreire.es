@@ -32,7 +32,7 @@ const experience = [
     role: trazea.role,
     org: trazea.name,
     period: `${trazea.since} — Present`,
-    body: 'Food traceability and APPCC records for hospitality kitchens. Backend, mobile apps in both app stores, OCR pipeline, site and billing. Favorable technical report from the Food Safety Service of the Xunta de Galicia. In production, not billing yet.',
+    body: 'Food traceability and APPCC records for hospitality kitchens. Backend, mobile apps in both app stores, OCR pipeline, site and billing. Favorable technical report from the Food Safety Service of the Xunta de Galicia. Live, not making money yet.',
   },
   {
     role: 'Software Engineer Intern',
@@ -92,10 +92,10 @@ export default function About() {
           <h1 className="heading-1">About</h1>
           <div className="mt-6 max-w-content space-y-5">
             <p className="text-body text-primary">
-              I write software for a living and build products on the side. Since
-              July 2022 that has meant Innogando, an agrotech company in Abadín, Lugo:
-              I started as an engineer and have been Head of Software since 2026. On
-              the side, I co-founded Trazea and I’m building Aurasia.
+              I write software for a living, and I build products alongside that.
+              Since July 2022 the day job has been Innogando, an agrotech company in
+              Abadín, Lugo, where I started as an engineer and have run the software
+              team since 2026. The products are Trazea, which I co-founded, and Aurasia.
             </p>
             <p className="text-body text-primary">
               I’m {profile.age}, based in {profile.location.town} on the Galician coast.
