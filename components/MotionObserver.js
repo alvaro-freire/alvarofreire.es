@@ -26,7 +26,8 @@ function countUp(el) {
   const start = performance.now()
   const step = (now) => {
     const p = Math.min(1, (now - start) / duration)
-    el.textContent = p < 1 ? String(Math.round(easeOut(p) * target)) : final
+    // Format while counting too, or a grouped final value (1,000) snaps in on the last frame
+    el.textContent = p < 1 ? Math.round(easeOut(p) * target).toLocaleString('en-US') : final
     if (p < 1) requestAnimationFrame(step)
   }
   el.textContent = '0'

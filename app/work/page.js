@@ -76,7 +76,7 @@ const aiWork = [
   },
   {
     label: 'n8n automation',
-    body: 'A lead-classification chatbot (Chatwoot + n8n) for an insurance brokerage, plus a nightly qualification pipeline running unattended — 400 qualified leads so far.',
+    body: 'A lead-classification chatbot (Chatwoot + n8n) for an insurance brokerage, plus a nightly qualification pipeline running unattended — more than 1,000 qualified leads so far.',
   },
 ]
 

@@ -41,7 +41,9 @@ const production = [
   {
     label: 'n8n ops',
     body: 'Lead-classifying chatbot (Chatwoot + n8n) plus a nightly qualification job.',
-    result: '400',
+    result: '1,000',
+    suffix: '+',
+    count: 1000,
     detail: 'qualified leads',
     numeral: true,
   },
@@ -119,7 +121,8 @@ export default function Home() {
                 <div className="md:col-span-3 md:text-right">
                   {item.numeral ? (
                     <p className="numeral text-primary! md:ml-auto">
-                      <span data-count={item.result}>{item.result}</span>
+                      <span data-count={item.count ?? item.result}>{item.result}</span>
+                      {item.suffix}
                       <span className="mono-label block mt-1.5">{item.detail}</span>
                     </p>
                   ) : (
