@@ -60,9 +60,10 @@ export default function Home() {
           </p>
           <h1 className="heading-display max-w-[21ch]">{profile.headline}</h1>
           <p className="text-body text-primary mt-6 max-w-[58ch]">
-            Most of it at Innogando, an agrotech company in Galicia, since July 2022.
-            Alongside that: Trazea, food traceability for kitchens, not yet making
-            money, and Aurasia, an AI WhatsApp receptionist I’m testing with dental clinics.
+            That’s RUMI, GPS collars made by Innogando in Abadín, Lugo, where nine
+            of us build the software. On my own time: Trazea, food traceability for
+            kitchens, not yet making money, and Aurasia, an AI WhatsApp receptionist
+            I’m testing with dental clinics.
           </p>
           <div className="mt-6 flex items-center gap-4">
             <div className="reg-marks p-1 shrink-0">
