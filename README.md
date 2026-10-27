@@ -68,13 +68,15 @@ app/
   robots.js            robots.txt
   rss.xml/route.js     RSS feed
   opengraph-image.js   OG image via next/og
+  scenes/[file]/       Static scene art (/scenes/<name>-day.svg, -night.svg)
   fonts/               Self-hosted Archivo subset (OFL) + regeneration notes
 components/
   Navigation.js        Fixed nav with mobile menu + theme toggle
   Footer.js            Footer with contact + social links
   SectionAxis.js       Tick-marked section separator
   ThemeToggle.js       Light/dark switch
-  Trace.js             Hero trace (signature element)
+  Trace.js             Hero GPS track (signature element)
+  scenes/              Illustrated plates: pasture, kitchen, clinic, workshop, ría
   MotionObserver.js    Scroll reveals + count-up (the only motion JS)
   Readout.js           Dark instrument panel for agent transcripts / records
   Schematic.js         Integration diagram in SVG
@@ -87,13 +89,17 @@ public/                Photo, favicons, webmanifest
 
 ## Design System
 
-"Field telemetry": the site reads like a measuring instrument — tick-marked
-axes, mono annotations, one signal-yellow data trace in the hero. Colors are
-CSS variables with a light and a dark palette (ear-tag signal yellow stays
-constant across both); fluid type scale with `clamp()`. Motion follows one
-idea — an instrument powers on and settles — and is gated behind JavaScript
-and `prefers-reduced-motion`. Full token tables, motion rules and content
-rules in `AGENTS.md`.
+"Field telemetry", set down in the field: the site reads like a measuring
+instrument — tick-marked axes, mono annotations, one signal-yellow data
+trace — placed inside hand-drawn SVG scenes of the places the software runs
+(a pasture in Lugo, a restaurant kitchen, a dental clinic after hours, the
+ría from Ares). The light theme is each place's daytime hour, the dark theme
+its night. Scene art is rendered to static SVG files at build time; only the
+data marks are inline and animated. Colors are CSS variables with a light and
+a dark palette (ear-tag signal yellow stays constant across both); fluid type
+scale with `clamp()`. Motion follows one idea — an instrument powers on and
+settles — and is gated behind JavaScript and `prefers-reduced-motion`. Full
+token tables, scene rules, motion rules and content rules in `AGENTS.md`.
 
 ## Deployment
 

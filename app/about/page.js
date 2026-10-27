@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import SectionAxis from '@/components/SectionAxis'
+import Plate from '@/components/scenes/Plate'
+import Ria from '@/components/scenes/Ria'
 import { profile, identityLine } from '@/lib/profile'
 
 export const metadata = {
@@ -81,32 +83,44 @@ export default function About() {
     <>
       <section className="pt-16 md:pt-24 pb-12 md:pb-16">
         <div className="container-wide">
-          <div className="flex items-center gap-5 mb-8">
-            <div className="reg-marks p-1">
-              <Image src="/alvaro.jpg" alt="Álvaro Freire" width={72} height={72} priority />
-            </div>
-            <p className="mono-label">
-              {profile.location.town}, {profile.location.region} · {profile.location.tz}
-            </p>
-          </div>
+          <p className="mono-label mb-6">
+            {profile.location.coords} — {profile.location.town}, {profile.location.region} · {profile.location.tz}
+          </p>
           <h1 className="heading-1">About</h1>
-          <div className="mt-6 max-w-content space-y-5">
-            <p className="text-body text-primary">
-              I write software for a living, and I build products alongside that.
-              Since July 2022 the day job has been Innogando, an agrotech company in
-              Abadín, Lugo, where I started as an engineer and have run the software
-              team since 2026. The products are Trazea, which I co-founded, and Aurasia.
-            </p>
-            <p className="text-body text-primary">
-              I’m {profile.age}, based in {profile.location.town} on the Galician coast.
-              I studied Computer Engineering at Universidade da Coruña, spent an
-              Erasmus semester in Timișoara, and joined Innogando while still
-              in school, when the company was ten people.
-            </p>
-            <p className="text-body text-primary">
-              Outside of work I organize hackathons and mentor young professionals
-              in Galicia. I like building things and helping people build things.
-            </p>
+          <Plate
+            scene={Ria}
+            kind="ria"
+            place={`the ría from ${profile.location.town}`}
+            day="blue hour"
+            night="night"
+            frame="aspect-[4/3] sm:aspect-[21/9]"
+            className="mt-10 md:mt-12"
+            reveal={false}
+          />
+          <div className="mt-12 md:mt-16 grid md:grid-cols-12 gap-x-8 gap-y-8">
+            <div className="md:col-span-3">
+              <div className="reg-marks p-1.5 w-fit">
+                <Image src="/alvaro.jpg" alt="Álvaro Freire" width={176} height={176} priority className="block h-auto" />
+              </div>
+            </div>
+            <div className="md:col-span-9 max-w-content space-y-5">
+              <p className="text-body text-primary">
+                I write software for a living, and I build products alongside that.
+                Since July 2022 the day job has been Innogando, an agrotech company in
+                Abadín, Lugo, where I started as an engineer and have run the software
+                team since 2026. The products are Trazea, which I co-founded, and Aurasia.
+              </p>
+              <p className="text-body text-primary">
+                I’m {profile.age}, based in {profile.location.town} on the Galician coast.
+                I studied Computer Engineering at Universidade da Coruña, spent an
+                Erasmus semester in Timișoara, and joined Innogando while still
+                in school, when the company was ten people.
+              </p>
+              <p className="text-body text-primary">
+                Outside of work I organize hackathons and mentor young professionals
+                in Galicia. I like building things and helping people build things.
+              </p>
+            </div>
           </div>
         </div>
       </section>

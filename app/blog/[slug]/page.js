@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import Ria from '@/components/scenes/Ria'
 import { getAllPosts, getPostBySlug, formatDate } from '@/lib/posts'
 
 export function generateStaticParams() {
@@ -58,6 +59,10 @@ export default async function Post({ params }) {
           {post.readingMinutes} min
         </p>
         <h1 className="heading-1 mb-8">{post.title}</h1>
+        {/* The ría's horizon as the rule under the title */}
+        <div className="scene scene-ria plate relative overflow-hidden h-14 md:h-16 mb-3" aria-hidden="true">
+          <Ria className="absolute inset-0 w-full h-full" />
+        </div>
         <div className="tick-strip border-border mb-10" aria-hidden="true" />
         <div className="prose-post">
           <MDXRemote source={post.content} />

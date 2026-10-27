@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import SectionAxis from '@/components/SectionAxis'
-import Trace from '@/components/Trace'
+import Trace, { markDelay } from '@/components/Trace'
+import Pasture from '@/components/scenes/Pasture'
 import Readout from '@/components/Readout'
 import { getAllPosts, formatDate } from '@/lib/posts'
 import { profile } from '@/lib/profile'
@@ -9,7 +10,9 @@ import { aurasiaDemo, trazeaScan } from '@/lib/evidence'
 
 const [aurasia, trazea] = profile.ventures
 
-// Trace milestones: x = (year − 2022) × 160 viewBox units; y sits on the path.
+const YEARS = ['2022', '2023', '2024', '2025', '2026']
+
+// Trace waypoints: x = (year − 2022) × 160 viewBox units; y sits on the path.
 const milestones = [
   { year: '2022', fact: 'Joined Innogando · 10 people in total', x: 80, y: 112 },
   { year: '2025', fact: 'From SSH deploys to Kubernetes', x: 600, y: 60 },
@@ -54,53 +57,86 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="pt-16 md:pt-24 pb-14 md:pb-20">
-        <div className="container-wide">
+      {/* Hero — the pasture plate. The headline sits in the sky; the field,
+          the herd and the GPS track sit below it. Phones stack the plate
+          between headline and paragraph so the first screen is both. */}
+      <section className="scene scene-pasture relative flex flex-col md:min-h-[min(calc(100svh-4rem),54rem)]">
+        <div className="container-wide relative z-10 order-1 pt-12 pb-8 md:order-none md:pt-20 md:pb-0">
           <p className="mono-label mb-6">
             {profile.location.coords} — {profile.location.town}, {profile.location.region}
           </p>
-          <h1 className="heading-display max-w-[21ch]">{profile.headline}</h1>
-          <p className="text-body text-primary mt-6 max-w-[58ch]">
+          <h1 className="heading-display max-w-[18ch]">
+            {profile.headlineLines.map((line, i) => (
+              <span key={line} className="md:block">
+                {line}
+                {i < profile.headlineLines.length - 1 ? ' ' : ''}
+              </span>
+            ))}
+          </h1>
+        </div>
+        <div className="container-wide relative z-10 order-3 pt-8 md:order-none md:pt-7">
+          <p className="text-body text-primary max-w-[52ch]">
             That’s RUMI, GPS collars made by Innogando in Abadín, Lugo, where nine
             of us build the software. On my own time: Trazea, food traceability for
             kitchens, not yet making money, and Aurasia, an AI WhatsApp receptionist
             I’m testing with dental clinics.
           </p>
-          <div className="mt-6 flex items-center gap-4">
-            <div className="reg-marks p-1 shrink-0">
-              <Image src="/alvaro.jpg" alt="Álvaro Freire" width={52} height={52} priority />
-            </div>
-            <p className="text-body-sm text-secondary">
-              {profile.role} at{' '}
-              <a href={profile.company.url} target="_blank" rel="noopener noreferrer" className="link-primary">
-                {profile.company.name}
-              </a>
-              {profile.ventures.map((v) => (
-                <span key={v.name}>
-                  {' '}· {v.verb}{' '}
-                  <a href={v.url} target="_blank" rel="noopener noreferrer" className="link-primary">
-                    {v.name}
-                  </a>
-                </span>
-              ))}
-            </p>
-          </div>
+        </div>
 
-          {/* The trace — signature element. The line is a graphic; the annotations are facts. */}
-          <Trace milestones={milestones} />
+        <div className="scene-sky relative order-2 h-[38svh] min-h-64 overflow-hidden md:absolute md:inset-0 md:order-none md:h-auto" aria-hidden="true">
+          <Pasture eager className="absolute inset-x-0 bottom-0 w-full h-[145%] md:h-[72%]" />
+          <div className="container-wide absolute inset-x-0 bottom-[6%] h-[34%] md:bottom-[5%] md:h-[19%]">
+            <Trace milestones={milestones} className="block w-full h-full" />
+          </div>
+        </div>
+      </section>
+
+      {/* The plate's ground line: time axis + waypoints (the trace's facts) */}
+      <section className="pb-14 md:pb-20">
+        <div className="container-wide">
+          <div className="tick-strip border-primary/60" aria-hidden="true" />
+          <div className="mt-1.5 grid grid-cols-5 font-mono text-annotation text-secondary" aria-hidden="true">
+            {YEARS.map((y) => (
+              <span key={y} className="border-l border-border pl-1.5">{y}</span>
+            ))}
+          </div>
           <dl className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-4">
             {milestones.map((m) => (
               <div
                 key={`${m.year}-${m.fact}`}
                 className="data-mark trace-annotation"
-                style={{ animationDelay: `${(0.2 + 1.4 * (m.x / 800)).toFixed(2)}s` }}
+                style={{ animationDelay: `${markDelay(m.x)}s` }}
               >
                 <dt className="mono-label text-primary!">{m.year}</dt>
                 <dd className="text-caption text-secondary mt-1">{m.fact}</dd>
               </div>
             ))}
           </dl>
+          <div className="mt-10 md:mt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="reg-marks p-1 shrink-0">
+                <Image src="/alvaro.jpg" alt="Álvaro Freire" width={52} height={52} />
+              </div>
+              <p className="text-body-sm text-secondary">
+                {profile.role} at{' '}
+                <a href={profile.company.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+                  {profile.company.name}
+                </a>
+                {profile.ventures.map((v) => (
+                  <span key={v.name}>
+                    {' '}· {v.verb}{' '}
+                    <a href={v.url} target="_blank" rel="noopener noreferrer" className="link-primary">
+                      {v.name}
+                    </a>
+                  </span>
+                ))}
+              </p>
+            </div>
+            <p className="mono-label shrink-0" aria-hidden="true">
+              Illustration · pasture, Lugo · <span className="when-light">dawn</span>
+              <span className="when-dark">night</span>
+            </p>
+          </div>
         </div>
       </section>
 

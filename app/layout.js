@@ -119,6 +119,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${archivo.variable} ${instrumentSans.variable} ${splineSansMono.variable} antialiased`}
     >

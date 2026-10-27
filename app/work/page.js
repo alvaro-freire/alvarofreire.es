@@ -1,6 +1,12 @@
 import SectionAxis from '@/components/SectionAxis'
 import Readout from '@/components/Readout'
 import Schematic from '@/components/Schematic'
+import Link from 'next/link'
+import Plate from '@/components/scenes/Plate'
+import Pasture from '@/components/scenes/Pasture'
+import Kitchen from '@/components/scenes/Kitchen'
+import Clinic from '@/components/scenes/Clinic'
+import Workshop from '@/components/scenes/Workshop'
 import { profile } from '@/lib/profile'
 import { aurasiaDemo, aurasiaComparison, trazeaScan } from '@/lib/evidence'
 
@@ -12,9 +18,10 @@ export const metadata = {
 
 const [aurasia, trazea] = profile.ventures
 
-function CaseStudy({ title, meta, context, built, measured, measuredLabel = 'Measured', tech, link, children }) {
+function CaseStudy({ title, meta, context, built, measured, measuredLabel = 'Measured', tech, link, plate, children }) {
   return (
     <article className="grid md:grid-cols-12 gap-x-8 gap-y-6">
+      {plate && <Plate {...plate} className="md:col-span-12 mb-4 md:mb-8" frame="aspect-[4/3] sm:aspect-[21/9]" />}
       <div className="md:col-span-4" data-reveal>
         <h3 className="heading-2">{title}</h3>
         <p className="mono-label mt-2">{meta}</p>
@@ -57,6 +64,13 @@ function CaseStudy({ title, meta, context, built, measured, measuredLabel = 'Mea
   )
 }
 
+// The day the software runs through, left to right: the header triptych.
+const day = [
+  { href: '#cowtrol', name: 'CoWtrol', kind: 'pasture', scene: Pasture, sky: true, sceneProps: {}, day: 'dawn', night: 'night', place: 'Lugo' },
+  { href: '#trazea', name: 'Trazea', kind: 'kitchen', scene: Kitchen, sceneProps: {}, day: 'midday', night: 'after service', place: 'a kitchen' },
+  { href: '#aurasia', name: 'Aurasia', kind: 'clinic', scene: Clinic, sceneProps: { id: 'clt' }, day: '21:30', night: '23:47', place: 'a clinic' },
+]
+
 const aiWork = [
   {
     label: 'Slack agent',
@@ -92,6 +106,25 @@ export default function Work() {
             before, what I built, and what changed. Numbers where the numbers are
             real, status where they aren’t yet.
           </p>
+          <nav aria-label="Case studies" className="mt-10 md:mt-14 grid grid-cols-3 gap-3 md:gap-6">
+            {day.map((d) => (
+              <Link key={d.href} href={d.href} className="triptych group block">
+                <span className={`scene scene-${d.kind} plate reg-marks relative block overflow-hidden aspect-[3/5] md:aspect-[4/5] ${d.sky ? 'scene-sky' : ''}`} aria-hidden="true">
+                  <d.scene className="absolute inset-0 w-full h-full" {...d.sceneProps} />
+                </span>
+                <span className="mt-3 flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+                  <span className="font-display text-h3 text-primary group-hover:text-accent transition-colors">
+                    {d.name} <span className="arrow text-secondary">↓</span>
+                  </span>
+                  <span className="mono-label" aria-hidden="true">
+                    <span className="when-light">{d.day}</span>
+                    <span className="when-dark">{d.night}</span>
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </nav>
+          <p className="mono-label mt-4" aria-hidden="true">Illustrations · the hour each one is used</p>
         </div>
       </section>
 
@@ -103,6 +136,7 @@ export default function Work() {
             title={aurasia.name}
             meta={`${aurasia.verb} · ${aurasia.since} — ${aurasia.status}`}
             link={{ href: aurasia.url, label: 'aurasia.es' }}
+            plate={{ scene: Clinic, kind: 'clinic', place: 'a dental clinic’s reception', day: '21:30', night: '23:47' }}
             context="Dental clinics lose the patients who write at 21:30 or on a Saturday: nobody answers until the clinic opens, and by then many have booked elsewhere."
             built="An AI receptionist on WhatsApp for dental clinics in A Coruña and Ferrol. It answers outside business hours and when the phone is busy, proposes real slots from the clinic’s calendar, prepares the appointment request and hands it to the staff, who confirm it the next morning in the same chat. It introduces itself as an AI, escalates to a person with one tap, keeps every message on EU-only infrastructure and deletes texts after 30 days. The site publishes a sourced comparison against seven competitors — including what Aurasia does not do yet."
             measuredLabel="Status"
@@ -130,6 +164,7 @@ export default function Work() {
             title={trazea.name}
             meta={`${trazea.role} · ${trazea.since} — Present`}
             link={{ href: trazea.url, label: 'trazea.es' }}
+            plate={{ scene: Kitchen, kind: 'kitchen', place: 'a restaurant kitchen, the label being read', day: 'midday', night: 'after service' }}
             context="Spanish food safety regulation (APPCC) requires restaurants, bars and bakeries to keep traceability records. Most small businesses still do it on paper — slow, error-prone, and painful when an inspector asks for it."
             built="The whole product, with AI tooling in the loop at every step: a FastAPI + PostgreSQL backend, Expo/React Native apps for iOS and Android, authentication, an OCR pipeline that reads expiry dates and supplier lot numbers from label photos, an Astro marketing site, and billing."
             measured={[
@@ -154,6 +189,7 @@ export default function Work() {
           <CaseStudy
             title="CoWtrol"
             meta="Innogando · 2022 — Present"
+            plate={{ scene: Workshop, kind: 'workshop', place: 'the assembly bench, Abadín', day: 'morning', night: 'late shift' }}
             context="Innogando builds RUMI — GPS collars used by thousands of farmers for livestock monitoring. Behind the product, daily operations ran on five or more disconnected tools: spreadsheets for stock, a CRM nobody updated, chat threads for support."
             built="An internal platform that covers the whole operation — stock, orders, assembly, support and account management — integrated with RUMI, Holded CRM, WhatsApp Business and Telegram. Real-time stock valuation, low-stock alerts, and order-delay detection."
             measured={[

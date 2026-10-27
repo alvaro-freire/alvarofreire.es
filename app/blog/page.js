@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import SectionAxis from '@/components/SectionAxis'
+import Plate from '@/components/scenes/Plate'
+import Ria from '@/components/scenes/Ria'
 import { getAllPosts, formatDate } from '@/lib/posts'
 
 export const metadata = {
@@ -21,6 +23,16 @@ export default function Blog() {
             Notes on what I’m building at Innogando, Trazea and Aurasia. What
             worked, what didn’t, and the numbers when I have them.
           </p>
+          <Plate
+            scene={Ria}
+            kind="ria"
+            place="the ría, Ares"
+            day="blue hour"
+            night="night"
+            frame="aspect-[3/1] sm:aspect-[6/1]"
+            className="mt-10 md:mt-12"
+            reveal={false}
+          />
         </div>
       </section>
 

@@ -9,7 +9,7 @@ function getEffectiveTheme() {
 let switchTimer
 
 /**
- * Icon visibility is pure CSS (.theme-icon-light/.theme-icon-dark in
+ * Icon visibility is pure CSS (.when-light/.when-dark in
  * globals.css, keyed off [data-theme] / prefers-color-scheme) — no
  * client-side state, so there's nothing to get wrong on hydration.
  * The click handler flips the attribute, persists the choice, and adds a
@@ -39,7 +39,7 @@ export default function ThemeToggle() {
       className="theme-toggle shrink-0 w-11 h-11 flex items-center justify-center text-secondary hover:text-primary transition-colors cursor-pointer"
     >
       <svg
-        className="theme-icon-light"
+        className="when-light"
         viewBox="0 0 20 20"
         width="18"
         height="18"
@@ -55,7 +55,7 @@ export default function ThemeToggle() {
         />
       </svg>
       <svg
-        className="theme-icon-dark"
+        className="when-dark"
         viewBox="0 0 20 20"
         width="18"
         height="18"

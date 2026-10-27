@@ -77,9 +77,10 @@
   --container-content-wide: 1080px;
 
   /* Fluid type scale */
-  --text-display: clamp(2.375rem, 1.55rem + 3.7vw, 4rem);
-  --text-display--line-height: 1.04;
-  --text-display--letter-spacing: -0.01em;
+  /* Poster scale: the home headline is set over the scene's sky */
+  --text-display: clamp(2.5rem, 1rem + 5.4vw, 5.75rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.015em;
   --text-display--font-weight: 800;
 
   --text-h1: clamp(1.875rem, 1.4rem + 2.1vw, 2.75rem);
@@ -209,6 +210,12 @@
   @apply text-accent underline decoration-accent/30 hover:decoration-accent underline-offset-4;
 }
 
+/* Contact channels, set large in the display face */
+@utility channel-link {
+  @apply font-display text-h2 text-primary underline decoration-accent/30 hover:decoration-accent underline-offset-[6px] decoration-2 break-words;
+  font-stretch: 110%;
+}
+
 @utility link-subtle {
   @apply text-secondary hover:text-primary;
 }
@@ -247,26 +254,29 @@
     transform: rotate(14deg);
   }
 
-  .theme-icon-dark {
+  /* Theme-bound visibility — the toggle's icons and the scene captions
+     ("dawn" / "night"). Same cascade as the color tokens: light default,
+     dark on system preference (unless overridden), dark override wins. */
+  .when-dark {
     display: none;
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) .theme-icon-light {
+    :root:not([data-theme='light']) .when-light {
       display: none;
     }
 
-    :root:not([data-theme='light']) .theme-icon-dark {
-      display: block;
+    :root:not([data-theme='light']) .when-dark {
+      display: revert;
     }
   }
 
-  :root[data-theme='dark'] .theme-icon-light {
+  :root[data-theme='dark'] .when-light {
     display: none;
   }
 
-  :root[data-theme='dark'] .theme-icon-dark {
-    display: block;
+  :root[data-theme='dark'] .when-dark {
+    display: revert;
   }
 
   /* Section axis — tick-marked baseline with a mono label.
@@ -299,14 +309,6 @@
       linear-gradient(to right, var(--color-border) 1px, transparent 1px);
     background-size: 64px 8px, 16px 4px;
     background-repeat: repeat-x;
-  }
-
-  /* Graph-paper dot grid, fading at top and bottom — hero trace backdrop */
-  .dot-grid {
-    background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1.5px);
-    background-size: 26px 26px;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
   }
 
   /* Registration marks — ink corner ticks on featured panels */
@@ -598,6 +600,85 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* Scenes — illustrated plates of the places the software runs.          */
+/* Light theme is the daytime hour of the place, dark theme the night:    */
+/* same drawing, other inks (see components/scenes/Scene.js). Live-layer  */
+/* tokens use light-dark(), which follows the `color-scheme` set by the   */
+/* theme cascade above, so one declaration covers system + toggle.        */
+/* Signal yellow appears only where the scene shows data (collar fixes,   */
+/* the GPS track, an OCR read). Lamps, windows and the sun use --lamp.    */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .scene svg {
+    display: block;
+  }
+
+  /* Sky: starts at the page background so the fixed header melts into it */
+  .scene-sky {
+    background: linear-gradient(
+      to bottom,
+      var(--color-background) 0%,
+      var(--color-background) 18%,
+      var(--sky-low) 100%
+    );
+  }
+
+  /* Art layer: the <picture> follows the system preference; an explicit
+     theme from the toggle swaps in the forced (lazy) image instead. */
+  .art-auto img,
+  .art-forced {
+    @apply absolute inset-0 w-full h-full object-cover select-none;
+  }
+
+  .art-forced,
+  :root[data-theme] .art-auto {
+    display: none;
+  }
+
+  :root[data-theme='light'] .art-day,
+  :root[data-theme='dark'] .art-night {
+    display: block;
+  }
+
+  /* The art layer of each scene is a static SVG file per hour, inked from
+     components/scenes/palette.js. What stays here are the tokens of the
+     live layer drawn inline over it: these follow the theme in the page. */
+  .scene-pasture {
+    --sky-low: light-dark(rgb(236 226 205), rgb(31 48 49));
+    --halo: light-dark(rgb(232 185 49 / 0), rgb(232 185 49 / 0.24));
+    --waypoint: light-dark(rgb(242 243 239), rgb(237 238 232));
+  }
+
+  .scene-clinic {
+    --object: light-dark(rgb(44 50 58), rgb(32 36 44));
+    --screen: light-dark(rgb(214 230 250), rgb(206 226 255));
+    --glow: light-dark(rgb(196 218 255 / 0.3), rgb(170 200 255 / 0.34));
+    --hand: light-dark(rgb(30 34 40), rgb(200 204 210));
+  }
+
+  .scene-ria {
+    --halo: rgb(232 185 49 / 0.25);
+    --fix-ring: light-dark(rgb(242 243 239), rgb(237 238 232));
+  }
+
+  .sc-signal { fill: var(--color-signal); }
+  .sc-halo { fill: var(--halo); }
+  .sc-waypoint { color: var(--waypoint); }
+  .sc-object { fill: var(--object); }
+  .sc-screen { fill: var(--screen); }
+  .sc-glow-stop { stop-color: var(--glow); }
+  .sc-hand-dot { fill: var(--hand); }
+  .sc-hand { stroke: var(--hand); fill: none; }
+  .sc-read { stroke: var(--color-signal); fill: none; }
+  .sc-fix-ring { stroke: var(--fix-ring); fill: none; }
+
+  /* Plate frame: hairline, reg marks come from .reg-marks */
+  .plate {
+    @apply border border-border;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* Motion — "power on and settle".                                       */
 /* Every rule below is gated twice: html.js (set by the inline script in  */
 /* app/layout.js, so no-JS readers and crawlers see everything) and       */
@@ -667,6 +748,39 @@
 
   html.js [data-revealed='instant'] .readout-line,
   html.js [data-revealed='instant'] .readout-field {
+    transition: none;
+  }
+
+  /* Plate stories — one beat each, once, when the plate is revealed.
+     Kitchen: the OCR brackets close around the lot line.
+     Clinic: the phone screen (and its light on the wall) comes on.
+     Workshop: the collars on the bench acquire signal one by one. */
+  html.js .scene[data-reveal] .sc-read path {
+    stroke-dasharray: 100;
+    transition: stroke-dashoffset 640ms cubic-bezier(0.2, 0.7, 0.2, 1) 380ms;
+  }
+
+  html.js .scene[data-reveal]:not([data-revealed]) .sc-read path {
+    stroke-dashoffset: 100;
+  }
+
+  html.js .scene-clinic[data-reveal] :is(.sc-screen, .sc-glow) {
+    transition: opacity 520ms ease-out 420ms;
+  }
+
+  html.js .scene-clinic[data-reveal]:not([data-revealed]) :is(.sc-screen, .sc-glow) {
+    opacity: 0.12;
+  }
+
+  html.js .scene-workshop[data-reveal] .sc-signal {
+    transition: opacity 260ms ease-out calc(360ms + var(--i, 0) * 120ms);
+  }
+
+  html.js .scene-workshop[data-reveal]:not([data-revealed]) .sc-signal {
+    opacity: 0;
+  }
+
+  html.js .scene[data-revealed='instant'] :is(.sc-read path, .sc-screen, .sc-glow, .sc-signal) {
     transition: none;
   }
 

@@ -1,4 +1,6 @@
 import SectionAxis from '@/components/SectionAxis'
+import Plate from '@/components/scenes/Plate'
+import Ria from '@/components/scenes/Ria'
 import { profile, publicChannels } from '@/lib/profile'
 
 export const metadata = {
@@ -19,6 +21,17 @@ export default function Contact() {
             If you’re building something similar, or want to talk about anything
             on this site, write to me. Email is the reliable channel.
           </p>
+          <Plate
+            scene={Ria}
+            sceneClass="absolute right-0 bottom-0 w-[145%] h-[145%]"
+            kind="ria"
+            place={`the harbour, ${profile.location.town}`}
+            day="blue hour"
+            night="night"
+            frame="aspect-[16/9] sm:aspect-[3/1]"
+            className="mt-10 md:mt-12"
+            reveal={false}
+          />
         </div>
       </section>
 
@@ -35,14 +48,14 @@ export default function Contact() {
                   data-reveal
                   style={{ '--i': i }}
                 >
-                  <p className="mono-label md:col-span-3 pt-0.5">{c.label}</p>
+                  <p className="mono-label md:col-span-3 md:pt-3">{c.label}</p>
                   <a
                     href={c.href}
                     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="link-primary text-body-sm md:col-span-9 w-fit"
+                    className="channel-link md:col-span-9 w-fit"
                   >
                     {c.value}
-                    {external ? <span className="arrow-ext"> ↗</span> : null}
+                    {external ? <span className="arrow-ext text-secondary"> ↗</span> : null}
                   </a>
                 </div>
               )
